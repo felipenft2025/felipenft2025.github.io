@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia: Vender pela Internet com Fornecedores da China</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #e63329;
+    --gold: #f5a623;
+    --dark: #0e0e0e;
+    --dark2: #1a1a1a;
+    --dark3: #242424;
+    --light: #f0ece4;
+    --muted: #888;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--dark);
+    color: var(--light);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.7;
+  }
+  header {
+    background: linear-gradient(135deg, #1a0000 0%, #0e0e0e 50%, #0a1a00 100%);
+    border-bottom: 2px solid var(--red);
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '🇨🇳';
+    font-size: 200px;
+    position: absolute;
+    opacity: 0.04;
+    top: -30px; right: -20px;
+  }
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -1px;
+  }
+  header h1 span { color: var(--red); }
+  header p { color: var(--muted); font-size: 1.1rem; margin-top: 10px; }
+  .badge {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 18px;
+  }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+  /* ROADMAP */
+  .roadmap {
+    padding: 60px 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .section-title span { color: var(--red); }
+  .section-sub { color: var(--muted); margin-bottom: 36px; }
+
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    position: relative;
+  }
+  .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 39px;
+    top: 70px;
+    bottom: -10px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--red), transparent);
+  }
+  .step-num {
+    width: 60px; height: 60px;
+    background: var(--red);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+    margin-top: 4px;
+    box-shadow: 0 0 30px rgba(230,51,41,0.3);
+  }
+  .step-body {
+    background: var(--dark2);
+    border: 1px solid #2a2a2a;
+    border-left: 3px solid var(--red);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 28px;
+  }
+  .step-body h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .step-body p { color: #bbb; font-size: 0.95rem; }
+  .step-body ul { color: #bbb; font-size: 0.95rem; padding-left: 18px; }
+  .step-body ul li { margin-bottom: 5px; }
+  .step-body .tip {
+    background: rgba(245,166,35,0.1);
+    border-left: 3px solid var(--gold);
+    padding: 10px 14px;
+    border-radius: 4px;
+    color: var(--gold);
+    font-size: 0.88rem;
+    margin-top: 14px;
+  }
+  .step-body .warning {
+    background: rgba(230,51,41,0.1);
+    border-left: 3px solid var(--red);
+    padding: 10px 14px;
+    border-radius: 4px;
+    color: #ff8a84;
+    font-size: 0.88rem;
+    margin-top: 14px;
+  }
+
+  /* NICHOS */
+  .nichos-section {
+    background: var(--dark2);
+    border-top: 1px solid #2a2a2a;
+    border-bottom: 1px solid #2a2a2a;
+    padding: 60px 24px;
+  }
+  .nichos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .nicho-card {
+    background: var(--dark3);
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 22px 18px;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .nicho-card:hover { border-color: var(--red); transform: translateY(-3px); }
+  .nicho-card .icon { font-size: 2rem; margin-bottom: 10px; }
+  .nicho-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .nicho-card p { color: var(--muted); font-size: 0.82rem; }
+  .nicho-card .score {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-top: 8px;
+  }
+  .nicho-card .score.gold { background: var(--gold); color: #000; }
+
+  /* FORNECEDORES */
+  .fornecedores-section { padding: 60px 24px; max-width: 1000px; margin: 0 auto; }
+  .forn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .forn-card {
+    background: var(--dark2);
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    padding: 24px;
+  }
+  .forn-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .forn-card p { color: #bbb; font-size: 0.88rem; margin-bottom: 4px; }
+  .tag {
+    display: inline-block;
+    background: #2a2a2a;
+    color: #aaa;
+    font-size: 0.72rem;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin: 3px 2px 0 0;
+  }
+
+  /* CUSTOS */
+  .custos-section {
+    background: var(--dark2);
+    border-top: 1px solid #2a2a2a;
+    padding: 60px 24px;
+  }
+  .custos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; max-width: 1000px; margin: 0 auto; }
+  .custo-item {
+    background: var(--dark3);
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .custo-item .label { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+  .custo-item .value {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 6px 0 4px;
+  }
+  .custo-item .desc { color: #888; font-size: 0.82rem; }
+
+  /* CANAIS */
+  .canais-section { padding: 60px 24px; max-width: 1000px; margin: 0 auto; }
+  .canais-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .canal-card {
+    background: var(--dark2);
+    border: 1px solid #2a2a2a;
+    border-top: 3px solid var(--red);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .canal-card h4 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .canal-card p { color: #888; font-size: 0.82rem; }
+
+  /* CHECKLIST */
+  .checklist-section {
+    background: linear-gradient(135deg, #1a0000 0%, var(--dark2) 100%);
+    border-top: 2px solid var(--red);
+    padding: 60px 24px;
+  }
+  .checklist { max-width: 700px; margin: 0 auto; }
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .checklist-item:last-child { border-bottom: none; }
+  .check-box {
+    width: 26px; height: 26px;
+    border: 2px solid var(--red);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .checklist-item h5 { font-family: 'Syne', sans-serif; font-weight: 700; color: #fff; margin-bottom: 3px; }
+  .checklist-item p { color: var(--muted); font-size: 0.85rem; }
+
+  footer {
+    background: #080808;
+    border-top: 1px solid #1a1a1a;
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 600px) {
+    .step { grid-template-columns: 50px 1fr; gap: 14px; }
+    .step-num { width: 44px; height: 44px; font-size: 1rem; }
+    .step:not(:last-child)::after { left: 21px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">Guia Completo 2026</div>
+  <h1>Vender pela Internet com<br><span>Fornecedores da China</span></h1>
+  <p>Do zero ao primeiro pedido — passo a passo para o mercado brasileiro</p>
+</header>
+
+<!-- ROADMAP -->
+<div class="roadmap">
+  <div class="section-title">O Caminho Completo <span>Passo a Passo</span></div>
+  <div class="section-sub">Siga esta ordem para evitar erros caros e começar com segurança</div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Escolha o Nicho e o Produto</h3>
+        <p>Antes de procurar fornecedor, você precisa saber <strong>o que vender</strong>. Pesquise:</p>
+        <ul>
+          <li>Tendências no Google Trends, TikTok e Shopee</li>
+          <li>Produtos com margem ≥ 3x o custo total (produto + frete + impostos)</li>
+          <li>Itens leves (&lt;500g) para frete mais barato</li>
+          <li>Evite eletrônicos complexos e medicamentos no início</li>
+        </ul>
+        <div class="tip">💡 Ferramenta gratuita: Google Trends + aba "Mais buscados" no Shopee para ver o que está vendendo agora</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Encontre Fornecedores Confiáveis</h3>
+        <p>As principais plataformas para buscar fornecedores na China são:</p>
+        <ul>
+          <li><strong>Alibaba.com</strong> — atacado, MOQ (pedido mínimo), negociação direta</li>
+          <li><strong>AliExpress</strong> — varejo/dropshipping, sem pedido mínimo</li>
+          <li><strong>1688.com</strong> — preços mais baixos, em chinês (use Google Translate)</li>
+          <li><strong>DHgate.com</strong> — intermediário entre varejo e atacado</li>
+          <li><strong>Made-in-China.com</strong> — alternativa ao Alibaba</li>
+        </ul>
+        <div class="tip">💡 No Alibaba, filtre por "Verified Supplier" e "Trade Assurance" para mais segurança</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Valide o Fornecedor</h3>
+        <p>Antes de comprar, faça estas verificações:</p>
+        <ul>
+          <li>Leia avaliações e tempo de atividade na plataforma (mín. 2 anos)</li>
+          <li>Peça amostras (sample) antes de fazer pedido grande</li>
+          <li>Verifique se aceita pagamento seguro (Alibaba Trade Assurance, PayPal)</li>
+          <li>Faça perguntas específicas para testar o tempo de resposta</li>
+          <li>Pesquise o nome da empresa no Google + "scam" ou "review"</li>
+        </ul>
+        <div class="warning">⚠️ NUNCA pague via transferência direta para conta pessoal. Exija pagamento pela plataforma ou PayPal Business.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Calcule Todos os Custos</h3>
+        <p>Muitos iniciantes esquecem de incluir todos os custos. Considere:</p>
+        <ul>
+          <li><strong>Produto:</strong> preço unitário × quantidade</li>
+          <li><strong>Frete internacional:</strong> EMS, DHL, FedEx ou frete marítimo</li>
+          <li><strong>Imposto de importação:</strong> até 60% + IOF sobre compras</li>
+          <li><strong>Taxa de desembaraço alfandegário:</strong> cobrado por despachante</li>
+          <li><strong>Frete nacional:</strong> da sua cidade até o cliente</li>
+          <li><strong>Taxas da plataforma de venda:</strong> Shopee, Mercado Livre etc.</li>
+        </ul>
+        <div class="tip">💡 Regra de ouro: o preço de venda deve ser ao menos 3x o custo total do produto para ter margem saudável</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Escolha o Modelo de Negócio</h3>
+        <ul>
+          <li><strong>Dropshipping:</strong> você vende sem estoque, o fornecedor envia direto. Menor risco, menor margem.</li>
+          <li><strong>Estoque próprio:</strong> importa em quantidade, vende do seu estoque. Maior margem, exige capital.</li>
+          <li><strong>White Label:</strong> produto da China com sua marca. Mais profissional, exige pedido maior.</li>
+          <li><strong>Print on Demand:</strong> para camisetas, canecas, produtos personalizados.</li>
+        </ul>
+        <div class="tip">💡 Para começar do zero com pouco capital: Dropshipping via AliExpress ou estoque pequeno (5–20 unidades) via Alibaba</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h3>Regularize seu Negócio</h3>
+        <ul>
+          <li>Abra um <strong>MEI</strong> (Microempreendedor Individual) — gratuito, rápido e obrigatório</li>
+          <li>Para importações acima de U$500/mês, pode precisar de CNPJ com RADAR habilitado na Receita Federal</li>
+          <li>Compras pessoais até U$50 têm isenção — acima disso paga imposto</li>
+          <li>Para revenda, sempre importe como pessoa jurídica</li>
+        </ul>
+        <div class="warning">⚠️ Importar para revenda como Pessoa Física é irregular e pode ter produtos retidos na alfândega</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <h3>Monte sua Loja e Comece a Vender</h3>
+        <ul>
+          <li>Cadastre-se em <strong>Shopee</strong> e/ou <strong>Mercado Livre</strong> (maior tráfego no Brasil)</li>
+          <li>Crie fotos e descrições profissionais dos produtos</li>
+          <li>Defina política de devolução e prazo de entrega realista</li>
+          <li>Invista em pequenos anúncios (Shopee Ads, Mercado Ads)</li>
+          <li>Colete avaliações positivas nos primeiros pedidos</li>
+        </ul>
+        <div class="tip">💡 Para sua própria loja: Nuvemshop e Shopify são as melhores opções para e-commerces independentes no Brasil</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">8</div>
+      <div class="step-body">
+        <h3>Escale com Marketing e Dados</h3>
+        <ul>
+          <li>Use TikTok e Instagram para conteúdo orgânico do produto</li>
+          <li>Teste Meta Ads com públicos específicos</li>
+          <li>Acompanhe quais produtos vendem mais e foque neles</li>
+          <li>Negocie descontos com fornecedor conforme volume aumenta</li>
+          <li>Expanda para private label (sua própria marca)</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- NICHOS -->
+<div class="nichos-section">
+  <div class="container">
+    <div class="section-title">Melhores <span>Nichos</span> para Começar</div>
+    <div class="section-sub">Produtos com alta demanda, boa margem e fáceis de importar</div>
+    <div class="nichos-grid">
+      <div class="nicho-card">
+        <div class="icon">💄</div>
+        <h4>Beleza & Skincare</h4>
+        <p>Produtos de cuidados com a pele, maquiagem, acessórios de beleza</p>
+        <span class="score gold">🔥 Muito quente</span>
+      </div>
+      <div class="nicho-card">
+        <div class="icon">🐾</div>
+        <h4>Pet Shop</h4>
+        <p>Brinquedos, acessórios, roupas e camas para pets</p>
+        <span class="score gold">🔥 Muito quente</span>
+      </div>
+      <div class="nicho-card">
+        <div class="icon">🏠</div>
+        <h4>Casa & Organização</h4>
+        <p>Organizadores, itens de cozinha, decoração e gadgets domésticos</p>
+        <span class="score">⭐ Alta demanda</span>
+      </div>
+      <div class="nicho-card">
+        <div class="icon">🏋️</div>
+        <h4>Fitness & Saúde</h4>
+        <p>Acessórios para treino, elásticos, equipamentos leves</p>
+        <span class="score">⭐ Alta demanda</span>
+      </div>
+      <div class="nicho-card">
+        <div class="icon">👶</div>
+        <h4>Bebês & Infantil</h4>
+        <p>Brinquedos educativos, acessórios para bebês, roupas</p>
+        <span class="score gold">🔥 Muito quente</span>
+      </div>
+      <div class="nicho-card">
+        <div class="icon">🎮</div>
+        <h4>Gamer & Tech</h4>
+        <p>Acessórios para games, iluminação LED, suportes e gadgets</p>
+        <span class="score">⭐ Alta demanda</span>
+      </div>
+      <div class="nicho-card">
+        <div class="icon">🌿</div>
+        <h4>Sustentabilidade</h4>
+        <p>Produtos ecológicos, bambu, reutilizáveis, naturais</p>
+        <span class="score">📈 Crescendo</span>
+      </div>
+      <div class="nicho-card">
+        <div class="icon">🧘</div>
+        <h4>Bem-estar & Yoga</h4>
+        <p>Tapetes, acessórios de meditação, aromaterapia</p>
+        <span class="score">📈 Crescendo</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FORNECEDORES -->
+<div class="fornecedores-section">
+  <div class="section-title">Principais <span>Plataformas</span> de Fornecedores</div>
+  <div class="section-sub">Onde encontrar seus produtos na China</div>
+  <div class="forn-grid">
+    <div class="forn-card">
+      <h4>🛒 Alibaba.com</h4>
+      <p>O maior marketplace B2B do mundo. Ideal para pedidos em quantidade, negociação de preço e white label.</p>
+      <span class="tag">Atacado</span><span class="tag">Negociação</span><span class="tag">Trade Assurance</span>
+    </div>
+    <div class="forn-card">
+      <h4>🛍️ AliExpress</h4>
+      <p>Varejo e dropshipping. Sem pedido mínimo. Ótimo para testar produtos antes de importar em volume.</p>
+      <span class="tag">Sem MOQ</span><span class="tag">Dropshipping</span><span class="tag">Fácil</span>
+    </div>
+    <div class="forn-card">
+      <h4>🏭 1688.com</h4>
+      <p>Mercado doméstico chinês com os menores preços. Requer intermediário ou agente para quem não fala chinês.</p>
+      <span class="tag">Preço baixo</span><span class="tag">Em chinês</span><span class="tag">Avançado</span>
+    </div>
+    <div class="forn-card">
+      <h4>🌐 DHgate.com</h4>
+      <p>Intermediário entre varejo e atacado. Bom para pedidos médios com preços competitivos.</p>
+      <span class="tag">Médio volume</span><span class="tag">Em inglês</span>
+    </div>
+    <div class="forn-card">
+      <h4>🔍 Made-in-China.com</h4>
+      <p>Alternativa ao Alibaba com bom catálogo de manufaturas. Interface em inglês e proteção ao comprador.</p>
+      <span class="tag">Atacado</span><span class="tag">Fabricantes</span>
+    </div>
+    <div class="forn-card">
+      <h4>🤝 Agente de importação</h4>
+      <p>Para iniciantes, usar um agente brasileiro (ou sediado na China) facilita negociação, inspeção e logística.</p>
+      <span class="tag">Seguro</span><span class="tag">Custo extra</span><span class="tag">Recomendado</span>
+    </div>
+  </div>
+</div>
+
+<!-- CUSTOS -->
+<div class="custos-section">
+  <div class="container">
+    <div class="section-title">Custos que Você <span>Não Pode Ignorar</span></div>
+    <div class="section-sub">Calcule tudo antes de decidir o preço de venda</div>
+    <div class="custos-grid">
+      <div class="custo-item">
+        <div class="label">Imposto de Importação</div>
+        <div class="value">até 60%</div>
+        <div class="desc">Sobre o valor do produto + frete internacional</div>
+      </div>
+      <div class="custo-item">
+        <div class="label">IOF sobre compras</div>
+        <div class="value">6,38%</div>
+        <div class="desc">Incide em pagamentos internacionais com cartão</div>
+      </div>
+      <div class="custo-item">
+        <div class="label">Taxa da Shopee</div>
+        <div class="value">12–20%</div>
+        <div class="desc">Varia por categoria e plano do vendedor</div>
+      </div>
+      <div class="custo-item">
+        <div class="label">Frete internacional</div>
+        <div class="value">U$5–30</div>
+        <div class="desc">Por kg, dependendo do método (aéreo/marítimo)</div>
+      </div>
+      <div class="custo-item">
+        <div class="label">Frete nacional</div>
+        <div class="value">R$15–40</div>
+        <div class="desc">Correios PAC/Sedex ou transportadora</div>
+      </div>
+      <div class="custo-item">
+        <div class="label">Isenção pessoa física</div>
+        <div class="value">U$ 50</div>
+        <div class="desc">Compras até este valor são isentas de imposto</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CANAIS DE VENDA -->
+<div class="canais-section">
+  <div class="section-title">Onde <span>Vender</span> no Brasil</div>
+  <div class="section-sub">Comece pelos marketplaces e depois construa sua loja própria</div>
+  <div class="canais-grid">
+    <div class="canal-card">
+      <h4>🟠 Shopee</h4>
+      <p>Maior crescimento no Brasil. Taxas mais baixas para iniciantes. Ótimo para produtos importados.</p>
+    </div>
+    <div class="canal-card">
+      <h4>🟡 Mercado Livre</h4>
+      <p>Maior marketplace do Brasil. Mais tráfego, mais concorrência. Excelente reputação constrói vendas consistentes.</p>
+    </div>
+    <div class="canal-card">
+      <h4>🔵 Americanas/Via</h4>
+      <p>Bom para produtos de casa, eletrônicos e brinquedos. Requer CNPJ ativo.</p>
+    </div>
+    <div class="canal-card">
+      <h4>🟢 Nuvemshop</h4>
+      <p>Plataforma brasileira para loja própria. Ótima integração com Pix e boleto. A partir de R$69/mês.</p>
+    </div>
+    <div class="canal-card">
+      <h4>⚫ Shopify</h4>
+      <p>Ideal para escalar. Melhor integração com apps de dropshipping e marketing internacional.</p>
+    </div>
+    <div class="canal-card">
+      <h4>📱 Instagram/WhatsApp</h4>
+      <p>Para começar sem custo fixo. Use catálogo do WhatsApp Business e link na bio.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKLIST -->
+<div class="checklist-section">
+  <div class="container">
+    <div class="section-title" style="text-align:center">✅ Checklist do <span>Primeiro Pedido</span></div>
+    <div class="section-sub" style="text-align:center; margin-bottom: 40px;">Use isso antes de confirmar qualquer compra</div>
+    <div class="checklist">
+      <div class="checklist-item">
+        <div class="check-box">□</div>
+        <div>
+          <h5>Produto pesquisado e validado</h5>
+          <p>Verificou no Google Trends, Shopee e redes sociais que há demanda real</p>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-box">□</div>
+        <div>
+          <h5>Fornecedor verificado</h5>
+          <p>Avaliações positivas, tempo de atividade na plataforma e aceita Trade Assurance ou PayPal</p>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-box">□</div>
+        <div>
+          <h5>Amostra pedida e aprovada</h5>
+          <p>Você recebeu e avaliou fisicamente o produto antes do pedido em volume</p>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-box">□</div>
+        <div>
+          <h5>Planilha de custos feita</h5>
+          <p>Produto + frete + imposto + taxa marketplace + frete nacional = custo total calculado</p>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-box">□</div>
+        <div>
+          <h5>Margem de pelo menos 3x</h5>
+          <p>O preço de venda cobre todos os custos e ainda deixa lucro real</p>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-box">□</div>
+        <div>
+          <h5>MEI aberto</h5>
+          <p>CNPJ ativo no portal do empreendedor (gov.br/mei)</p>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-box">□</div>
+        <div>
+          <h5>Conta no marketplace criada</h5>
+          <p>Shopee ou Mercado Livre configurados com dados bancários e dados fiscais</p>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-box">□</div>
+        <div>
+          <h5>Fotos e descrição prontas</h5>
+          <p>Imagens de qualidade, título com palavras-chave e descrição completa do produto</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Guia gerado com Claude · Anthropic · 2026</p>
+  <p style="margin-top:6px; font-size:0.78rem;">Este material é educativo. Consulte um contador para questões fiscais e tributárias específicas.</p>
+</footer>
+
+</body>
+</html>
