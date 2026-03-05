@@ -1,1022 +1,780 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Áurea Imóveis | Imobiliária Premium</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root{--gold:#C9A84C;--gold-l:#E8C97A;--gold-d:#A07830;--bk:#030303;--d2:#111;--d3:#1A1A1A;--d4:#222;--gr:#888;--grl:#bbb;--wh:#F8F6F0}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bk);color:var(--wh);font-family:'Inter',sans-serif;overflow-x:hidden}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fisioprotrainer — Excelência em Fisioterapia & Performance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-.cur,.cur-r{position:fixed;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);border-radius:50%}
-.cur{width:10px;height:10px;background:var(--gold);transition:width .3s,height .3s}
-.cur-r{width:36px;height:36px;border:1.5px solid rgba(201,168,76,.45);z-index:99998;transition:all .14s ease}
-.cur.hv{width:6px;height:6px}.cur-r.hv{width:54px;height:54px;border-color:var(--gold)}
-@media(pointer:coarse){body{cursor:auto}.cur,.cur-r{display:none}}
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C97A;
+      --dark: #0D0D0D;
+      --charcoal: #1A1A1A;
+      --off-white: #FAF8F3;
+      --white: #FFFFFF;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Montserrat', sans-serif;
+      --px: clamp(20px, 5vw, 60px);
+    }
 
-#loader{position:fixed;inset:0;background:var(--bk);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .5s}
-.ld-logo{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.5rem);font-weight:700;letter-spacing:5px;opacity:0;animation:fuUp .8s .3s forwards}
-.ld-logo span{color:var(--gold)}
-.ld-line{width:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:expand 1.2s .9s forwards}
-.ld-txt{font-size:.62rem;letter-spacing:5px;color:var(--gr);text-transform:uppercase;opacity:0;animation:fuIn .5s 1.5s forwards}
-@keyframes expand{to{width:200px}}
-@keyframes fuUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-@keyframes fuIn{to{opacity:1}}
+    html { scroll-behavior: smooth; }
+    body { background: var(--dark); color: var(--off-white); font-family: var(--font-sans); overflow-x: hidden; }
 
-nav{position:fixed;top:0;left:0;right:0;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;z-index:1000;transition:all .4s}
-nav.sc{background:rgba(3,3,3,.97);backdrop-filter:blur(20px);padding:13px 48px;border-bottom:1px solid rgba(201,168,76,.1)}
-.n-logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;letter-spacing:2px;text-decoration:none;color:var(--wh);z-index:1001}
-.n-logo span{color:var(--gold)}
-.n-links{display:flex;gap:32px;list-style:none}
-.n-links a{color:var(--grl);text-decoration:none;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;transition:color .3s;position:relative}
-.n-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
-.n-links a:hover{color:var(--gold)}.n-links a:hover::after{width:100%}
-.n-cta{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:9px 24px;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block}
-.n-cta:hover{background:var(--gold);color:var(--bk)}
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9000; opacity: 0.35;
+    }
 
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1001;padding:4px}
-.hamburger span{width:26px;height:2px;background:var(--wh);transition:all .3s;display:block}
-.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
-.hamburger.open span:nth-child(2){opacity:0}
-.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+    /* Cursor — posicionado 100% via JS, sem transform CSS */
+    .cursor-dot, .cursor-ring {
+      position: fixed;
+      pointer-events: none;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity .3s, width .3s, height .3s, border-color .3s;
+    }
+    .cursor-dot {
+      width: 10px; height: 10px;
+      background: var(--gold);
+      z-index: 99999;
+    }
+    .cursor-ring {
+      width: 38px; height: 38px;
+      border: 1.5px solid rgba(201,168,76,.5);
+      z-index: 99998;
+    }
+    .cursor-dot.hv  { width: 6px; height: 6px; }
+    .cursor-ring.hv { width: 56px; height: 56px; border-color: var(--gold); }
+    @media (pointer: coarse) {
+      body { cursor: auto !important; }
+      .cursor-dot, .cursor-ring { display: none !important; }
+    }
 
-.mobile-menu{position:fixed;inset:0;background:rgba(3,3,3,.98);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:32px;transform:translateX(100%);transition:transform .4s cubic-bezier(.77,0,.18,1)}
-.mobile-menu.open{transform:none}
-.mobile-menu a{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,6vw,2.5rem);font-weight:700;color:var(--wh);text-decoration:none;letter-spacing:2px;transition:color .3s}
-.mobile-menu a:hover{color:var(--gold)}
-.mobile-menu .m-cta{background:var(--gold);color:var(--bk);padding:14px 40px;font-size:.85rem;letter-spacing:3px;text-transform:uppercase;font-weight:600;font-family:'Inter',sans-serif;margin-top:12px}
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      padding: 24px var(--px);
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background .5s, padding .4s;
+    }
+    nav.scrolled {
+      background: rgba(13,13,13,.96); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(201,168,76,.15); padding: 14px var(--px);
+    }
+    .nav-logo { display:flex; flex-direction:column; gap:2px; text-decoration:none; }
+    .nav-logo-main { font-family:var(--font-display); font-size:clamp(1.1rem,3.5vw,1.5rem); font-weight:400; letter-spacing:.08em; color:var(--white); line-height:1; }
+    .nav-logo-sub { font-family:var(--font-sans); font-size:clamp(.42rem,1.2vw,.55rem); font-weight:300; letter-spacing:.35em; color:var(--gold); text-transform:uppercase; }
+    .nav-links { display:flex; gap:36px; list-style:none; }
+    .nav-links a { font-family:var(--font-sans); font-size:.66rem; font-weight:300; letter-spacing:.22em; text-transform:uppercase; color:rgba(250,248,243,.7); text-decoration:none; position:relative; transition:color .3s; }
+    .nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px; background:var(--gold); transition:width .35s cubic-bezier(.4,0,.2,1); }
+    .nav-links a:hover { color:var(--gold-light); }
+    .nav-links a:hover::after { width:100%; }
+    .nav-cta { font-family:var(--font-sans); font-size:.62rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--dark); background:var(--gold); padding:12px 26px; text-decoration:none; transition:background .3s,transform .2s; }
+    .nav-cta:hover { background:var(--gold-light); transform:translateY(-1px); }
 
-#hero{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;padding-top:80px}
-.h-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 68% 50%,rgba(201,168,76,.055) 0%,transparent 60%),radial-gradient(ellipse at 18% 80%,rgba(201,168,76,.03) 0%,transparent 50%)}
-.h-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%)}
-.h-wrap{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:40px 48px 80px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-.h-eye{display:flex;align-items:center;gap:12px;margin-bottom:20px}
-.h-eye-line{width:32px;height:1px;background:var(--gold)}
-.h-eye span{font-size:.62rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold)}
-.h-title{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,5vw,5rem);font-weight:900;line-height:1.05;margin-bottom:22px}
-.hl{color:var(--gold);font-style:italic}
-.h-sub{font-size:.92rem;color:var(--grl);line-height:1.8;max-width:440px;margin-bottom:40px;font-weight:300}
-.h-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-.btn-p{background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--bk);padding:14px 36px;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;text-decoration:none;transition:all .3s;position:relative;overflow:hidden;display:inline-block;white-space:nowrap}
-.btn-p::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold-l),var(--gold));opacity:0;transition:opacity .3s}
-.btn-p:hover::before{opacity:1}.btn-p:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(201,168,76,.3)}
-.btn-p span{position:relative;z-index:1}
-.btn-s{display:flex;align-items:center;gap:10px;color:var(--wh);font-size:.8rem;text-decoration:none;transition:color .3s}
-.btn-s:hover{color:var(--gold)}
-.play{width:44px;height:44px;border:1px solid rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;transition:all .3s;flex-shrink:0}
-.btn-s:hover .play{border-color:var(--gold);background:rgba(201,168,76,.1)}
-.h-stats{display:flex;gap:28px;margin-top:48px;flex-wrap:wrap}
-.stat{border-left:1px solid rgba(201,168,76,.3);padding-left:16px}
-.stat-n{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:var(--gold);line-height:1}
-.stat-l{font-size:.62rem;letter-spacing:2px;color:var(--gr);text-transform:uppercase;margin-top:4px}
+    /* Hamburger */
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; background:none; border:none; z-index:1100; }
+    .hamburger span { display:block; width:26px; height:1.5px; background:var(--gold); transition:all .35s cubic-bezier(.4,0,.2,1); transform-origin:center; }
+    .hamburger.open span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
 
-.h-vis{position:relative;height:560px}
-.h-main{position:absolute;right:0;top:50%;transform:translateY(-50%);width:340px;background:var(--d3);border:1px solid rgba(201,168,76,.15);overflow:hidden;animation:flt 6s ease-in-out infinite}
-@keyframes flt{0%,100%{transform:translateY(-50%) translateY(0)}50%{transform:translateY(-50%) translateY(-14px)}}
-.h-card-img{width:100%;height:220px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#1a1a1a}
-.h-card-img img{width:100%;height:100%;object-fit:cover;opacity:.7}
-.h-card-img .no-img{font-size:4rem;color:rgba(201,168,76,.15)}
-.h-badge{position:absolute;top:12px;left:12px;background:var(--gold);color:var(--bk);font-size:.58rem;font-weight:700;letter-spacing:2px;padding:5px 11px;text-transform:uppercase}
-.badge-new{position:absolute;top:12px;right:12px;background:#4CAF50;color:#fff;font-size:.56rem;font-weight:700;letter-spacing:1px;padding:4px 9px;text-transform:uppercase}
-.h-card-body{padding:20px}
-.h-price{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;color:var(--gold);margin-bottom:6px}
-.h-ctitle{font-size:.92rem;font-weight:500;margin-bottom:8px}
-.h-cinfo{display:flex;gap:14px;color:var(--gr);font-size:.72rem;flex-wrap:wrap}
-.h-cinfo span{display:flex;align-items:center;gap:4px}
-.h-sm{position:absolute;width:178px;background:var(--d3);border:1px solid rgba(201,168,76,.15);padding:16px;animation:flt2 5s ease-in-out infinite 1s}
-@keyframes flt2{0%,100%{transform:none}50%{transform:translateY(-10px)}}
-.h-sm-1{top:8%;left:0}.h-sm-2{bottom:8%;left:40px}
-.sm-lbl{font-size:.58rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:5px}
-.sm-val{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700}
-.sm-sub{font-size:.62rem;color:var(--gr);margin-top:2px}
-.sm-trend{color:#4CAF50;font-size:.62rem;margin-top:4px}
-.scroll-ind{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--gr);font-size:.58rem;letter-spacing:3px;text-transform:uppercase;z-index:2}
-.s-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--gold),transparent);animation:sp 2s ease-in-out infinite}
-@keyframes sp{0%,100%{opacity:1}50%{opacity:.3}}
+    /* Mobile drawer */
+    .mobile-nav {
+      display: none;
+      position: fixed; inset: 0; z-index: 1050;
+      background: rgba(10,10,10,.98); backdrop-filter: blur(30px);
+      flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      padding: 40px 24px;
+      transform: translateX(100%);
+      transition: transform .45s cubic-bezier(.4,0,.2,1);
+    }
+    .mobile-nav.open { display:flex; transform:translateX(0); }
+    .mobile-nav-list { list-style:none; text-align:center; display:flex; flex-direction:column; gap:0; width:100%; }
+    .mobile-nav-list a { display:block; font-family:var(--font-display); font-size:clamp(1.8rem,9vw,3rem); font-weight:400; color:rgba(250,248,243,.7); text-decoration:none; padding:10px 0; border-bottom:1px solid rgba(201,168,76,.1); transition:color .3s; }
+    .mobile-nav-list a:hover { color:var(--gold-light); }
+    .mobile-nav-cta { margin-top:28px; display:inline-block; font-family:var(--font-sans); font-size:.7rem; font-weight:500; letter-spacing:.25em; text-transform:uppercase; color:var(--dark); background:var(--gold); padding:16px 48px; text-decoration:none; }
+    .mobile-nav-contact { margin-top:20px; display:flex; flex-direction:column; align-items:center; gap:6px; }
+    .mobile-nav-contact a { font-family:var(--font-serif); font-size:1rem; font-weight:300; color:rgba(250,248,243,.38); text-decoration:none; }
 
-section{padding:100px 0}
-.container{max-width:1400px;margin:0 auto;padding:0 48px}
-.s-eye{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.s-eye-l{width:32px;height:1px;background:var(--gold)}
-.s-eye span{font-size:.62rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold)}
-.s-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,3.2rem);font-weight:700;line-height:1.15;margin-bottom:16px}
-.s-sub{font-size:.92rem;color:var(--grl);line-height:1.8;font-weight:300;max-width:520px}
+    /* ── HERO ── */
+    .hero { min-height:100svh; position:relative; display:flex; align-items:center; overflow:hidden; padding-top:90px; }
+    .hero-bg { position:absolute; inset:0; background: radial-gradient(ellipse 80% 60% at 70% 40%,rgba(201,168,76,.07) 0%,transparent 60%), radial-gradient(ellipse 60% 80% at 20% 80%,rgba(201,168,76,.04) 0%,transparent 50%), linear-gradient(135deg,#0D0D0D 0%,#141410 50%,#0D0D0D 100%); }
+    .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px); background-size:80px 80px; mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black,transparent); }
+    .hero-line { position:absolute; height:1px; background:linear-gradient(90deg,transparent,rgba(201,168,76,.3),transparent); }
+    .hero-line:nth-child(1) { top:30%; width:40%; left:-10%; animation:lineSlide 8s ease-in-out infinite; }
+    .hero-line:nth-child(2) { top:55%; width:30%; right:-5%; animation:lineSlide 10s ease-in-out infinite reverse; }
+    .hero-line:nth-child(3) { top:70%; width:20%; left:30%; animation:lineSlide 12s ease-in-out infinite 2s; }
+    @keyframes lineSlide { 0%,100%{opacity:0;transform:scaleX(0);transform-origin:left} 20%,80%{opacity:1;transform:scaleX(1)} }
 
-/* SOBRE */
-#sobre{background:var(--d2)}
-.sb-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
-.sb-vis{position:relative}
-.sb-frame{width:100%;aspect-ratio:3/4;background:var(--d3);border:1px solid rgba(201,168,76,.1);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.sb-frame img{width:100%;height:100%;object-fit:cover}
-.sb-frame::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.04),transparent);z-index:1;pointer-events:none}
-.sb-c{position:absolute;width:36px;height:36px;border-color:var(--gold);border-style:solid;border-width:0;z-index:2}
-.sb-c.tl{top:-1px;left:-1px;border-top-width:2px;border-left-width:2px}
-.sb-c.br{bottom:-1px;right:-1px;border-bottom-width:2px;border-right-width:2px}
-.sb-badge{position:absolute;bottom:-16px;right:-16px;width:130px;height:130px;background:var(--gold);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--bk);font-weight:700;z-index:2}
-.sb-badge .n{font-family:'Playfair Display',serif;font-size:2.2rem;line-height:1}
-.sb-badge .t{font-size:.55rem;letter-spacing:1px;text-align:center;line-height:1.4}
-.sb-feats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:32px}
-.feat{display:flex;align-items:flex-start;gap:12px;padding:16px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.08);transition:all .3s}
-.feat:hover{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.2)}
-.feat-ic{width:36px;height:36px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.78rem;flex-shrink:0;transition:all .3s}
-.feat:hover .feat-ic{background:var(--gold);color:var(--bk)}
-.feat-t h4{font-size:.8rem;font-weight:600;margin-bottom:2px}
-.feat-t p{font-size:.7rem;color:var(--gr);line-height:1.5}
+    .hero-content { position:relative; z-index:2; max-width:1400px; margin:0 auto; padding:60px var(--px) 80px; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; width:100%; }
+    .hero-text { animation:fadeUp 1.2s cubic-bezier(.16,1,.3,1) both; }
+    .hero-eyebrow { display:flex; align-items:center; gap:14px; margin-bottom:22px; }
+    .hero-eyebrow-line { width:40px; height:1px; background:var(--gold); flex-shrink:0; }
+    .hero-eyebrow span { font-family:var(--font-sans); font-size:clamp(.5rem,1.5vw,.65rem); font-weight:400; letter-spacing:.35em; text-transform:uppercase; color:var(--gold); }
+    .hero-h1 { font-family:var(--font-display); font-size:clamp(2.5rem,7vw,6rem); font-weight:400; line-height:1.05; margin-bottom:26px; color:var(--white); }
+    .hero-h1 em { font-style:italic; color:var(--gold-light); }
+    .hero-h1 .lb { display:block; overflow:hidden; }
+    .hero-h1 .lb span { display:inline-block; animation:slideUp 1s cubic-bezier(.16,1,.3,1) both; }
+    .hero-h1 .lb:nth-child(2) span { animation-delay:.1s; }
+    .hero-h1 .lb:nth-child(3) span { animation-delay:.2s; }
+    @keyframes slideUp { from{transform:translateY(110%);opacity:0} to{transform:translateY(0);opacity:1} }
+    .hero-p { font-family:var(--font-serif); font-size:clamp(1rem,2vw,1.1rem); font-weight:300; line-height:1.8; color:rgba(250,248,243,.6); max-width:440px; margin-bottom:40px; animation:fadeUp 1.2s cubic-bezier(.16,1,.3,1) .3s both; }
+    .hero-actions { display:flex; gap:20px; align-items:center; flex-wrap:wrap; animation:fadeUp 1.2s cubic-bezier(.16,1,.3,1) .5s both; }
 
-/* IMÓVEIS */
-#imoveis{background:var(--bk)}
-.im-tabs-wrap{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:20px}
-.im-tabs{display:flex;background:var(--d2);border:1px solid rgba(201,168,76,.1);overflow:hidden}
-.im-tab{padding:14px 32px;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--gr);background:transparent;border:none;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif;position:relative;white-space:nowrap}
-.im-tab.act{background:var(--gold);color:var(--bk);font-weight:700}
-.im-tab:not(.act):hover{color:var(--gold)}
-.im-tab .tab-count{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;background:rgba(201,168,76,.15);border-radius:50%;font-size:.6rem;margin-left:8px;color:var(--gold)}
-.im-tab.act .tab-count{background:rgba(0,0,0,.2);color:var(--bk)}
-.im-pane{display:none}.im-pane.act{display:block}
-.im-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.im-card{background:var(--d2);border:1px solid rgba(201,168,76,.1);overflow:hidden;transition:all .4s;cursor:pointer;display:flex;flex-direction:column}
-.im-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-8px);box-shadow:0 36px 72px rgba(0,0,0,.5)}
-.im-card.featured{grid-column:span 2}
-.c-img-wrap{position:relative;overflow:hidden;flex-shrink:0;height:220px}
-.c-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .6s;display:block}
-.im-card:hover .c-img-wrap img{transform:scale(1.05)}
-.c-img-wrap .no-photo{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--d3)}
-.c-img-wrap .no-photo i{font-size:4rem;color:rgba(201,168,76,.1)}
-.im-card.featured .c-img-wrap{height:300px}
-.c-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 55%);opacity:0;transition:opacity .35s}
-.im-card:hover .c-ov{opacity:1}
-.c-acts{position:absolute;bottom:14px;right:14px;display:flex;gap:7px;transform:translateY(16px);opacity:0;transition:all .35s}
-.im-card:hover .c-acts{transform:none;opacity:1}
-.c-ab{width:34px;height:34px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.74rem;transition:all .3s;cursor:pointer}
-.c-ab:hover{background:var(--gold);border-color:var(--gold);color:var(--bk)}
-.c-type-badge{position:absolute;top:12px;left:12px;font-size:.58rem;font-weight:700;letter-spacing:2px;padding:5px 11px;text-transform:uppercase}
-.bt-sale{background:var(--gold);color:var(--bk)}
-.bt-rent{background:transparent;border:1px solid var(--gold);color:var(--gold)}
-.bt-new{position:absolute;top:12px;right:12px;background:#4CAF50;color:#fff;font-size:.55rem;font-weight:700;letter-spacing:1px;padding:4px 9px;text-transform:uppercase}
-.photo-count{position:absolute;bottom:12px;left:12px;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);color:var(--wh);font-size:.65rem;padding:4px 10px;display:flex;align-items:center;gap:5px;opacity:0;transition:opacity .3s}
-.im-card:hover .photo-count{opacity:1}
-.c-body{padding:20px;display:flex;flex-direction:column;flex:1}
-.c-price{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:var(--gold);margin-bottom:5px}
-.c-title{font-size:.92rem;font-weight:500;margin-bottom:4px;line-height:1.4}
-.c-loc{font-size:.74rem;color:var(--gr);margin-bottom:12px;display:flex;align-items:center;gap:5px}
-.c-div{height:1px;background:rgba(255,255,255,.06);margin-bottom:12px}
-.c-specs{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px}
-.sp{display:flex;align-items:center;gap:4px;font-size:.72rem;color:var(--grl)}
-.sp i{color:var(--gold);font-size:.64rem}
-.c-cta{margin-top:auto;display:flex;gap:8px}
-.c-btn-detail{flex:1;padding:10px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);color:var(--gold);font-size:.66rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif;font-weight:600}
-.c-btn-detail:hover{background:var(--gold);color:var(--bk)}
-.c-btn-wa{width:40px;padding:10px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.25);color:#25D366;font-size:.85rem;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.c-btn-wa:hover{background:#25D366;color:#fff}
+    .btn-primary { display:inline-flex; align-items:center; justify-content:center; gap:10px; font-family:var(--font-sans); font-size:.68rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--dark); background:var(--gold); padding:16px 32px; text-decoration:none; position:relative; overflow:hidden; transition:transform .3s; }
+    .btn-primary::before { content:''; position:absolute; inset:0; background:var(--gold-light); transform:translateX(-101%); transition:transform .4s cubic-bezier(.4,0,.2,1); }
+    .btn-primary:hover::before { transform:translateX(0); }
+    .btn-primary:hover { transform:translateY(-2px); }
+    .btn-primary span { position:relative; z-index:1; }
+    .btn-secondary { font-family:var(--font-sans); font-size:.66rem; font-weight:300; letter-spacing:.2em; text-transform:uppercase; color:rgba(250,248,243,.55); text-decoration:none; display:flex; align-items:center; gap:10px; transition:color .3s; }
+    .btn-secondary:hover { color:var(--gold-light); }
+    .arrow { width:24px; height:1px; background:currentColor; position:relative; transition:width .3s; flex-shrink:0; }
+    .arrow::after { content:''; position:absolute; right:0; top:-3px; width:7px; height:7px; border-top:1px solid currentColor; border-right:1px solid currentColor; transform:rotate(45deg); }
+    .btn-secondary:hover .arrow { width:38px; }
 
-/* MODAL */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:5000;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .35s;backdrop-filter:blur(8px)}
-.modal-bg.open{opacity:1;pointer-events:all}
-.modal{background:var(--d2);width:100%;max-width:960px;margin:auto;position:relative;border:1px solid rgba(201,168,76,.15);animation:modalIn .4s ease}
-@keyframes modalIn{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
-.modal-close{position:absolute;top:16px;right:16px;width:40px;height:40px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.4);color:var(--wh);font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:all .3s}
-.modal-close:hover{border-color:var(--gold);color:var(--gold)}
-.gallery{position:relative;height:380px;background:var(--d3);overflow:hidden}
-.gallery-slides{display:flex;height:100%;transition:transform .45s cubic-bezier(.77,0,.18,1)}
-.gallery-slide{min-width:100%;height:100%;position:relative}
-.gallery-slide img{width:100%;height:100%;object-fit:cover}
-.gallery-slide .no-slide{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--d3)}
-.gallery-slide .no-slide i{font-size:5rem;color:rgba(201,168,76,.12)}
-.gal-btn{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;background:rgba(0,0,0,.6);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);color:var(--wh);font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5;transition:all .3s}
-.gal-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--bk)}
-.gal-prev{left:14px}.gal-next{right:14px}
-.gal-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:7px}
-.gal-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .3s}
-.gal-dot.act{background:var(--gold);width:20px;border-radius:4px}
-.gal-count{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.7);color:var(--wh);font-size:.68rem;padding:5px 12px;letter-spacing:1px}
-.gal-type{position:absolute;top:14px;left:14px;font-size:.6rem;font-weight:700;letter-spacing:2px;padding:5px 12px;text-transform:uppercase}
-.gal-thumbs{display:flex;gap:6px;padding:10px;background:var(--bk);overflow-x:auto}
-.gal-thumbs::-webkit-scrollbar{height:3px}.gal-thumbs::-webkit-scrollbar-thumb{background:var(--gold)}
-.gal-thumb{width:68px;height:50px;flex-shrink:0;cursor:pointer;border:2px solid transparent;overflow:hidden;transition:border-color .3s}
-.gal-thumb.act{border-color:var(--gold)}
-.gal-thumb img{width:100%;height:100%;object-fit:cover}
-.gal-thumb .no-thumb{width:100%;height:100%;background:var(--d3);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:rgba(201,168,76,.2)}
-.modal-body{padding:32px;display:grid;grid-template-columns:1fr 340px;gap:32px}
-.modal-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
-.m-badge{font-size:.58rem;font-weight:700;letter-spacing:2px;padding:4px 10px;text-transform:uppercase}
-.m-status{font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:4px 10px}
-.modal-price{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.4rem);font-weight:700;color:var(--gold);margin-bottom:6px}
-.modal-title{font-family:'Playfair Display',serif;font-size:clamp(1.1rem,2.5vw,1.4rem);font-weight:700;margin-bottom:6px}
-.modal-location{font-size:.82rem;color:var(--gr);margin-bottom:20px;display:flex;align-items:center;gap:6px}
-.modal-specs{display:flex;gap:0;margin-bottom:24px;background:var(--d3);border:1px solid rgba(201,168,76,.08);flex-wrap:wrap}
-.mspec{flex:1;min-width:80px;padding:16px 14px;text-align:center;border-right:1px solid rgba(201,168,76,.08);display:flex;flex-direction:column;align-items:center;gap:6px}
-.mspec:last-child{border-right:none}
-.mspec i{font-size:.9rem;color:var(--gold)}
-.mspec .mv{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700}
-.mspec .ml{font-size:.58rem;letter-spacing:1px;color:var(--gr);text-transform:uppercase}
-.modal-section-title{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(201,168,76,.1)}
-.modal-desc{font-size:.84rem;color:var(--grl);line-height:1.8;margin-bottom:24px}
-.modal-features{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px}
-.mfeat{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--grl)}
-.mfeat i{color:var(--gold);font-size:.65rem;width:14px;flex-shrink:0}
+    .hero-panel { animation:fadeUp 1.4s cubic-bezier(.16,1,.3,1) .2s both; }
+    .hero-panel-frame { position:relative; background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02)); border:1px solid rgba(201,168,76,.2); padding:40px; }
+    .hero-panel-frame::before { content:''; position:absolute; top:-8px; right:-8px; width:55%; height:55%; border-top:1px solid rgba(201,168,76,.35); border-right:1px solid rgba(201,168,76,.35); }
+    .hero-panel-frame::after { content:''; position:absolute; bottom:-8px; left:-8px; width:55%; height:55%; border-bottom:1px solid rgba(201,168,76,.35); border-left:1px solid rgba(201,168,76,.35); }
+    .hero-stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+    .hero-stat { padding:26px 18px; background:rgba(13,13,13,.6); border:1px solid rgba(201,168,76,.08); transition:background .3s; }
+    .hero-stat:hover { background:rgba(201,168,76,.05); }
+    .hero-stat-num { font-family:var(--font-display); font-size:2.5rem; font-weight:400; color:var(--gold-light); line-height:1; margin-bottom:6px; }
+    .hero-stat-num sup { font-size:1rem; vertical-align:super; }
+    .hero-stat-label { font-family:var(--font-sans); font-size:.56rem; font-weight:300; letter-spacing:.16em; text-transform:uppercase; color:rgba(250,248,243,.4); line-height:1.5; }
 
-/* AGENT CARD — agora é a imobiliária */
-.modal-right{}
-.modal-agent{background:var(--d3);border:1px solid rgba(201,168,76,.1);padding:22px;margin-bottom:16px}
-.agent-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.06)}
-.agent-avatar{width:56px;height:56px;background:var(--d2);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
-.agent-avatar img{width:100%;height:100%;object-fit:contain;padding:6px}
-.agent-logo-text{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--gold);letter-spacing:1px}
-.agent-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700}
-.agent-role{font-size:.65rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:2px}
-.agent-creci{font-size:.6rem;color:var(--gr);margin-top:2px}
-.agent-btns{display:flex;flex-direction:column;gap:8px}
-.abtn{width:100%;padding:13px;font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;border:none}
-.abtn-wa{background:#25D366;color:#fff}.abtn-wa:hover{background:#1da851}
-.abtn-tel{background:transparent;border:1px solid rgba(201,168,76,.3);color:var(--gold)}.abtn-tel:hover{background:rgba(201,168,76,.1);border-color:var(--gold)}
+    .scroll-indicator { position:absolute; bottom:36px; left:var(--px); display:flex; align-items:center; gap:14px; animation:fadeUp 1.5s cubic-bezier(.16,1,.3,1) .8s both; }
+    .scroll-line { width:1px; height:52px; background:linear-gradient(to bottom,var(--gold),transparent); position:relative; overflow:hidden; }
+    .scroll-line::after { content:''; position:absolute; top:0; left:0; width:100%; height:40%; background:var(--gold-light); animation:scrollAnim 2s ease-in-out infinite; }
+    @keyframes scrollAnim { 0%{transform:translateY(-100%)} 100%{transform:translateY(300%)} }
+    .scroll-text { font-family:var(--font-sans); font-size:.5rem; font-weight:300; letter-spacing:.28em; text-transform:uppercase; color:rgba(250,248,243,.3); writing-mode:vertical-rl; transform:rotate(180deg); }
 
-.modal-form{background:var(--d3);border:1px solid rgba(201,168,76,.1);padding:22px}
-.mform-title{font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
-.mfg{margin-bottom:12px}
-.mfg label{display:block;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--gr);margin-bottom:7px}
-.mfg input,.mfg select,.mfg textarea{width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--wh);padding:11px 14px;font-size:.8rem;font-family:'Inter',sans-serif;outline:none;transition:all .3s}
-.mfg select option{background:var(--d2)}
-.mfg input:focus,.mfg select:focus,.mfg textarea:focus{border-color:var(--gold);background:rgba(201,168,76,.03)}
-.mfg textarea{resize:none;height:80px;font-size:.78rem}
-.mf-btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--bk);border:none;padding:14px;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px}
-.mf-btn:hover{box-shadow:0 12px 30px rgba(201,168,76,.3);transform:translateY(-1px)}
-.mf-ok{display:none;text-align:center;padding:20px}
-.mf-ok i{font-size:1.6rem;color:var(--gold);margin-bottom:8px;display:block}
-.mf-ok h4{font-family:'Playfair Display',serif;margin-bottom:4px;font-size:1rem}
-.mf-ok p{font-size:.75rem;color:var(--gr)}
+    /* ── MARQUEE ── */
+    .marquee-section { padding:30px 0; overflow:hidden; border-top:1px solid rgba(201,168,76,.12); border-bottom:1px solid rgba(201,168,76,.12); }
+    .marquee-track { display:flex; white-space:nowrap; animation:marquee 28s linear infinite; }
+    .marquee-item { display:inline-flex; align-items:center; gap:32px; padding:0 32px; font-family:var(--font-serif); font-size:clamp(.85rem,2vw,1.05rem); font-weight:300; font-style:italic; color:rgba(250,248,243,.38); }
+    .sep { width:4px; height:4px; background:var(--gold); transform:rotate(45deg); opacity:.6; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-/* SERVIÇOS */
-#servicos{background:var(--d2)}
-.sv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(201,168,76,.07);margin-top:48px}
-.sv-item{background:var(--d2);padding:40px 26px;position:relative;overflow:hidden;transition:all .4s}
-.sv-item::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform .4s}
-.sv-item:hover{background:var(--d3)}.sv-item:hover::before{transform:scaleX(1)}
-.sv-n{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:700;color:rgba(201,168,76,.07);position:absolute;top:16px;right:18px;line-height:1;transition:color .4s}
-.sv-item:hover .sv-n{color:rgba(201,168,76,.13)}
-.sv-ic{width:50px;height:50px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.14);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1rem;margin-bottom:20px;transition:all .4s}
-.sv-item:hover .sv-ic{background:var(--gold);color:var(--bk)}
-.sv-t{font-size:.9rem;font-weight:600;margin-bottom:8px}
-.sv-d{font-size:.76rem;color:var(--gr);line-height:1.7}
+    /* ── SECTIONS ── */
+    section { padding:clamp(60px,10vw,120px) var(--px); position:relative; }
+    .section-inner { max-width:1400px; margin:0 auto; }
+    .section-label { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+    .section-label-line { width:26px; height:1px; background:var(--gold); flex-shrink:0; }
+    .section-label span { font-family:var(--font-sans); font-size:.56rem; font-weight:400; letter-spacing:.38em; text-transform:uppercase; color:var(--gold); }
+    .section-h2 { font-family:var(--font-display); font-size:clamp(1.85rem,5vw,3.8rem); font-weight:400; line-height:1.1; color:var(--white); }
+    .section-h2 em { font-style:italic; color:var(--gold-light); }
 
-/* DEPOIMENTOS */
-#depoimentos{background:var(--bk);overflow:hidden}
-.dp-track{overflow:hidden;margin-top:48px}
-.dp-slider{display:flex;gap:20px;animation:slid 32s linear infinite;width:max-content}
-.dp-track:hover .dp-slider{animation-play-state:paused}
-@keyframes slid{0%{transform:none}100%{transform:translateX(-50%)}}
-.dp-card{width:360px;background:var(--d2);border:1px solid rgba(201,168,76,.1);padding:28px;flex-shrink:0}
-.dp-q{font-family:'Playfair Display',serif;font-size:3.5rem;color:var(--gold);opacity:.25;line-height:.5;margin-bottom:12px}
-.dp-txt{font-size:.82rem;color:var(--grl);line-height:1.8;margin-bottom:20px;font-style:italic}
-.dp-div{height:1px;background:rgba(201,168,76,.12);margin-bottom:16px}
-.dp-auth{display:flex;align-items:center;gap:12px}
-.dp-av{width:42px;height:42px;border-radius:50%;background:var(--d3);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.95rem;color:var(--gold);font-weight:700;flex-shrink:0}
-.dp-name{font-size:.82rem;font-weight:600}
-.dp-role{font-size:.66rem;color:var(--gr);margin-top:2px}
-.dp-stars{color:var(--gold);font-size:.65rem;margin-bottom:3px;letter-spacing:2px}
+    /* ── ABOUT ── */
+    .about { background:var(--charcoal); }
+    .about-grid { display:grid; grid-template-columns:1fr 1.2fr; gap:clamp(40px,8vw,100px); align-items:center; }
+    .about-visual { position:relative; }
+    .about-visual-main { background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03)); border:1px solid rgba(201,168,76,.15); aspect-ratio:3/4; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+    .about-visual-main::before { content:''; position:absolute; inset:20px; border:1px solid rgba(201,168,76,.1); }
+    .about-symbol { font-family:var(--font-display); font-size:clamp(6rem,15vw,12rem); font-weight:400; font-style:italic; color:rgba(201,168,76,.06); line-height:1; user-select:none; }
+    .about-badge { position:absolute; bottom:-20px; right:-20px; width:100px; height:100px; background:var(--gold); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; }
+    .about-badge-num { font-family:var(--font-display); font-size:1.6rem; font-weight:400; color:var(--dark); line-height:1; }
+    .about-badge-label { font-family:var(--font-sans); font-size:.42rem; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:rgba(13,13,13,.7); text-align:center; }
+    .about-accent { position:absolute; top:-14px; left:-14px; width:68px; height:68px; border-top:2px solid var(--gold); border-left:2px solid var(--gold); }
+    .about-p { font-family:var(--font-serif); font-size:clamp(1rem,2vw,1.15rem); font-weight:300; line-height:1.9; color:rgba(250,248,243,.6); margin:22px 0; }
+    .about-features { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:36px; }
+    .about-feature { padding:18px; border:1px solid rgba(201,168,76,.1); background:rgba(13,13,13,.5); display:flex; gap:12px; align-items:flex-start; transition:border-color .3s,background .3s; }
+    .about-feature:hover { border-color:rgba(201,168,76,.3); background:rgba(201,168,76,.04); }
+    .feature-icon { width:32px; height:32px; border:1px solid rgba(201,168,76,.3); display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--gold); font-size:.85rem; }
+    .feature-title { font-family:var(--font-sans); font-size:.62rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--off-white); margin-bottom:4px; }
+    .feature-desc { font-family:var(--font-serif); font-size:.86rem; font-weight:300; color:rgba(250,248,243,.42); line-height:1.5; }
 
-/* CONTATO */
-#contato{background:var(--d2)}
-.ct-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px}
-.channels{display:flex;flex-direction:column;gap:14px;margin-top:32px}
-.channel{display:flex;align-items:center;gap:16px;padding:20px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.08);text-decoration:none;color:var(--wh);transition:all .3s}
-.channel:hover{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.3);transform:translateX(8px)}
-.ch-ic{width:46px;height:46px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1rem;flex-shrink:0;transition:all .3s}
-.channel:hover .ch-ic{background:var(--gold);color:var(--bk)}
-.ch-t label{font-size:.58rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:2px;cursor:pointer}
-.ch-t span{font-size:.86rem;font-weight:500}
-.fg{margin-bottom:16px}
-.fg label{display:block;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--gr);margin-bottom:8px}
-.fg input,.fg select,.fg textarea{width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--wh);padding:13px 16px;font-size:.84rem;font-family:'Inter',sans-serif;outline:none;transition:all .3s}
-.fg select option{background:var(--d2)}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold);background:rgba(201,168,76,.03)}
-.fg textarea{resize:none;height:108px}
-.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.f-btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--bk);border:none;padding:16px;font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px}
-.f-btn:hover{box-shadow:0 16px 36px rgba(201,168,76,.3);transform:translateY(-2px)}
-.f-ok{display:none;text-align:center;padding:36px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15)}
-.f-ok i{font-size:1.8rem;color:var(--gold);margin-bottom:12px;display:block}
-.f-ok h3{font-family:'Playfair Display',serif;margin-bottom:6px;font-size:1.2rem}
-.f-ok p{font-size:.8rem;color:var(--gr)}
+    /* ── PROCESS ── */
+    .process { background:var(--dark); }
+    .process-header { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:end; margin-bottom:60px; }
+    .process-subtitle { font-family:var(--font-serif); font-size:clamp(1rem,2vw,1.05rem); font-weight:300; font-style:italic; line-height:1.8; color:rgba(250,248,243,.5); }
+    .process-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+    .process-step { background:rgba(26,26,26,.8); border:1px solid rgba(201,168,76,.08); padding:clamp(28px,4vw,48px) clamp(20px,3vw,40px); position:relative; overflow:hidden; transition:border-color .4s,transform .3s; }
+    .process-step::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); transform:scaleX(0); transition:transform .5s cubic-bezier(.4,0,.2,1); }
+    .process-step:hover { border-color:rgba(201,168,76,.25); transform:translateY(-4px); }
+    .process-step:hover::before { transform:scaleX(1); }
+    .process-num { font-family:var(--font-display); font-size:clamp(3rem,6vw,5rem); font-weight:400; color:rgba(201,168,76,.08); line-height:1; margin-bottom:20px; }
+    .process-label { font-family:var(--font-sans); font-size:.56rem; font-weight:500; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+    .process-title { font-family:var(--font-display); font-size:clamp(1.25rem,2.5vw,1.75rem); font-weight:400; color:var(--white); margin-bottom:14px; }
+    .process-desc { font-family:var(--font-serif); font-size:clamp(.9rem,1.5vw,1rem); font-weight:300; line-height:1.75; color:rgba(250,248,243,.5); }
 
-/* FOOTER */
-footer{background:var(--bk);padding:70px 0 32px;border-top:1px solid rgba(201,168,76,.08)}
-.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
-.ft-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;letter-spacing:2px}
-.ft-logo span{color:var(--gold)}
-.ft-brand p{font-size:.8rem;color:var(--gr);line-height:1.8;margin-top:12px;max-width:290px}
-.ft-tagline{font-size:.68rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-top:6px;opacity:.7}
-.ft-soc{display:flex;gap:8px;margin-top:20px}
-.soc{width:36px;height:36px;border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;color:var(--gr);text-decoration:none;font-size:.8rem;transition:all .3s}
-.soc:hover{border-color:var(--gold);color:var(--gold)}
-.ft-col h4{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
-.ft-links{list-style:none;display:flex;flex-direction:column;gap:10px}
-.ft-links a{color:var(--gr);text-decoration:none;font-size:.8rem;transition:color .3s}
-.ft-links a:hover{color:var(--wh)}
-.ft-btm{padding-top:32px;border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.ft-btm p{font-size:.7rem;color:var(--gr)}
-.creci-b{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);color:var(--gold);padding:4px 11px;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;font-weight:600}
+    /* ── QUOTE ── */
+    .quote-section { padding:clamp(80px,12vw,140px) var(--px); position:relative; overflow:hidden; }
+    .quote-bg { position:absolute; inset:0; background:radial-gradient(ellipse 100% 100% at 50% 50%,rgba(201,168,76,.06) 0%,transparent 70%),var(--dark); }
+    .quote-inner { max-width:860px; margin:0 auto; text-align:center; position:relative; z-index:1; }
+    .quote-ornament { font-family:var(--font-display); font-size:clamp(5rem,14vw,10rem); line-height:.5; color:rgba(201,168,76,.1); display:block; margin-bottom:16px; }
+    .quote-text { font-family:var(--font-display); font-size:clamp(1.4rem,4.5vw,3rem); font-weight:400; font-style:italic; line-height:1.4; color:var(--white); margin-bottom:32px; }
+    .quote-text em { font-style:normal; color:var(--gold-light); }
+    .quote-meta { display:flex; flex-direction:column; align-items:center; gap:7px; }
+    .quote-divider { width:48px; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin-bottom:4px; }
+    .quote-author { font-family:var(--font-sans); font-size:.6rem; font-weight:400; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); }
+    .quote-role { font-family:var(--font-serif); font-size:.88rem; font-weight:300; font-style:italic; color:rgba(250,248,243,.38); }
 
-/* WA */
-.wa{position:fixed;bottom:28px;right:28px;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.3rem;text-decoration:none;z-index:100;box-shadow:0 8px 28px rgba(37,211,102,.4);animation:waP 2s ease-in-out infinite;cursor:pointer}
-@keyframes waP{0%,100%{box-shadow:0 8px 28px rgba(37,211,102,.4)}50%{box-shadow:0 8px 44px rgba(37,211,102,.7),0 0 0 8px rgba(37,211,102,.08)}}
-.wa::before{content:'Fale com a Áurea';position:absolute;right:66px;background:var(--d3);border:1px solid rgba(255,255,255,.1);color:var(--wh);font-size:.66rem;letter-spacing:1px;padding:7px 12px;white-space:nowrap;opacity:0;transform:translateX(8px);transition:all .3s;font-family:'Inter',sans-serif}
-.wa:hover::before{opacity:1;transform:none}
+    /* ── SERVICES ── */
+    .services { background:var(--charcoal); }
+    .services-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; margin-top:60px; }
+    .service-card { background:var(--dark); border:1px solid rgba(201,168,76,.06); padding:clamp(26px,4vw,44px) clamp(18px,3vw,32px); position:relative; overflow:hidden; transition:border-color .4s; }
+    .service-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:0; background:linear-gradient(to top,rgba(201,168,76,.06),transparent); transition:height .5s cubic-bezier(.4,0,.2,1); }
+    .service-card:hover { border-color:rgba(201,168,76,.3); }
+    .service-card:hover::after { height:60%; }
+    .service-num { font-family:var(--font-serif); font-size:.7rem; font-weight:400; letter-spacing:.14em; color:rgba(201,168,76,.5); margin-bottom:24px; }
+    .service-icon { width:42px; height:42px; border:1px solid rgba(201,168,76,.25); display:flex; align-items:center; justify-content:center; margin-bottom:22px; color:var(--gold); font-size:1.15rem; }
+    .service-title { font-family:var(--font-display); font-size:clamp(1.05rem,2vw,1.35rem); font-weight:400; color:var(--white); margin-bottom:12px; line-height:1.2; }
+    .service-desc { font-family:var(--font-serif); font-size:.93rem; font-weight:300; line-height:1.68; color:rgba(250,248,243,.43); }
 
-/* REVEAL */
-.rv{opacity:0;transform:translateY(32px);transition:opacity .7s,transform .7s}
-.rv.vis{opacity:1;transform:none}
-.rv-1{transition-delay:.1s}.rv-2{transition-delay:.2s}.rv-3{transition-delay:.3s}
+    /* ── CONTACT ── */
+    .contact { background:var(--charcoal); }
+    .contact-grid { display:grid; grid-template-columns:1fr 1.2fr; gap:clamp(40px,8vw,100px); align-items:start; margin-top:60px; }
+    .contact-info-block { display:flex; flex-direction:column; gap:36px; }
+    .contact-info-label { font-family:var(--font-sans); font-size:.56rem; font-weight:400; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+    .contact-info-value { font-family:var(--font-serif); font-size:clamp(.98rem,2vw,1.1rem); font-weight:300; line-height:1.7; color:rgba(250,248,243,.68); }
+    .contact-info-value a { color:inherit; text-decoration:none; transition:color .3s; }
+    .contact-info-value a:hover { color:var(--gold-light); }
+    .contact-form { display:flex; flex-direction:column; gap:2px; }
+    .form-label { display:block; font-family:var(--font-sans); font-size:.56rem; font-weight:400; letter-spacing:.26em; text-transform:uppercase; color:rgba(201,168,76,.6); margin-bottom:8px; }
+    .form-input, .form-textarea { width:100%; background:rgba(13,13,13,.8); border:1px solid rgba(201,168,76,.12); color:var(--off-white); font-family:var(--font-serif); font-size:1rem; font-weight:300; padding:15px 17px; outline:none; transition:border-color .3s; -webkit-appearance:none; appearance:none; border-radius:0; }
+    .form-input::placeholder, .form-textarea::placeholder { color:rgba(250,248,243,.18); }
+    .form-input:focus, .form-textarea:focus { border-color:rgba(201,168,76,.5); }
+    .form-textarea { resize:none; height:118px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+    .form-submit { display:flex; align-items:center; justify-content:center; gap:10px; font-family:var(--font-sans); font-size:.68rem; font-weight:500; letter-spacing:.22em; text-transform:uppercase; color:var(--dark); background:var(--gold); border:none; cursor:pointer; padding:18px; margin-top:4px; position:relative; overflow:hidden; transition:transform .3s; width:100%; -webkit-appearance:none; }
+    .form-submit::before { content:''; position:absolute; inset:0; background:var(--gold-light); transform:translateX(-101%); transition:transform .4s cubic-bezier(.4,0,.2,1); }
+    .form-submit:hover::before { transform:translateX(0); }
+    .form-submit:hover { transform:translateY(-2px); }
+    .form-submit span { position:relative; z-index:1; }
 
-/* ── RESPONSIVE ── */
-@media(max-width:1100px){
-  .im-grid{grid-template-columns:repeat(2,1fr)}
-  .im-card.featured{grid-column:span 2}
-  .sv-grid{grid-template-columns:1fr 1fr}
-  .modal-body{grid-template-columns:1fr}
-}
-@media(max-width:900px){
-  nav,nav.sc{padding:16px 20px}
-  .n-links,.n-cta{display:none}
-  .hamburger{display:flex}
-  .h-wrap{grid-template-columns:1fr;padding:32px 20px 60px;gap:32px}
-  .h-vis{display:none}
-  .container{padding:0 20px}
-  .sb-grid{grid-template-columns:1fr;gap:48px}
-  .sb-badge{width:100px;height:100px;bottom:-12px;right:-12px}
-  .sb-badge .n{font-size:1.9rem}
-  .ct-grid{grid-template-columns:1fr;gap:40px}
-  .ft-grid{grid-template-columns:1fr 1fr;gap:32px}
-  .ft-brand{grid-column:span 2}
-  .im-grid{grid-template-columns:1fr}
-  .im-card.featured{grid-column:span 1}
-  .im-card.featured .c-img-wrap{height:220px}
-}
-@media(max-width:600px){
-  section{padding:70px 0}
-  .h-title{font-size:clamp(2.2rem,9vw,3rem)}
-  .h-stats{gap:16px}.stat-n{font-size:1.6rem}
-  .sv-grid{grid-template-columns:1fr}
-  .sb-feats{grid-template-columns:1fr}
-  .fr{grid-template-columns:1fr}
-  .ft-grid{grid-template-columns:1fr}.ft-brand{grid-column:span 1}
-  .ft-btm{flex-direction:column;align-items:flex-start}
-  .gallery{height:240px}
-  .modal-body{padding:20px}
-  .modal-specs{overflow-x:auto}
-  .mspec{min-width:70px;padding:12px 10px}
-  .modal-features{grid-template-columns:1fr}
-  .im-tabs-wrap{flex-direction:column;align-items:flex-start}
-  .im-tab{padding:12px 20px}
-  .h-actions{gap:12px}
-}
-@media(max-width:400px){
-  .modal{margin:10px}.modal-bg{padding:10px}
-}
-</style>
+    /* ── FOOTER ── */
+    footer { background:var(--dark); border-top:1px solid rgba(201,168,76,.12); padding:clamp(44px,8vw,60px) var(--px) clamp(26px,5vw,36px); }
+    .footer-inner { max-width:1400px; margin:0 auto; }
+    .footer-top { display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:40px; border-bottom:1px solid rgba(201,168,76,.08); margin-bottom:26px; gap:28px; flex-wrap:wrap; }
+    .footer-logo-main { font-family:var(--font-display); font-size:clamp(1.4rem,4vw,2rem); font-weight:400; color:var(--white); }
+    .footer-logo-sub { font-family:var(--font-sans); font-size:.5rem; font-weight:300; letter-spacing:.36em; text-transform:uppercase; color:var(--gold); margin-top:4px; }
+    .footer-tagline { font-family:var(--font-serif); font-size:.92rem; font-style:italic; color:rgba(250,248,243,.3); max-width:230px; line-height:1.65; margin-top:12px; }
+    .footer-links-title { font-family:var(--font-sans); font-size:.55rem; font-weight:500; letter-spacing:.26em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
+    .footer-links { list-style:none; display:flex; flex-direction:column; gap:9px; }
+    .footer-links a { font-family:var(--font-serif); font-size:.93rem; font-weight:300; color:rgba(250,248,243,.4); text-decoration:none; transition:color .3s; }
+    .footer-links a:hover { color:var(--gold-light); }
+    .footer-bottom { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
+    .footer-copy { font-family:var(--font-sans); font-size:.56rem; font-weight:300; letter-spacing:.07em; color:rgba(250,248,243,.2); }
+    .footer-ornament { display:flex; align-items:center; gap:10px; }
+    .footer-ornament-line { width:26px; height:1px; background:rgba(201,168,76,.2); }
+    .footer-ornament-diamond { width:5px; height:5px; border:1px solid rgba(201,168,76,.4); transform:rotate(45deg); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+    .reveal { opacity:0; transform:translateY(34px); transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1); }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .rd1{transition-delay:.1s} .rd2{transition-delay:.2s} .rd3{transition-delay:.3s} .rd4{transition-delay:.4s}
+
+    /* ── LOADER ── */
+    #loader {
+      position: fixed; inset: 0; background: var(--dark);
+      z-index: 9990; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 18px;
+      transition: opacity .6s ease;
+    }
+    #loader.hide { opacity: 0; pointer-events: none; }
+    .ld-logo {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      font-weight: 400; letter-spacing: .14em;
+      opacity: 0; animation: ldUp .9s .3s cubic-bezier(.16,1,.3,1) forwards;
+      color: var(--white);
+    }
+    .ld-logo em { font-style: italic; color: var(--gold); }
+    .ld-line {
+      width: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      animation: ldLine 1.2s .9s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    .ld-sub {
+      font-family: var(--font-sans); font-size: .58rem;
+      letter-spacing: .45em; text-transform: uppercase;
+      color: rgba(250,248,243,.4);
+      opacity: 0; animation: ldFade .5s 1.6s forwards;
+    }
+    @keyframes ldUp   { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+    @keyframes ldLine { to{width:clamp(160px,30vw,240px)} }
+    @keyframes ldFade { to{opacity:1} }
+
+    /* ── WHATSAPP FLOAT ── */
+    .wa-float {
+      position: fixed; bottom: 28px; right: 28px;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.45rem;
+      text-decoration: none; z-index: 500;
+      box-shadow: 0 8px 28px rgba(37,211,102,.4);
+      animation: waPulse 2.2s ease-in-out infinite;
+      transition: transform .25s;
+    }
+    .wa-float:hover { transform: scale(1.1); }
+    .wa-float::before {
+      content: 'Fale conosco';
+      position: absolute; right: 68px;
+      background: var(--charcoal); border: 1px solid rgba(255,255,255,.1);
+      color: var(--off-white); font-family: var(--font-sans);
+      font-size: .62rem; letter-spacing: .08em;
+      padding: 7px 14px; white-space: nowrap;
+      opacity: 0; transform: translateX(8px);
+      transition: all .3s; pointer-events: none;
+    }
+    .wa-float:hover::before { opacity: 1; transform: translateX(0); }
+    @keyframes waPulse {
+      0%,100% { box-shadow: 0 8px 28px rgba(37,211,102,.4); }
+      50%      { box-shadow: 0 8px 44px rgba(37,211,102,.7), 0 0 0 10px rgba(37,211,102,.08); }
+    }
+    @media (max-width: 768px) {
+      .wa-float { width: 52px; height: 52px; font-size: 1.3rem; bottom: 20px; right: 20px; }
+      .wa-float::before { display: none; }
+    }
+
+    /* ═══════════════════════════════════
+       TABLET  ≤ 1100px
+    ═══════════════════════════════════ */
+    @media (max-width: 1100px) {
+      .hero-content { grid-template-columns:1fr; gap:0; }
+      .hero-panel { display:none; }
+      .about-grid { grid-template-columns:1fr; gap:48px; }
+      .about-visual { max-width:360px; }
+      .process-header { grid-template-columns:1fr; gap:20px; }
+      .process-steps { grid-template-columns:1fr 1fr; }
+      .services-grid { grid-template-columns:1fr 1fr; }
+      .contact-grid { grid-template-columns:1fr; gap:48px; }
+    }
+
+    /* ═══════════════════════════════════
+       MOBILE  ≤ 768px
+    ═══════════════════════════════════ */
+    @media (max-width: 768px) {
+      /* Navbar */
+      .nav-links, .nav-cta { display:none; }
+      .hamburger { display:flex; }
+      nav { padding:16px 20px; }
+      nav.scrolled { padding:12px 20px; }
+
+      /* Hero */
+      .hero { padding-top:76px; }
+      .hero-content { padding:44px 20px 96px; }
+      .hero-h1 { font-size:clamp(2.4rem,12vw,3.4rem); }
+      .hero-p { max-width:100%; font-size:1.06rem; }
+      .hero-actions { flex-direction:column; align-items:stretch; gap:14px; }
+      .btn-primary { width:100%; padding:18px; font-size:.72rem; }
+      .btn-secondary { justify-content:center; }
+      .scroll-indicator { display:none; }
+
+      /* Marquee */
+      .marquee-item { font-size:.82rem; gap:22px; padding:0 22px; }
+
+      /* About */
+      .about-visual { display:none; }
+      .about-features { grid-template-columns:1fr; }
+      .about-p { font-size:1.06rem; }
+
+      /* Process */
+      .process-header { margin-bottom:36px; }
+      .process-steps { grid-template-columns:1fr; }
+      .process-step { padding:28px 22px; }
+      .process-num { font-size:3.5rem; margin-bottom:14px; }
+
+      /* Quote */
+      .quote-text { font-size:clamp(1.4rem,6.5vw,2.2rem); }
+      .quote-text br { display:none; }
+
+      /* Services */
+      .services-grid { grid-template-columns:1fr; }
+
+      /* Contact */
+      .form-row { grid-template-columns:1fr; }
+      .contact-info-block { gap:26px; }
+
+      /* Footer */
+      .footer-top { flex-direction:column; gap:32px; }
+      .footer-bottom { flex-direction:column; align-items:flex-start; gap:8px; }
+      .footer-ornament { display:none; }
+      .footer-tagline { max-width:100%; }
+    }
+
+    /* ═══════════════════════════════════
+       SMALL  ≤ 390px
+    ═══════════════════════════════════ */
+    @media (max-width: 390px) {
+      .hero-h1 { font-size:2.2rem; }
+      .section-h2 { font-size:1.72rem; }
+      .process-title { font-size:1.2rem; }
+      .service-title { font-size:1.05rem; }
+    }
+  </style>
 </head>
 <body>
-<div class="cur" id="cur"></div>
-<div class="cur-r" id="curR"></div>
 
-<!-- LOADER -->
-<div id="loader">
-  <div class="ld-logo">ÁUREA <span>IMÓVEIS</span></div>
-  <div class="ld-line"></div>
-  <div class="ld-txt">Excelência em cada endereço</div>
-</div>
-
-<!-- NAV -->
-<nav id="nav">
-  <a href="#" class="n-logo">ÁUREA <span>IMÓVEIS</span></a>
-  <ul class="n-links">
-    <li><a href="#sobre">Sobre</a></li>
-    <li><a href="#imoveis">Imóveis</a></li>
-    <li><a href="#servicos">Serviços</a></li>
-    <li><a href="#depoimentos">Depoimentos</a></li>
-    <li><a href="#contato">Contato</a></li>
-  </ul>
-  <a href="#contato" class="n-cta">Agendar Visita</a>
-  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
+  <!-- ── LOADER ── -->
+  <div id="loader">
+    <div class="ld-logo">Fisioprotrainer</div>
+    <div class="ld-line"></div>
+    <div class="ld-sub">Excelência em Fisioterapia &amp; Performance</div>
   </div>
-</nav>
 
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#sobre" onclick="closeMenu()">Sobre</a>
-  <a href="#imoveis" onclick="closeMenu()">Imóveis</a>
-  <a href="#servicos" onclick="closeMenu()">Serviços</a>
-  <a href="#depoimentos" onclick="closeMenu()">Depoimentos</a>
-  <a href="#contato" onclick="closeMenu()">Contato</a>
-  <a href="#contato" class="m-cta" onclick="closeMenu()">Agendar Visita</a>
-</div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="h-bg"></div>
-  <div class="h-grid" id="hGrid"></div>
-  <div class="h-wrap">
-    <div>
-      <div class="h-eye"><div class="h-eye-line"></div><span>Imobiliária Premium · CRECI-J 12345</span></div>
-      <h1 class="h-title">O endereço<br>que você<br><span class="hl">merece</span></h1>
-      <p class="h-sub">A Áurea Imóveis conecta pessoas a imóveis de alto padrão com exclusividade, transparência e uma equipe dedicada a transformar cada busca em realização.</p>
-      <div class="h-actions">
-        <a href="#imoveis" class="btn-p"><span>Ver Imóveis</span></a>
-        <a href="#contato" class="btn-s"><div class="play"><i class="fas fa-arrow-right"></i></div><span>Fale conosco</span></a>
-      </div>
-      <div class="h-stats">
-        <div class="stat"><div class="stat-n" data-count="500">0</div><div class="stat-l">Imóveis vendidos</div></div>
-        <div class="stat"><div class="stat-n" data-count="15">0</div><div class="stat-l">Anos no mercado</div></div>
-        <div class="stat"><div class="stat-n" data-count="98">0</div><div class="stat-l">% satisfação</div></div>
-      </div>
-    </div>
-    <div class="h-vis">
-      <div class="h-sm h-sm-1"><div class="sm-lbl">Avaliação</div><div class="sm-val">⭐ 4.9</div><div class="sm-sub">+300 avaliações</div></div>
-      <div class="h-main">
-        <div class="h-card-img">
-          <img src="" alt="Cobertura Duplex" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="no-img" style="display:flex;width:100%;height:100%;align-items:center;justify-content:center"><i class="fas fa-city"></i></div>
-          <div class="h-badge">Destaque</div>
-          <div class="badge-new">NOVO</div>
-        </div>
-        <div class="h-card-body">
-          <div class="h-price">R$ 2.850.000</div>
-          <div class="h-ctitle">Cobertura Duplex Luxo</div>
-          <div class="h-cinfo"><span><i class="fas fa-vector-square"></i> 280m²</span><span><i class="fas fa-bed"></i> 4 suítes</span><span><i class="fas fa-car"></i> 3 vagas</span></div>
-        </div>
-      </div>
-      <div class="h-sm h-sm-2"><div class="sm-lbl">Negócios 2024</div><div class="sm-val">R$ 45M+</div><div class="sm-trend">↑ 28% vs anterior</div></div>
+  <!-- ── WHATSAPP BUTTON ── -->
+  <a href="https://wa.me/5518997720673" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.128.558 4.122 1.532 5.856L.054 23.447a.5.5 0 0 0 .605.605l5.595-1.477A11.946 11.946 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.938a9.924 9.924 0 0 1-5.031-1.366l-.36-.214-3.724.982.998-3.646-.234-.374A9.938 9.938 0 0 1 2.063 12C2.063 6.504 6.504 2.063 12 2.063c5.495 0 9.937 4.441 9.937 9.937 0 5.495-4.442 9.938-9.937 9.938z"/></svg>
+  </a>
+
+  <!-- ── NAVBAR ── -->
+  <nav id="navbar">
+    <a href="#inicio" class="nav-logo">
+      <div class="nav-logo-main">Fisioprotrainer</div>
+      <div class="nav-logo-sub">Excelência &amp; Performance</div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#inicio">Início</a></li>
+      <li><a href="#sobre">Sobre Nós</a></li>
+      <li><a href="#metodo">Metodologia</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+    <a href="#contato" class="nav-cta">Agendar Avaliação</a>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav" id="mobileNav">
+    <ul class="mobile-nav-list">
+      <li><a href="#inicio" class="ml">Início</a></li>
+      <li><a href="#sobre" class="ml">Sobre Nós</a></li>
+      <li><a href="#metodo" class="ml">Metodologia</a></li>
+      <li><a href="#servicos" class="ml">Serviços</a></li>
+      <li><a href="#contato" class="ml">Contato</a></li>
+    </ul>
+    <a href="#contato" class="mobile-nav-cta ml">Agendar Visita</a>
+    <div class="mobile-nav-contact">
+      <a href="tel:+551832239602">(18) 3223-9602</a>
+      <a href="tel:+5518997720673">(18) 99772-0673</a>
     </div>
   </div>
-  <div class="scroll-ind"><div class="s-line"></div><span>Scroll</span></div>
-</section>
 
-<!-- SOBRE -->
-<section id="sobre">
-  <div class="container">
-    <div class="sb-grid">
-      <div class="sb-vis rv">
-        <div class="sb-frame">
-          <div class="sb-c tl"></div><div class="sb-c br"></div>
-          <!-- Substitua src pela foto da fachada/equipe da imobiliária -->
-          <img src="" alt="Áurea Imóveis" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <i class="fas fa-building" style="display:none;font-size:7rem;color:rgba(201,168,76,.12)"></i>
+  <!-- ── HERO ── -->
+  <section class="hero" id="inicio">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-line"></div>
+    <div class="hero-line"></div>
+    <div class="hero-line"></div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-eyebrow">
+          <div class="hero-eyebrow-line"></div>
+          <span>Presidente Prudente · SP</span>
         </div>
-        <div class="sb-badge"><div class="n">15</div><div class="t">ANOS DE<br>MERCADO</div></div>
-      </div>
-      <div>
-        <div class="s-eye rv"><div class="s-eye-l"></div><span>Quem somos</span></div>
-        <h2 class="s-title rv rv-1">Uma imobiliária<br>construída sobre<br><em class="hl">confiança</em></h2>
-        <p class="s-sub rv rv-2" style="margin-bottom:18px">A Áurea Imóveis nasceu da crença de que cada imóvel carrega uma história — e que encontrar o lar certo transforma vidas. Com 15 anos de atuação no mercado de alto padrão, reunimos uma equipe de especialistas dedicados a superar expectativas.</p>
-        <p class="s-sub rv rv-2" style="font-size:.84rem">Da primeira visita à assinatura do contrato, estamos ao seu lado com atendimento personalizado, análise de mercado precisa e uma carteira exclusiva dos imóveis mais desejados da cidade.</p>
-        <div class="sb-feats rv rv-3">
-          <div class="feat"><div class="feat-ic"><i class="fas fa-shield-alt"></i></div><div class="feat-t"><h4>CRECI-J Ativo</h4><p>Registro de imobiliária regularizado</p></div></div>
-          <div class="feat"><div class="feat-ic"><i class="fas fa-trophy"></i></div><div class="feat-t"><h4>Top Imobiliária</h4><p>Premiada entre as melhores do estado</p></div></div>
-          <div class="feat"><div class="feat-ic"><i class="fas fa-handshake"></i></div><div class="feat-t"><h4>500+ negócios</h4><p>Histórico comprovado de resultados</p></div></div>
-          <div class="feat"><div class="feat-ic"><i class="fas fa-users"></i></div><div class="feat-t"><h4>Equipe dedicada</h4><p>Especialistas em alto padrão</p></div></div>
+        <h1 class="hero-h1">
+          <span class="lb"><span>Mantenha</span></span>
+          <span class="lb"><span>sua <em>melhor</em></span></span>
+          <span class="lb"><span>versão</span></span>
+        </h1>
+        <p class="hero-p">Fisioterapia de elite com tecnologia de última geração e atendimento completamente individualizado. Porque você merece o melhor de si mesmo.</p>
+        <div class="hero-actions">
+          <a href="#contato" class="btn-primary"><span>Agendar Avaliação</span></a>
+          <a href="#sobre" class="btn-secondary"><span class="arrow"></span>Conheça a clínica</a>
         </div>
       </div>
+      <div class="hero-panel">
+        <div class="hero-panel-frame">
+          <div class="hero-stat-grid">
+            <div class="hero-stat"><div class="hero-stat-num">100<sup>%</sup></div><div class="hero-stat-label">Atendimento<br>Individualizado</div></div>
+            <div class="hero-stat"><div class="hero-stat-num">+15</div><div class="hero-stat-label">Anos de<br>Excelência</div></div>
+            <div class="hero-stat"><div class="hero-stat-num">Alta</div><div class="hero-stat-label">Tecnologia em<br>Equipamentos</div></div>
+            <div class="hero-stat"><div class="hero-stat-num">Top</div><div class="hero-stat-label">Referência na<br>Cidade</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span class="scroll-text">Role para baixo</span>
+    </div>
+  </section>
+
+  <!-- ── MARQUEE ── -->
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <div class="marquee-item">Fisioterapia de Elite <span class="sep"></span></div>
+      <div class="marquee-item">Ciência Esportiva <span class="sep"></span></div>
+      <div class="marquee-item">Treinamento Individualizado <span class="sep"></span></div>
+      <div class="marquee-item">Prevenção &amp; Reabilitação <span class="sep"></span></div>
+      <div class="marquee-item">100% Você <span class="sep"></span></div>
+      <div class="marquee-item">Última Geração <span class="sep"></span></div>
+      <div class="marquee-item">Fisioterapia de Elite <span class="sep"></span></div>
+      <div class="marquee-item">Ciência Esportiva <span class="sep"></span></div>
+      <div class="marquee-item">Treinamento Individualizado <span class="sep"></span></div>
+      <div class="marquee-item">Prevenção &amp; Reabilitação <span class="sep"></span></div>
+      <div class="marquee-item">100% Você <span class="sep"></span></div>
+      <div class="marquee-item">Última Geração <span class="sep"></span></div>
     </div>
   </div>
-</section>
 
-<!-- IMÓVEIS -->
-<section id="imoveis">
-  <div class="container">
-    <div class="im-tabs-wrap rv">
-      <div>
-        <div class="s-eye"><div class="s-eye-l"></div><span>Portfólio</span></div>
-        <h2 class="s-title">Imóveis em <em class="hl">destaque</em></h2>
-      </div>
-      <div class="im-tabs">
-        <button class="im-tab act" onclick="switchTab(this,'venda')">
-          <i class="fas fa-key" style="margin-right:6px;font-size:.65rem"></i>Venda<span class="tab-count">4</span>
-        </button>
-        <button class="im-tab" onclick="switchTab(this,'aluguel')">
-          <i class="fas fa-home" style="margin-right:6px;font-size:.65rem"></i>Aluguel<span class="tab-count">3</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- PANE VENDA -->
-    <div class="im-pane act" id="pane-venda">
-      <div class="im-grid">
-        <div class="im-card featured rv" onclick="openModal('v1')">
-          <div class="c-img-wrap">
-            <img src="" alt="Cobertura Jardins" onerror="this.parentElement.querySelector('.no-photo').style.display='flex'">
-            <div class="no-photo" style="display:none;height:300px"><i class="fas fa-city"></i></div>
-            <div class="c-ov"></div>
-            <div class="c-acts">
-              <div class="c-ab" onclick="event.stopPropagation();openModal('v1')"><i class="fas fa-expand"></i></div>
-              <div class="c-ab" onclick="event.stopPropagation();openWA('Cobertura Jardins')"><i class="fab fa-whatsapp"></i></div>
-            </div>
-            <span class="c-type-badge bt-sale">Venda</span>
-            <span class="bt-new">Lançamento</span>
-            <div class="photo-count"><i class="fas fa-camera"></i> 8 fotos</div>
-          </div>
-          <div class="c-body">
-            <div class="c-price">R$ 3.200.000</div>
-            <div class="c-title">Cobertura Alto Padrão com Vista Panorâmica</div>
-            <div class="c-loc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Jardins, São Paulo</div>
-            <div class="c-div"></div>
-            <div class="c-specs">
-              <div class="sp"><i class="fas fa-vector-square"></i> 320m²</div>
-              <div class="sp"><i class="fas fa-bed"></i> 4 suítes</div>
-              <div class="sp"><i class="fas fa-bath"></i> 5 ban.</div>
-              <div class="sp"><i class="fas fa-car"></i> 4 vagas</div>
-            </div>
-            <div class="c-cta">
-              <button class="c-btn-detail" onclick="event.stopPropagation();openModal('v1')"><i class="fas fa-search-plus" style="margin-right:5px"></i>Ver detalhes</button>
-              <button class="c-btn-wa" onclick="event.stopPropagation();openWA('Cobertura Jardins')"><i class="fab fa-whatsapp"></i></button>
-            </div>
-          </div>
+  <!-- ── ABOUT ── -->
+  <section class="about" id="sobre">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-visual reveal">
+          <div class="about-accent"></div>
+          <div class="about-visual-main"><div class="about-symbol">F</div></div>
+          <div class="about-badge"><div class="about-badge-num">Nº1</div><div class="about-badge-label">Referência<br>na Região</div></div>
         </div>
-
-        <div class="im-card rv rv-1" onclick="openModal('v2')">
-          <div class="c-img-wrap">
-            <img src="" alt="Garden Moema" onerror="this.parentElement.querySelector('.no-photo').style.display='flex'">
-            <div class="no-photo" style="display:none;height:220px"><i class="fas fa-building"></i></div>
-            <div class="c-ov"></div>
-            <div class="c-acts">
-              <div class="c-ab" onclick="event.stopPropagation();openModal('v2')"><i class="fas fa-expand"></i></div>
-              <div class="c-ab" onclick="event.stopPropagation();openWA('Garden Moema')"><i class="fab fa-whatsapp"></i></div>
-            </div>
-            <span class="c-type-badge bt-sale">Venda</span>
-            <div class="photo-count"><i class="fas fa-camera"></i> 6 fotos</div>
-          </div>
-          <div class="c-body">
-            <div class="c-price">R$ 1.890.000</div>
-            <div class="c-title">Apartamento Garden Premium</div>
-            <div class="c-loc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Moema, São Paulo</div>
-            <div class="c-div"></div>
-            <div class="c-specs"><div class="sp"><i class="fas fa-vector-square"></i> 180m²</div><div class="sp"><i class="fas fa-bed"></i> 3 suítes</div><div class="sp"><i class="fas fa-car"></i> 2 vagas</div></div>
-            <div class="c-cta">
-              <button class="c-btn-detail" onclick="event.stopPropagation();openModal('v2')"><i class="fas fa-search-plus" style="margin-right:5px"></i>Ver detalhes</button>
-              <button class="c-btn-wa" onclick="event.stopPropagation();openWA('Garden Moema')"><i class="fab fa-whatsapp"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <div class="im-card rv rv-2" onclick="openModal('v3')">
-          <div class="c-img-wrap">
-            <img src="" alt="Loft Itaim" onerror="this.parentElement.querySelector('.no-photo').style.display='flex'">
-            <div class="no-photo" style="display:none;height:220px"><i class="fas fa-landmark"></i></div>
-            <div class="c-ov"></div>
-            <div class="c-acts">
-              <div class="c-ab" onclick="event.stopPropagation();openModal('v3')"><i class="fas fa-expand"></i></div>
-              <div class="c-ab" onclick="event.stopPropagation();openWA('Loft Itaim')"><i class="fab fa-whatsapp"></i></div>
-            </div>
-            <span class="c-type-badge bt-sale">Venda</span>
-            <div class="photo-count"><i class="fas fa-camera"></i> 5 fotos</div>
-          </div>
-          <div class="c-body">
-            <div class="c-price">R$ 2.100.000</div>
-            <div class="c-title">Loft Contemporâneo com Terraço</div>
-            <div class="c-loc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Itaim Bibi, São Paulo</div>
-            <div class="c-div"></div>
-            <div class="c-specs"><div class="sp"><i class="fas fa-vector-square"></i> 210m²</div><div class="sp"><i class="fas fa-bed"></i> 2 suítes</div><div class="sp"><i class="fas fa-car"></i> 2 vagas</div></div>
-            <div class="c-cta">
-              <button class="c-btn-detail" onclick="event.stopPropagation();openModal('v3')"><i class="fas fa-search-plus" style="margin-right:5px"></i>Ver detalhes</button>
-              <button class="c-btn-wa" onclick="event.stopPropagation();openWA('Loft Itaim')"><i class="fab fa-whatsapp"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <div class="im-card rv rv-3" onclick="openModal('v4')">
-          <div class="c-img-wrap">
-            <img src="" alt="Casa Alphaville" onerror="this.parentElement.querySelector('.no-photo').style.display='flex'">
-            <div class="no-photo" style="display:none;height:220px"><i class="fas fa-home"></i></div>
-            <div class="c-ov"></div>
-            <div class="c-acts">
-              <div class="c-ab" onclick="event.stopPropagation();openModal('v4')"><i class="fas fa-expand"></i></div>
-              <div class="c-ab" onclick="event.stopPropagation();openWA('Casa Alphaville')"><i class="fab fa-whatsapp"></i></div>
-            </div>
-            <span class="c-type-badge bt-sale">Venda</span>
-            <span class="bt-new">Exclusivo</span>
-            <div class="photo-count"><i class="fas fa-camera"></i> 10 fotos</div>
-          </div>
-          <div class="c-body">
-            <div class="c-price">R$ 4.500.000</div>
-            <div class="c-title">Casa de Alto Padrão em Condomínio</div>
-            <div class="c-loc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Alphaville, SP</div>
-            <div class="c-div"></div>
-            <div class="c-specs"><div class="sp"><i class="fas fa-vector-square"></i> 520m²</div><div class="sp"><i class="fas fa-bed"></i> 5 suítes</div><div class="sp"><i class="fas fa-car"></i> 4 vagas</div></div>
-            <div class="c-cta">
-              <button class="c-btn-detail" onclick="event.stopPropagation();openModal('v4')"><i class="fas fa-search-plus" style="margin-right:5px"></i>Ver detalhes</button>
-              <button class="c-btn-wa" onclick="event.stopPropagation();openWA('Casa Alphaville')"><i class="fab fa-whatsapp"></i></button>
-            </div>
+        <div>
+          <div class="section-label reveal"><div class="section-label-line"></div><span>Sobre a Clínica</span></div>
+          <h2 class="section-h2 reveal rd1">Onde a <em>ciência</em><br>encontra o cuidado</h2>
+          <p class="about-p reveal rd2">A Fisioprotrainer é referência em fisioterapia e performance esportiva em Presidente Prudente. Nossa missão é elevar a qualidade de vida de cada paciente com base científica sólida, tecnologia avançada e um olhar único para a individualidade de cada corpo.</p>
+          <p class="about-p reveal rd3">Localizada no Jardim Paulistano, nossa clínica oferece estrutura completa com estacionamento próprio, ambiente climatizado e o suporte que você merece para atingir sua melhor versão.</p>
+          <div class="about-features reveal rd4">
+            <div class="about-feature"><div class="feature-icon">⚡</div><div><div class="feature-title">Alta Tecnologia</div><div class="feature-desc">Equipamentos de última geração para resultados excepcionais</div></div></div>
+            <div class="about-feature"><div class="feature-icon">☕</div><div><div class="feature-title">Acolhimento Total</div><div class="feature-desc">Café e frutas disponíveis para seu desjejum saudável</div></div></div>
+            <div class="about-feature"><div class="feature-icon">🅿</div><div><div class="feature-title">Estacionamento</div><div class="feature-desc">Estacionamento próprio com comodidade e segurança</div></div></div>
+            <div class="about-feature"><div class="feature-icon">★</div><div><div class="feature-title">Equipe Elite</div><div class="feature-desc">Profissionais altamente qualificados e dedicados</div></div></div>
           </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- PANE ALUGUEL -->
-    <div class="im-pane" id="pane-aluguel">
-      <div class="im-grid">
-        <div class="im-card featured rv" onclick="openModal('a1')">
-          <div class="c-img-wrap">
-            <img src="" alt="Casa Alphaville Aluguel" onerror="this.parentElement.querySelector('.no-photo').style.display='flex'">
-            <div class="no-photo" style="display:none;height:300px"><i class="fas fa-swimming-pool"></i></div>
-            <div class="c-ov"></div>
-            <div class="c-acts">
-              <div class="c-ab" onclick="event.stopPropagation();openModal('a1')"><i class="fas fa-expand"></i></div>
-              <div class="c-ab" onclick="event.stopPropagation();openWA('Casa Aluguel Alphaville')"><i class="fab fa-whatsapp"></i></div>
-            </div>
-            <span class="c-type-badge bt-rent">Aluguel</span>
-            <span class="bt-new">Disponível</span>
-            <div class="photo-count"><i class="fas fa-camera"></i> 9 fotos</div>
-          </div>
-          <div class="c-body">
-            <div class="c-price">R$ 18.000<small style="font-size:.76rem;color:var(--gr)">/mês</small></div>
-            <div class="c-title">Casa em Condomínio Fechado com Piscina</div>
-            <div class="c-loc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Alphaville, SP</div>
-            <div class="c-div"></div>
-            <div class="c-specs">
-              <div class="sp"><i class="fas fa-vector-square"></i> 420m²</div>
-              <div class="sp"><i class="fas fa-bed"></i> 5 suítes</div>
-              <div class="sp"><i class="fas fa-bath"></i> 6 ban.</div>
-              <div class="sp"><i class="fas fa-car"></i> 4 vagas</div>
-            </div>
-            <div class="c-cta">
-              <button class="c-btn-detail" onclick="event.stopPropagation();openModal('a1')"><i class="fas fa-search-plus" style="margin-right:5px"></i>Ver detalhes</button>
-              <button class="c-btn-wa" onclick="event.stopPropagation();openWA('Casa Alphaville Aluguel')"><i class="fab fa-whatsapp"></i></button>
-            </div>
-          </div>
+  <!-- ── PROCESS ── -->
+  <section class="process" id="metodo">
+    <div class="section-inner">
+      <div class="process-header">
+        <div>
+          <div class="section-label reveal"><div class="section-label-line"></div><span>Nossa Metodologia</span></div>
+          <h2 class="section-h2 reveal rd1">Ciência esportiva<br>+ <em>individualização</em></h2>
         </div>
-
-        <div class="im-card rv rv-1" onclick="openModal('a2')">
-          <div class="c-img-wrap">
-            <img src="" alt="Apto Pinheiros" onerror="this.parentElement.querySelector('.no-photo').style.display='flex'">
-            <div class="no-photo" style="display:none;height:220px"><i class="fas fa-building"></i></div>
-            <div class="c-ov"></div>
-            <div class="c-acts">
-              <div class="c-ab" onclick="event.stopPropagation();openModal('a2')"><i class="fas fa-expand"></i></div>
-              <div class="c-ab" onclick="event.stopPropagation();openWA('Apto Pinheiros')"><i class="fab fa-whatsapp"></i></div>
-            </div>
-            <span class="c-type-badge bt-rent">Aluguel</span>
-            <div class="photo-count"><i class="fas fa-camera"></i> 7 fotos</div>
-          </div>
-          <div class="c-body">
-            <div class="c-price">R$ 8.500<small style="font-size:.76rem;color:var(--gr)">/mês</small></div>
-            <div class="c-title">Apartamento Moderno Mobiliado</div>
-            <div class="c-loc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Pinheiros, São Paulo</div>
-            <div class="c-div"></div>
-            <div class="c-specs"><div class="sp"><i class="fas fa-vector-square"></i> 120m²</div><div class="sp"><i class="fas fa-bed"></i> 2 suítes</div><div class="sp"><i class="fas fa-car"></i> 2 vagas</div></div>
-            <div class="c-cta">
-              <button class="c-btn-detail" onclick="event.stopPropagation();openModal('a2')"><i class="fas fa-search-plus" style="margin-right:5px"></i>Ver detalhes</button>
-              <button class="c-btn-wa" onclick="event.stopPropagation();openWA('Apto Pinheiros')"><i class="fab fa-whatsapp"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <div class="im-card rv rv-2" onclick="openModal('a3')">
-          <div class="c-img-wrap">
-            <img src="" alt="Flat Vila Olímpia" onerror="this.parentElement.querySelector('.no-photo').style.display='flex'">
-            <div class="no-photo" style="display:none;height:220px"><i class="fas fa-city"></i></div>
-            <div class="c-ov"></div>
-            <div class="c-acts">
-              <div class="c-ab" onclick="event.stopPropagation();openModal('a3')"><i class="fas fa-expand"></i></div>
-              <div class="c-ab" onclick="event.stopPropagation();openWA('Flat Vila Olímpia')"><i class="fab fa-whatsapp"></i></div>
-            </div>
-            <span class="c-type-badge bt-rent">Aluguel</span>
-            <span class="bt-new">Novo</span>
-            <div class="photo-count"><i class="fas fa-camera"></i> 5 fotos</div>
-          </div>
-          <div class="c-body">
-            <div class="c-price">R$ 12.000<small style="font-size:.76rem;color:var(--gr)">/mês</small></div>
-            <div class="c-title">Flat de Luxo com Serviços Inclusos</div>
-            <div class="c-loc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Vila Olímpia, São Paulo</div>
-            <div class="c-div"></div>
-            <div class="c-specs"><div class="sp"><i class="fas fa-vector-square"></i> 160m²</div><div class="sp"><i class="fas fa-bed"></i> 3 suítes</div><div class="sp"><i class="fas fa-car"></i> 2 vagas</div></div>
-            <div class="c-cta">
-              <button class="c-btn-detail" onclick="event.stopPropagation();openModal('a3')"><i class="fas fa-search-plus" style="margin-right:5px"></i>Ver detalhes</button>
-              <button class="c-btn-wa" onclick="event.stopPropagation();openWA('Flat Vila Olímpia')"><i class="fab fa-whatsapp"></i></button>
-            </div>
-          </div>
-        </div>
+        <p class="process-subtitle reveal rd2">Cada corpo é único. Desenvolvemos um protocolo exclusivo que combina avaliação precisa, nutrição adequada e treinamento específico para resultados extraordinários com segurança.</p>
+      </div>
+      <div class="process-steps">
+        <div class="process-step reveal"><div class="process-num">01</div><div class="process-label">Prevenção</div><h3 class="process-title">Check-Up Completo</h3><p class="process-desc">Antes de qualquer treino, avaliamos seu estado de saúde com rigor científico. Profissionais especializados identificam suas necessidades e potencialidades para um plano verdadeiramente personalizado.</p></div>
+        <div class="process-step reveal rd1"><div class="process-num">02</div><div class="process-label">Alimentação</div><h3 class="process-title">Você É o Que Come</h3><p class="process-desc">Uma dieta adequada é a base de qualquer resultado. Orientamos uma alimentação equilibrada que potencializa não só o desempenho nos treinos, mas toda a sua saúde.</p></div>
+        <div class="process-step reveal rd2"><div class="process-num">03</div><div class="process-label">Especificidade</div><h3 class="process-title">Evite Lesões</h3><p class="process-desc">Treinamentos físicos constantes exigem estímulos musculares específicos e periodização adequada, monitorados por especialistas para máxima performance e prevenção.</p></div>
       </div>
     </div>
+  </section>
 
-    <div style="text-align:center;margin-top:40px" class="rv">
-      <a href="#contato" class="btn-p"><span>Solicitar imóvel específico</span></a>
-    </div>
-  </div>
-</section>
-
-<!-- MODAL -->
-<div class="modal-bg" id="modalBg" onclick="handleBgClick(event)">
-  <div class="modal" id="modalBox">
-    <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
-    <div class="gallery">
-      <div class="gallery-slides" id="galSlides"></div>
-      <button class="gal-btn gal-prev" onclick="galMove(-1)"><i class="fas fa-chevron-left"></i></button>
-      <button class="gal-btn gal-next" onclick="galMove(1)"><i class="fas fa-chevron-right"></i></button>
-      <div class="gal-dots" id="galDots"></div>
-      <div class="gal-count" id="galCount">1 / 1</div>
-      <div class="gal-type" id="galType"></div>
-    </div>
-    <div class="gal-thumbs" id="galThumbs"></div>
-    <div class="modal-body">
-      <div class="modal-left">
-        <div class="modal-eyebrow">
-          <span class="m-badge" id="mBadge"></span>
-          <span class="m-status" id="mStatus"></span>
-        </div>
-        <div class="modal-price" id="mPrice"></div>
-        <div class="modal-title" id="mTitle"></div>
-        <div class="modal-location" id="mLoc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i><span></span></div>
-        <div class="modal-specs" id="mSpecs"></div>
-        <div class="modal-section-title" style="margin-top:24px">Sobre o imóvel</div>
-        <div class="modal-desc" id="mDesc"></div>
-        <div class="modal-section-title">Diferenciais</div>
-        <div class="modal-features" id="mFeats"></div>
-      </div>
-      <div class="modal-right">
-        <!-- CARD DA IMOBILIÁRIA -->
-        <div class="modal-agent">
-          <div class="agent-header">
-            <div class="agent-avatar">
-              <!-- Logo da Áurea — substitua src por logo real -->
-              <img src="" alt="Áurea Imóveis" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-              <span class="agent-logo-text" style="display:none">Á·I</span>
-            </div>
-            <div>
-              <div class="agent-name">Áurea Imóveis</div>
-              <div class="agent-role">Imobiliária Premium</div>
-              <div class="agent-creci">CRECI-J 12345 · São Paulo – SP</div>
-            </div>
-          </div>
-          <div class="agent-btns">
-            <a href="https://wa.me/5511999999999" class="abtn abtn-wa" target="_blank"><i class="fab fa-whatsapp"></i> Falar no WhatsApp</a>
-            <a href="tel:+5511999999999" class="abtn abtn-tel"><i class="fas fa-phone-alt"></i> (11) 99999-9999</a>
-          </div>
-        </div>
-        <!-- FORMULÁRIO DE PROPOSTA -->
-        <div class="modal-form">
-          <div class="mform-title"><i class="fas fa-file-signature" style="margin-right:6px"></i>Enviar Proposta</div>
-          <div id="mFormContent">
-            <div class="mfg"><label>Seu nome</label><input type="text" id="mNome" placeholder="Nome completo"></div>
-            <div class="mfg"><label>Telefone / WhatsApp</label><input type="tel" id="mTel" placeholder="(11) 99999-9999"></div>
-            <div class="mfg"><label>E-mail</label><input type="email" id="mEmail" placeholder="seu@email.com"></div>
-            <div class="mfg"><label>Tipo de proposta</label>
-              <select id="mTipo">
-                <option value="">Selecione...</option>
-                <option>Proposta de compra</option>
-                <option>Proposta de locação</option>
-                <option>Agendar uma visita</option>
-                <option>Solicitar mais informações</option>
-              </select>
-            </div>
-            <div class="mfg"><label>Mensagem</label><textarea id="mMsg" placeholder="Sua proposta ou dúvida..."></textarea></div>
-            <button class="mf-btn" onclick="sendProposta()"><i class="fas fa-paper-plane"></i> Enviar Proposta</button>
-          </div>
-          <div class="mf-ok" id="mFormOk">
-            <i class="fas fa-check-circle"></i>
-            <h4>Proposta enviada!</h4>
-            <p>A Áurea Imóveis entrará em contato em breve.</p>
-          </div>
-        </div>
+  <!-- ── QUOTE ── -->
+  <div class="quote-section">
+    <div class="quote-bg"></div>
+    <div class="quote-inner">
+      <span class="quote-ornament">"</span>
+      <p class="quote-text reveal">Porque <em>ciência esportiva</em> + individualização<br>= 100% <em>você</em></p>
+      <div class="quote-meta reveal rd1">
+        <div class="quote-divider"></div>
+        <span class="quote-author">Fisioprotrainer</span>
+        <span class="quote-role">Filosofia de atendimento</span>
       </div>
     </div>
   </div>
-</div>
 
-<!-- SERVIÇOS -->
-<section id="servicos">
-  <div class="container">
-    <div style="max-width:520px" class="rv">
-      <div class="s-eye"><div class="s-eye-l"></div><span>O que oferecemos</span></div>
-      <h2 class="s-title">Serviços <em class="hl">completos</em><br>do início ao fim</h2>
+  <!-- ── SERVICES ── -->
+  <section class="services" id="servicos">
+    <div class="section-inner">
+      <div class="section-label reveal"><div class="section-label-line"></div><span>Nossos Serviços</span></div>
+      <h2 class="section-h2 reveal rd1" style="max-width:700px;margin-bottom:8px;">Tratamentos de <em>excelência</em><br>para cada necessidade</h2>
+      <div class="services-grid">
+        <div class="service-card reveal"><div class="service-num">01 ·</div><div class="service-icon">🏃</div><h3 class="service-title">Fisioterapia Esportiva</h3><p class="service-desc">Reabilitação e performance para atletas e praticantes de atividade física, com protocolos baseados em evidências científicas.</p></div>
+        <div class="service-card reveal rd1"><div class="service-num">02 ·</div><div class="service-icon">💪</div><h3 class="service-title">Treinamento Funcional</h3><p class="service-desc">Plano profissional de treino 100% individualizado, prescrito por especialistas respeitando cada biotipo e objetivo pessoal.</p></div>
+        <div class="service-card reveal rd2"><div class="service-num">03 ·</div><div class="service-icon">🔬</div><h3 class="service-title">Avaliação Científica</h3><p class="service-desc">Check-up completo com equipamentos de ponta para diagnóstico preciso e elaboração do protocolo ideal para o seu corpo.</p></div>
+        <div class="service-card reveal rd3"><div class="service-num">04 ·</div><div class="service-icon">🌿</div><h3 class="service-title">Reabilitação &amp; Prevenção</h3><p class="service-desc">Recuperação de lesões e prevenção de novas ocorrências através de metodologias específicas e acompanhamento contínuo.</p></div>
+      </div>
     </div>
-    <div class="sv-grid rv rv-1">
-      <div class="sv-item"><div class="sv-n">01</div><div class="sv-ic"><i class="fas fa-search"></i></div><h3 class="sv-t">Busca Personalizada</h3><p class="sv-d">Identificamos imóveis que correspondem exatamente ao seu perfil, estilo de vida e investimento pretendido.</p></div>
-      <div class="sv-item"><div class="sv-n">02</div><div class="sv-ic"><i class="fas fa-chart-line"></i></div><h3 class="sv-t">Avaliação de Mercado</h3><p class="sv-d">Análise criteriosa do valor real do imóvel com base nos índices atualizados do mercado imobiliário.</p></div>
-      <div class="sv-item"><div class="sv-n">03</div><div class="sv-ic"><i class="fas fa-file-contract"></i></div><h3 class="sv-t">Assessoria Jurídica</h3><p class="sv-d">Suporte completo na documentação, contratos e legalidade da transação com total segurança jurídica.</p></div>
-      <div class="sv-item"><div class="sv-n">04</div><div class="sv-ic"><i class="fas fa-landmark"></i></div><h3 class="sv-t">Financiamento</h3><p class="sv-d">Negociamos as melhores condições de crédito com os principais bancos e financeiras do mercado.</p></div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- DEPOIMENTOS -->
-<section id="depoimentos">
-  <div class="container">
-    <div class="s-eye rv"><div class="s-eye-l"></div><span>Depoimentos</span></div>
-    <h2 class="s-title rv rv-1">O que dizem<br>nossos <em class="hl">clientes</em></h2>
-  </div>
-  <div class="dp-track">
-    <div class="dp-slider">
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">A Áurea Imóveis foi extraordinária em todo o processo. Encontraram exatamente o que procurávamos e cuidaram de cada detalhe com profissionalismo impecável.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">AR</div><div><div class="dp-name">Ana Rodrigues</div><div class="dp-role">Compradora · Jardins</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">Em menos de 30 dias meu apartamento foi vendido pelo valor que eu queria. A estratégia da Áurea é simplesmente excepcional no mercado.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">CM</div><div><div class="dp-name">Carlos Mendes</div><div class="dp-role">Vendedor · Moema</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">Serviço premium do começo ao fim. A Áurea não vende imóvel, realiza sonhos. Recomendo de olhos fechados para quem busca qualidade.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">FS</div><div><div class="dp-name">Fernanda Santos</div><div class="dp-role">Investidora · Alphaville</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">A tranquilidade que a equipe da Áurea me transmitiu durante o financiamento foi fundamental. Uma imobiliária rara no mercado atual.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">RL</div><div><div class="dp-name">Roberto Lima</div><div class="dp-role">Comprador · Itaim Bibi</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">Segunda transação com a Áurea e ainda melhor que a primeira. Honestidade, agilidade e resultado garantido. A única imobiliária que indico.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">PC</div><div><div class="dp-name">Patrícia Costa</div><div class="dp-role">Cliente fiel · Vila Olímpia</div></div></div></div>
-      <!-- duplicados loop -->
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">A Áurea Imóveis foi extraordinária em todo o processo. Encontraram exatamente o que procurávamos e cuidaram de cada detalhe com profissionalismo impecável.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">AR</div><div><div class="dp-name">Ana Rodrigues</div><div class="dp-role">Compradora · Jardins</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">Em menos de 30 dias meu apartamento foi vendido pelo valor que eu queria. A estratégia da Áurea é simplesmente excepcional no mercado.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">CM</div><div><div class="dp-name">Carlos Mendes</div><div class="dp-role">Vendedor · Moema</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">Serviço premium do começo ao fim. A Áurea não vende imóvel, realiza sonhos. Recomendo de olhos fechados para quem busca qualidade.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">FS</div><div><div class="dp-name">Fernanda Santos</div><div class="dp-role">Investidora · Alphaville</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">A tranquilidade que a equipe da Áurea me transmitiu durante o financiamento foi fundamental. Uma imobiliária rara no mercado atual.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">RL</div><div><div class="dp-name">Roberto Lima</div><div class="dp-role">Comprador · Itaim Bibi</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">Segunda transação com a Áurea e ainda melhor que a primeira. Honestidade, agilidade e resultado garantido. A única imobiliária que indico.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">PC</div><div><div class="dp-name">Patrícia Costa</div><div class="dp-role">Cliente fiel · Vila Olímpia</div></div></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTATO -->
-<section id="contato">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:48px" class="rv">
-      <div class="s-eye" style="justify-content:center"><div class="s-eye-l"></div><span>Contato</span><div class="s-eye-l"></div></div>
-      <h2 class="s-title">Encontre seu <em class="hl">endereço</em><br>dos sonhos conosco</h2>
-    </div>
-    <div class="ct-grid">
-      <div class="rv">
-        <p class="s-sub">Nossa equipe está pronta para te ajudar a realizar o melhor negócio da sua vida. Entre em contato pelo canal de sua preferência.</p>
-        <div class="channels">
-          <a href="https://wa.me/5511999999999" class="channel" target="_blank"><div class="ch-ic"><i class="fab fa-whatsapp"></i></div><div class="ch-t"><label>WhatsApp</label><span>(11) 99999-9999</span></div><i class="fas fa-arrow-right" style="margin-left:auto;color:var(--gold);font-size:.72rem"></i></a>
-          <a href="tel:+5511999999999" class="channel"><div class="ch-ic"><i class="fas fa-phone-alt"></i></div><div class="ch-t"><label>Telefone</label><span>(11) 99999-9999</span></div><i class="fas fa-arrow-right" style="margin-left:auto;color:var(--gold);font-size:.72rem"></i></a>
-          <a href="mailto:contato@aureaimoveis.com.br" class="channel"><div class="ch-ic"><i class="fas fa-envelope"></i></div><div class="ch-t"><label>E-mail</label><span>contato@aureaimoveis.com.br</span></div><i class="fas fa-arrow-right" style="margin-left:auto;color:var(--gold);font-size:.72rem"></i></a>
-          <a href="https://instagram.com/aureaimoveis" class="channel" target="_blank"><div class="ch-ic"><i class="fab fa-instagram"></i></div><div class="ch-t"><label>Instagram</label><span>@aureaimoveis</span></div><i class="fas fa-arrow-right" style="margin-left:auto;color:var(--gold);font-size:.72rem"></i></a>
+  <!-- ── CONTACT ── -->
+  <section class="contact" id="contato">
+    <div class="section-inner">
+      <div class="section-label reveal"><div class="section-label-line"></div><span>Entre em Contato</span></div>
+      <h2 class="section-h2 reveal rd1">Agende sua <em>visita</em></h2>
+      <div class="contact-grid">
+        <div class="contact-info-block">
+          <div class="reveal rd1"><div class="contact-info-label">Endereço</div><div class="contact-info-value">Rua Assis Chateaubriand, nº 85<br>Jardim Paulistano<br>Presidente Prudente — SP</div></div>
+          <div class="reveal rd2"><div class="contact-info-label">Telefone</div><div class="contact-info-value"><a href="tel:+551832239602">(18) 3223-9602</a><br><a href="tel:+5518997720673">(18) 99772-0673</a></div></div>
+          <div class="reveal rd3"><div class="contact-info-label">E-mail</div><div class="contact-info-value"><a href="mailto:luciana.tavares@fisioprotrainer.com">luciana.tavares@fisioprotrainer.com</a></div></div>
+          <div class="reveal rd4"><div class="contact-info-label">Estacionamento</div><div class="contact-info-value">Estacionamento próprio disponível<br>para todos os pacientes</div></div>
+        </div>
+        <div class="reveal rd2">
+          <form class="contact-form" onsubmit="handleSubmit(event)">
+            <div class="form-row">
+              <div><label class="form-label">Nome</label><input type="text" class="form-input" placeholder="Seu nome completo" /></div>
+              <div><label class="form-label">Telefone</label><input type="tel" class="form-input" placeholder="(18) 9xxxx-xxxx" /></div>
+            </div>
+            <div><label class="form-label">E-mail</label><input type="email" class="form-input" placeholder="seu@email.com" /></div>
+            <div><label class="form-label">Mensagem</label><textarea class="form-textarea" placeholder="Como podemos ajudá-lo?"></textarea></div>
+            <button type="submit" class="form-submit"><span>Enviar Mensagem →</span></button>
+          </form>
         </div>
       </div>
-      <div class="rv rv-2">
-        <div id="formContent">
-          <div class="fr"><div class="fg"><label>Nome</label><input type="text" id="nome" placeholder="Seu nome"></div><div class="fg"><label>Telefone</label><input type="tel" id="tel" placeholder="(11) 99999-9999"></div></div>
-          <div class="fg"><label>E-mail</label><input type="email" id="email" placeholder="seu@email.com"></div>
-          <div class="fg"><label>Interesse</label><select id="interesse"><option value="">Selecione...</option><option>Comprar um imóvel</option><option>Vender meu imóvel</option><option>Alugar um imóvel</option><option>Avaliar meu imóvel</option><option>Investir em imóveis</option></select></div>
-          <div class="fg"><label>Mensagem</label><textarea id="msg" placeholder="Conte o que você procura..."></textarea></div>
-          <button class="f-btn" onclick="sendForm()"><i class="fas fa-paper-plane"></i> Enviar mensagem</button>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo-main">Fisioprotrainer</div>
+          <div class="footer-logo-sub">Excelência em Fisioterapia &amp; Performance</div>
+          <p class="footer-tagline">Transformando vidas através da ciência do movimento e do cuidado individualizado.</p>
         </div>
-        <div class="f-ok" id="fOk"><i class="fas fa-check-circle"></i><h3>Mensagem enviada!</h3><p>A Áurea Imóveis entrará em contato em breve.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="ft-grid">
-      <div class="ft-brand">
-        <div class="ft-logo">ÁUREA <span>IMÓVEIS</span></div>
-        <div class="ft-tagline">Excelência em cada endereço</div>
-        <p>Imobiliária premium com 15 anos de experiência no mercado de alto padrão. Conectamos pessoas aos melhores endereços com exclusividade e transparência.</p>
-        <div class="ft-soc">
-          <a href="#" class="soc"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="soc"><i class="fab fa-linkedin-in"></i></a>
-          <a href="#" class="soc"><i class="fab fa-whatsapp"></i></a>
-          <a href="#" class="soc"><i class="fab fa-youtube"></i></a>
+        <div>
+          <div class="footer-links-title">Navegação</div>
+          <ul class="footer-links">
+            <li><a href="#inicio">Início</a></li>
+            <li><a href="#sobre">Sobre Nós</a></li>
+            <li><a href="#metodo">Metodologia</a></li>
+            <li><a href="#servicos">Serviços</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-links-title">Contato</div>
+          <ul class="footer-links">
+            <li><a href="tel:+551832239602">(18) 3223-9602</a></li>
+            <li><a href="tel:+5518997720673">(18) 99772-0673</a></li>
+            <li><a href="mailto:luciana.tavares@fisioprotrainer.com">E-mail</a></li>
+            <li><a href="#contato">Agendar Visita</a></li>
+          </ul>
         </div>
       </div>
-      <div class="ft-col"><h4>Navegação</h4><ul class="ft-links"><li><a href="#sobre">Sobre nós</a></li><li><a href="#imoveis">Imóveis</a></li><li><a href="#servicos">Serviços</a></li><li><a href="#depoimentos">Depoimentos</a></li><li><a href="#contato">Contato</a></li></ul></div>
-      <div class="ft-col"><h4>Especialidades</h4><ul class="ft-links"><li><a href="#">Alto Padrão</a></li><li><a href="#">Coberturas</a></li><li><a href="#">Condomínios</a></li><li><a href="#">Investimentos</a></li><li><a href="#">Locação Premium</a></li></ul></div>
-    </div>
-    <div class="ft-btm">
-      <p>© 2025 Áurea Imóveis. Todos os direitos reservados.</p>
-      <div style="display:flex;align-items:center;gap:10px">
-        <div class="creci-b">CRECI-J 12345</div>
-        <span style="font-size:.68rem;color:var(--gr)">São Paulo · Brasil</span>
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2024 Fisioprotrainer. Todos os direitos reservados.</div>
+        <div class="footer-ornament"><div class="footer-ornament-line"></div><div class="footer-ornament-diamond"></div><div class="footer-ornament-line"></div></div>
+        <div class="footer-copy">Rua Assis Chateaubriand, 85 · Jardim Paulistano · Presidente Prudente — SP</div>
       </div>
     </div>
-  </div>
-</footer>
+  </footer>
 
-<a href="https://wa.me/5511999999999" class="wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
+  <script>
+    /* Cursor — smooth lag ring, só em dispositivos com mouse */
+    (function() {
+      if (!window.matchMedia('(pointer:fine)').matches) return;
 
-<script>
-// ══ DATABASE DE IMÓVEIS ══
-const IMOVEIS = {
-  v1:{type:'venda',badge:'Venda',status:'Lançamento',price:'R$ 3.200.000',title:'Cobertura Alto Padrão com Vista Panorâmica',location:'Jardins, São Paulo – SP',specs:[{icon:'fas fa-vector-square',val:'320m²',lbl:'Área Total'},{icon:'fas fa-bed',val:'4',lbl:'Suítes'},{icon:'fas fa-bath',val:'5',lbl:'Banheiros'},{icon:'fas fa-car',val:'4',lbl:'Vagas'},{icon:'fas fa-layer-group',val:'15º',lbl:'Andar'}],desc:'Cobertura duplex de altíssimo padrão com vista panorâmica 360° para a cidade. Acabamento impecável com materiais importados, pé-direito duplo na sala e varanda gourmet com churrasqueira. Localizada no coração dos Jardins, a poucos metros das melhores boutiques, restaurantes e serviços da cidade.',feats:['Varanda gourmet privativa','Piscina privativa','Home Theater','Sala de jogos','Adega climatizada','Automação residencial completa','Segurança 24h','2 andares privativos'],photos:['','','','','']},
-  v2:{type:'venda',badge:'Venda',status:'Disponível',price:'R$ 1.890.000',title:'Apartamento Garden Premium',location:'Moema, São Paulo – SP',specs:[{icon:'fas fa-vector-square',val:'180m²',lbl:'Área Total'},{icon:'fas fa-bed',val:'3',lbl:'Suítes'},{icon:'fas fa-bath',val:'3',lbl:'Banheiros'},{icon:'fas fa-car',val:'2',lbl:'Vagas'},{icon:'fas fa-seedling',val:'80m²',lbl:'Jardim'}],desc:'Apartamento garden exclusivo com jardim privativo de 80m² em condomínio de alto padrão em Moema. Planta inteligente com integração total entre sala, cozinha e área externa. Reformado com acabamentos de luxo, armários planejados e iluminação automatizada.',feats:['Jardim privativo de 80m²','Churrasqueira no jardim','Armários planejados','Bancada em mármore','Piso aquecido','Piscina e academia no condomínio'],photos:['','','','']},
-  v3:{type:'venda',badge:'Venda',status:'Disponível',price:'R$ 2.100.000',title:'Loft Contemporâneo com Terraço',location:'Itaim Bibi, São Paulo – SP',specs:[{icon:'fas fa-vector-square',val:'210m²',lbl:'Área Total'},{icon:'fas fa-bed',val:'2',lbl:'Suítes'},{icon:'fas fa-bath',val:'3',lbl:'Banheiros'},{icon:'fas fa-car',val:'2',lbl:'Vagas'},{icon:'fas fa-sun',val:'60m²',lbl:'Terraço'}],desc:'Loft de design único no Itaim Bibi com terraço privativo de 60m² e vista livre. Planta aberta e integrada com pé-direito duplo, paredes de concreto aparente e janelas do piso ao teto. Perfeito para quem busca modernidade e exclusividade.',feats:['Terraço privativo 60m²','Pé-direito duplo (6m)','Janelas do piso ao teto','Concreto aparente designer','Cozinha estilo industrial','Próximo à Faria Lima'],photos:['','','']},
-  v4:{type:'venda',badge:'Venda',status:'Exclusivo',price:'R$ 4.500.000',title:'Casa de Alto Padrão em Condomínio',location:'Alphaville, Barueri – SP',specs:[{icon:'fas fa-vector-square',val:'520m²',lbl:'Área Const.'},{icon:'fas fa-bed',val:'5',lbl:'Suítes'},{icon:'fas fa-bath',val:'7',lbl:'Banheiros'},{icon:'fas fa-car',val:'4',lbl:'Vagas'},{icon:'fas fa-tree',val:'800m²',lbl:'Terreno'}],desc:'Casa de altíssimo padrão em condomínio fechado de máxima segurança em Alphaville. Terreno de 800m² com piscina aquecida, churrasqueira, quadra de tênis e jardim paisagístico. Interiores assinados com materiais de importação e automação completa.',feats:['Piscina aquecida com deck','Churrasqueira gourmet coberta','Quadra de tênis privativa','Sauna seca e úmida','Home office completo','Automação Crestron','Gerador de energia','Câmeras 24h monitoradas'],photos:['','','','','']},
-  a1:{type:'aluguel',badge:'Aluguel',status:'Disponível',price:'R$ 18.000/mês',title:'Casa em Condomínio Fechado com Piscina',location:'Alphaville, Barueri – SP',specs:[{icon:'fas fa-vector-square',val:'420m²',lbl:'Área Const.'},{icon:'fas fa-bed',val:'5',lbl:'Suítes'},{icon:'fas fa-bath',val:'6',lbl:'Banheiros'},{icon:'fas fa-car',val:'4',lbl:'Vagas'},{icon:'fas fa-swimming-pool',val:'Sim',lbl:'Piscina'}],desc:'Espetacular casa em condomínio fechado disponível para locação. Totalmente mobiliada e decorada, com piscina aquecida, área gourmet completa e jardim impecável. Aceita pets. Contrato mínimo de 12 meses. Documentação facilitada.',feats:['Totalmente mobiliada e decorada','Piscina aquecida','Área gourmet completa','Aceita pets','Segurança 24h','Portaria tripla','Quadra poliesportiva','Salão de festas'],photos:['','','','']},
-  a2:{type:'aluguel',badge:'Aluguel',status:'Disponível',price:'R$ 8.500/mês',title:'Apartamento Moderno Mobiliado',location:'Pinheiros, São Paulo – SP',specs:[{icon:'fas fa-vector-square',val:'120m²',lbl:'Área Total'},{icon:'fas fa-bed',val:'2',lbl:'Suítes'},{icon:'fas fa-bath',val:'2',lbl:'Banheiros'},{icon:'fas fa-car',val:'2',lbl:'Vagas'},{icon:'fas fa-couch',val:'Sim',lbl:'Mobiliado'}],desc:'Apartamento completamente mobiliado em Pinheiros. Design contemporâneo com marcenaria planejada, eletrodomésticos de última geração e varanda com churrasqueira. A 5 minutos da Faria Lima e próximo ao metrô.',feats:['100% mobiliado','Varanda com churrasqueira','Smart TV em todos os ambientes','Ar-condicionado split','Lavanderia interna','Academia no condomínio','Próximo ao metrô'],photos:['','','']},
-  a3:{type:'aluguel',badge:'Aluguel',status:'Novo',price:'R$ 12.000/mês',title:'Flat de Luxo com Serviços Inclusos',location:'Vila Olímpia, São Paulo – SP',specs:[{icon:'fas fa-vector-square',val:'160m²',lbl:'Área Total'},{icon:'fas fa-bed',val:'3',lbl:'Suítes'},{icon:'fas fa-bath',val:'3',lbl:'Banheiros'},{icon:'fas fa-car',val:'2',lbl:'Vagas'},{icon:'fas fa-concierge-bell',val:'Sim',lbl:'Serviços'}],desc:'Flat de luxo em empreendimento de serviços na Vila Olímpia com limpeza diária, concierge 24h, lavanderia e room service inclusos. Ideal para executivos que buscam praticidade e sofisticação. Disponível para locação anual.',feats:['Serviços de hotel inclusos','Limpeza diária','Concierge 24 horas','Room service','Spa e piscina no roof','Restaurante no térreo','Vaga coberta e manobrista','Localização Vila Olímpia'],photos:['','','']}
-};
+      const dot  = document.getElementById('cursorDot');
+      const ring = document.getElementById('cursorRing');
+      if (!dot || !ring) return;
 
-// ── GALLERY ──
-let galIdx=0, galTotal=0;
+      /* Esconde cursor nativo */
+      document.documentElement.style.cursor = 'none';
 
-function buildGallery(photos,type,badge){
-  const slides=document.getElementById('galSlides'),dots=document.getElementById('galDots'),thumbs=document.getElementById('galThumbs');
-  slides.innerHTML='';dots.innerHTML='';thumbs.innerHTML='';
-  galIdx=0;galTotal=photos.length||1;
-  document.getElementById('galType').className='gal-type '+(type==='venda'?'bt-sale':'bt-rent');
-  document.getElementById('galType').textContent=badge;
-  if(!photos.length)photos=[''];
-  photos.forEach((src,i)=>{
-    const slide=document.createElement('div');slide.className='gallery-slide';
-    slide.innerHTML=src?`<img src="${src}" alt="Foto ${i+1}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="no-slide" style="display:none"><i class="fas fa-image"></i></div>`:`<div class="no-slide" style="display:flex"><i class="fas fa-image"></i></div>`;
-    slides.appendChild(slide);
-    const dot=document.createElement('div');dot.className='gal-dot'+(i===0?' act':'');dot.onclick=()=>galGo(i);dots.appendChild(dot);
-    const thumb=document.createElement('div');thumb.className='gal-thumb'+(i===0?' act':'');thumb.onclick=()=>galGo(i);
-    thumb.innerHTML=src?`<img src="${src}" alt="thumb" onerror="this.parentElement.innerHTML='<div class=\\'no-thumb\\'><i class=\\'fas fa-image\\'></i></div>'">`:`<div class="no-thumb"><i class="fas fa-image"></i></div>`;
-    thumbs.appendChild(thumb);
-  });
-  updateGal();
-}
+      let mx = -200, my = -200, rx = -200, ry = -200;
+      let visible = false;
 
-function updateGal(){
-  document.getElementById('galCount').textContent=`${galIdx+1} / ${galTotal}`;
-  document.getElementById('galSlides').style.transform=`translateX(-${galIdx*100}%)`;
-  document.querySelectorAll('.gal-dot').forEach((d,i)=>d.classList.toggle('act',i===galIdx));
-  document.querySelectorAll('.gal-thumb').forEach((t,i)=>t.classList.toggle('act',i===galIdx));
-}
-function galMove(dir){galGo(galIdx+dir);}
-function galGo(i){galIdx=((i%galTotal)+galTotal)%galTotal;updateGal();}
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX;
+        my = e.clientY;
+        if (!visible) {
+          visible = true;
+          dot.style.opacity  = '1';
+          ring.style.opacity = '1';
+        }
+      });
 
-let touchX=0;
-document.getElementById('galSlides').addEventListener('touchstart',e=>touchX=e.touches[0].clientX);
-document.getElementById('galSlides').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-touchX;if(Math.abs(dx)>40)galMove(dx<0?1:-1);});
+      document.addEventListener('mouseleave', () => {
+        dot.style.opacity  = '0';
+        ring.style.opacity = '0';
+      });
 
-// ── MODAL ──
-function openModal(id){
-  const d=IMOVEIS[id];if(!d)return;
-  buildGallery(d.photos||[],d.type,d.badge);
-  const badge=document.getElementById('mBadge');
-  badge.textContent=d.badge;badge.className='m-badge '+(d.type==='venda'?'bt-sale':'bt-rent');
-  document.getElementById('mStatus').textContent=d.status;
-  document.getElementById('mPrice').textContent=d.price;
-  document.getElementById('mTitle').textContent=d.title;
-  document.getElementById('mLoc').querySelector('span').textContent=d.location;
-  document.getElementById('mDesc').textContent=d.desc;
-  document.getElementById('mSpecs').innerHTML=d.specs.map(s=>`<div class="mspec"><i class="${s.icon}"></i><div class="mv">${s.val}</div><div class="ml">${s.lbl}</div></div>`).join('');
-  document.getElementById('mFeats').innerHTML=d.feats.map(f=>`<div class="mfeat"><i class="fas fa-check-circle"></i>${f}</div>`).join('');
-  document.getElementById('mFormContent').style.display='block';
-  document.getElementById('mFormOk').style.display='none';
-  ['mNome','mTel','mEmail','mMsg'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('mTipo').value='';
-  const bg=document.getElementById('modalBg');bg.classList.add('open');
-  document.body.style.overflow='hidden';
-  setTimeout(()=>bg.scrollTop=0,10);
-}
-function closeModal(){document.getElementById('modalBg').classList.remove('open');document.body.style.overflow='';} 
-function handleBgClick(e){if(e.target===document.getElementById('modalBg'))closeModal();}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+      document.addEventListener('mouseenter', () => {
+        if (visible) {
+          dot.style.opacity  = '1';
+          ring.style.opacity = '1';
+        }
+      });
 
-function sendProposta(){
-  const n=document.getElementById('mNome').value,e=document.getElementById('mEmail').value,t=document.getElementById('mTel').value;
-  if(!n||!e||!t){alert('Preencha nome, e-mail e telefone.');return;}
-  const btn=document.querySelector('.mf-btn');
-  btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Enviando...';btn.disabled=true;
-  setTimeout(()=>{document.getElementById('mFormContent').style.display='none';document.getElementById('mFormOk').style.display='block';btn.disabled=false;},1500);
-}
+      /* Anel segue com lag suave */
+      (function loop() {
+        dot.style.left = mx + 'px';
+        dot.style.top  = my + 'px';
+        rx += (mx - rx) * 0.13;
+        ry += (my - ry) * 0.13;
+        ring.style.left = rx + 'px';
+        ring.style.top  = ry + 'px';
+        requestAnimationFrame(loop);
+      })();
 
-function openWA(nome){
-  window.open(`https://wa.me/5511999999999?text=${encodeURIComponent('Olá, Áurea Imóveis! Tenho interesse no imóvel: '+nome+'. Podem me enviar mais informações?')}`,'_blank');
-}
+      /* Hover em elementos interativos */
+      document.addEventListener('mouseover', e => {
+        if (e.target.closest('a, button, [role="button"]')) {
+          dot.classList.add('hv');
+          ring.classList.add('hv');
+        } else {
+          dot.classList.remove('hv');
+          ring.classList.remove('hv');
+        }
+      });
+    })();
 
-// ── TABS ──
-function switchTab(btn,pane){
-  document.querySelectorAll('.im-tab').forEach(t=>t.classList.remove('act'));
-  document.querySelectorAll('.im-pane').forEach(p=>p.classList.remove('act'));
-  btn.classList.add('act');document.getElementById('pane-'+pane).classList.add('act');
-}
+    /* Loader */
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const l = document.getElementById('loader');
+        l.classList.add('hide');
+        setTimeout(() => l.remove(), 650);
+      }, 2600);
+    });
 
-// ── MENU ──
-function toggleMenu(){const h=document.getElementById('hamburger'),m=document.getElementById('mobileMenu');h.classList.toggle('open');m.classList.toggle('open');document.body.style.overflow=m.classList.contains('open')?'hidden':'';}
-function closeMenu(){document.getElementById('hamburger').classList.remove('open');document.getElementById('mobileMenu').classList.remove('open');document.body.style.overflow='';}
+    /* Navbar */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', scrollY > 50), { passive: true });
 
-// ── LOADER ──
-window.addEventListener('load',()=>{setTimeout(()=>{const l=document.getElementById('loader');l.style.opacity='0';setTimeout(()=>l.remove(),500);},2400);});
+    /* Mobile menu */
+    const btn       = document.getElementById('hamburger');
+    const drawer    = document.getElementById('mobileNav');
+    const links     = document.querySelectorAll('.ml');
+    let isOpen = false;
 
-// ── CURSOR ──
-const cur=document.getElementById('cur'),ring=document.getElementById('curR');
-if(cur){
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-  (function anim(){if(!cur)return;cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
-  document.querySelectorAll('a,button,.im-card,.channel,.soc,.im-tab,.c-ab').forEach(el=>{
-    el.addEventListener('mouseenter',()=>{cur.classList.add('hv');ring.classList.add('hv');});
-    el.addEventListener('mouseleave',()=>{cur.classList.remove('hv');ring.classList.remove('hv');});
-  });
-}
+    function openDrawer() {
+      isOpen = true;
+      btn.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      drawer.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(() => requestAnimationFrame(() => drawer.classList.add('open')));
+    }
+    function closeDrawer() {
+      isOpen = false;
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      drawer.classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(() => { drawer.style.display = ''; }, 460);
+    }
 
-// ── NAV ──
-window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('sc',scrollY>60));
+    btn.addEventListener('click', () => isOpen ? closeDrawer() : openDrawer());
+    links.forEach(l => l.addEventListener('click', closeDrawer));
 
-// ── REVEAL ──
-const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:.08});
-document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+    /* Reveal on scroll */
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-// ── COUNTERS ──
-const cobs=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,target=+el.dataset.count;let c=0,step=Math.max(1,target/60);const t=setInterval(()=>{c=Math.min(c+step,target);el.textContent=Math.floor(c)+(el.dataset.count=='98'?'%':'+');if(c>=target)clearInterval(t);},25);cobs.unobserve(el);});},{threshold:.5});
-document.querySelectorAll('[data-count]').forEach(c=>cobs.observe(c));
-
-// ── PARALLAX ──
-window.addEventListener('scroll',()=>{const g=document.getElementById('hGrid');if(g)g.style.transform=`translateY(${scrollY*.22}px)`;});
-
-// ── FORM ──
-function sendForm(){
-  const n=document.getElementById('nome').value,e=document.getElementById('email').value;
-  if(!n||!e){alert('Preencha nome e e-mail.');return;}
-  const btn=document.querySelector('.f-btn');
-  btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Enviando...';btn.disabled=true;
-  setTimeout(()=>{document.getElementById('formContent').style.display='none';document.getElementById('fOk').style.display='block';},1500);
-}
-</script>
+    /* Form */
+    function handleSubmit(e) {
+      e.preventDefault();
+      const s = e.target.querySelector('.form-submit span');
+      s.textContent = 'Mensagem Enviada ✓';
+      setTimeout(() => { s.textContent = 'Enviar Mensagem →'; e.target.reset(); }, 3000);
+    }
+  </script>
 </body>
 </html>
