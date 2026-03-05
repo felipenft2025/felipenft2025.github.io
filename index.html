@@ -281,9 +281,16 @@
       position: fixed; inset: 0; background: var(--dark);
       z-index: 9990; display: flex; align-items: center; justify-content: center;
       flex-direction: column; gap: 18px;
-      transition: opacity .6s ease;
+      transition: opacity .5s ease;
+      /* evita que o loader bloqueie touch/scroll no mobile */
+      -webkit-overflow-scrolling: touch;
     }
-    #loader.hide { opacity: 0; pointer-events: none; }
+    #loader.hide {
+      opacity: 0;
+      pointer-events: none;
+      /* fallback: garante que some visualmente mesmo sem JS completo */
+      visibility: hidden;
+    }
     .ld-logo {
       font-family: var(--font-display);
       font-size: clamp(1.6rem, 5vw, 2.4rem);
@@ -423,7 +430,14 @@
 <body>
 
   <!-- ── LOADER ── -->
-  <div id="loader">
+  <!-- Fallback: se JS não rodar, loader some em 4s via CSS -->
+  <style>
+    @media screen {
+      #loader { animation: loaderAuto 0s 4s forwards; }
+      @keyframes loaderAuto { to { display: none; opacity: 0; visibility: hidden; pointer-events: none; } }
+    }
+  </style>
+  <div id="loader" role="status" aria-label="Carregando">
     <div class="ld-logo">Fisioprotrainer</div>
     <div class="ld-line"></div>
     <div class="ld-sub">Excelência em Fisioterapia &amp; Performance</div>
@@ -726,14 +740,42 @@
       });
     })();
 
-    /* Loader */
-    window.addEventListener('load', () => {
-      setTimeout(() => {
+    /* Loader — à prova de falhas para mobile */
+    (function() {
+      function dismissLoader() {
         const l = document.getElementById('loader');
+        if (!l || l._dismissed) return;
+        l._dismissed = true;
         l.classList.add('hide');
-        setTimeout(() => l.remove(), 650);
-      }, 2600);
-    });
+        // remove do DOM após a transição
+        setTimeout(() => { if (l.parentNode) l.parentNode.removeChild(l); }, 600);
+        // garante que o body scroll nunca fique travado
+        document.body.style.overflow = '';
+      }
+
+      // Disparo principal: 2.4s após DOMContentLoaded (mais confiável que 'load' no mobile)
+      var mainTimer = setTimeout(dismissLoader, 2400);
+
+      // Fallback 1: evento 'load' (quando todas as imagens e fontes carregam)
+      window.addEventListener('load', function() {
+        clearTimeout(mainTimer);
+        setTimeout(dismissLoader, 1800);
+      });
+
+      // Fallback 2: segurança absoluta — se ainda estiver após 5s, some
+      setTimeout(dismissLoader, 5000);
+
+      // Fallback 3: visibilitychange (usuário volta para a aba/app)
+      document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) dismissLoader();
+      });
+
+      // Fallback 4: qualquer toque na tela (mobile) dispara o dismiss
+      document.addEventListener('touchstart', function onTouch() {
+        setTimeout(dismissLoader, 100);
+        document.removeEventListener('touchstart', onTouch);
+      }, { passive: true });
+    })();
 
     /* Navbar */
     const navbar = document.getElementById('navbar');
