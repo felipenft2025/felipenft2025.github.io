@@ -281,16 +281,9 @@
       position: fixed; inset: 0; background: var(--dark);
       z-index: 9990; display: flex; align-items: center; justify-content: center;
       flex-direction: column; gap: 18px;
-      transition: opacity .5s ease;
-      /* evita que o loader bloqueie touch/scroll no mobile */
-      -webkit-overflow-scrolling: touch;
+      transition: opacity .6s ease;
     }
-    #loader.hide {
-      opacity: 0;
-      pointer-events: none;
-      /* fallback: garante que some visualmente mesmo sem JS completo */
-      visibility: hidden;
-    }
+    #loader.hide { opacity: 0; pointer-events: none; }
     .ld-logo {
       font-family: var(--font-display);
       font-size: clamp(1.6rem, 5vw, 2.4rem);
@@ -308,9 +301,6 @@
       font-family: var(--font-sans); font-size: .58rem;
       letter-spacing: .45em; text-transform: uppercase;
       color: rgba(250,248,243,.4);
-      text-align: center;
-      padding-left: .45em;
-      max-width: 90vw;
       opacity: 0; animation: ldFade .5s 1.6s forwards;
     }
     @keyframes ldUp   { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
@@ -430,14 +420,7 @@
 <body>
 
   <!-- ── LOADER ── -->
-  <!-- Fallback: se JS não rodar, loader some em 4s via CSS -->
-  <style>
-    @media screen {
-      #loader { animation: loaderAuto 0s 4s forwards; }
-      @keyframes loaderAuto { to { display: none; opacity: 0; visibility: hidden; pointer-events: none; } }
-    }
-  </style>
-  <div id="loader" role="status" aria-label="Carregando">
+  <div id="loader">
     <div class="ld-logo">Fisioprotrainer</div>
     <div class="ld-line"></div>
     <div class="ld-sub">Excelência em Fisioterapia &amp; Performance</div>
@@ -464,7 +447,7 @@
       <li><a href="#servicos">Serviços</a></li>
       <li><a href="#contato">Contato</a></li>
     </ul>
-    <a href="#contato" class="nav-cta">Agendar Visita</a>
+    <a href="#contato" class="nav-cta">Agendar Avaliação</a>
     <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -625,7 +608,7 @@
         <div class="contact-info-block">
           <div class="reveal rd1"><div class="contact-info-label">Endereço</div><div class="contact-info-value">Rua Assis Chateaubriand, nº 85<br>Jardim Paulistano<br>Presidente Prudente — SP</div></div>
           <div class="reveal rd2"><div class="contact-info-label">Telefone</div><div class="contact-info-value"><a href="tel:+551832239602">(18) 3223-9602</a><br><a href="tel:+5518997720673">(18) 99772-0673</a></div></div>
-          <div class="reveal rd3"><div class="contact-info-label">E-mail</div><div class="contact-info-value"><a href="/cdn-cgi/l/email-protection#96fae3f5fff7f8f7b8e2f7e0f7e4f3e5d6f0ffe5fff9e6e4f9e2e4f7fff8f3e4b8f5f9fb"><span class="__cf_email__" data-cfemail="83eff6e0eae2ede2adf7e2f5e2f1e6f0c3e5eaf0eaecf3f1ecf7f1e2eaede6f1ade0ecee">[email&#160;protected]</span></a></div></div>
+          <div class="reveal rd3"><div class="contact-info-label">E-mail</div><div class="contact-info-value"><a href="mailto:luciana.tavares@fisioprotrainer.com">luciana.tavares@fisioprotrainer.com</a></div></div>
           <div class="reveal rd4"><div class="contact-info-label">Estacionamento</div><div class="contact-info-value">Estacionamento próprio disponível<br>para todos os pacientes</div></div>
         </div>
         <div class="reveal rd2">
@@ -667,7 +650,7 @@
           <ul class="footer-links">
             <li><a href="tel:+551832239602">(18) 3223-9602</a></li>
             <li><a href="tel:+5518997720673">(18) 99772-0673</a></li>
-            <li><a href="/cdn-cgi/l/email-protection#1e726b7d777f707f306a7f687f6c7b6d5e78776d77716e6c716a6c7f77707b6c307d7173">E-mail</a></li>
+            <li><a href="mailto:luciana.tavares@fisioprotrainer.com">E-mail</a></li>
             <li><a href="#contato">Agendar Visita</a></li>
           </ul>
         </div>
@@ -680,7 +663,7 @@
     </div>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     /* Cursor — smooth lag ring, só em dispositivos com mouse */
     (function() {
       if (!window.matchMedia('(pointer:fine)').matches) return;
@@ -740,42 +723,14 @@
       });
     })();
 
-    /* Loader — à prova de falhas para mobile */
-    (function() {
-      function dismissLoader() {
+    /* Loader */
+    window.addEventListener('load', () => {
+      setTimeout(() => {
         const l = document.getElementById('loader');
-        if (!l || l._dismissed) return;
-        l._dismissed = true;
         l.classList.add('hide');
-        // remove do DOM após a transição
-        setTimeout(() => { if (l.parentNode) l.parentNode.removeChild(l); }, 600);
-        // garante que o body scroll nunca fique travado
-        document.body.style.overflow = '';
-      }
-
-      // Disparo principal: 2.4s após DOMContentLoaded (mais confiável que 'load' no mobile)
-      var mainTimer = setTimeout(dismissLoader, 2400);
-
-      // Fallback 1: evento 'load' (quando todas as imagens e fontes carregam)
-      window.addEventListener('load', function() {
-        clearTimeout(mainTimer);
-        setTimeout(dismissLoader, 1800);
-      });
-
-      // Fallback 2: segurança absoluta — se ainda estiver após 5s, some
-      setTimeout(dismissLoader, 5000);
-
-      // Fallback 3: visibilitychange (usuário volta para a aba/app)
-      document.addEventListener('visibilitychange', function() {
-        if (!document.hidden) dismissLoader();
-      });
-
-      // Fallback 4: qualquer toque na tela (mobile) dispara o dismiss
-      document.addEventListener('touchstart', function onTouch() {
-        setTimeout(dismissLoader, 100);
-        document.removeEventListener('touchstart', onTouch);
-      }, { passive: true });
-    })();
+        setTimeout(() => l.remove(), 650);
+      }, 2600);
+    });
 
     /* Navbar */
     const navbar = document.getElementById('navbar');
@@ -811,4 +766,15 @@
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEa
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    /* Form */
+    function handleSubmit(e) {
+      e.preventDefault();
+      const s = e.target.querySelector('.form-submit span');
+      s.textContent = 'Mensagem Enviada ✓';
+      setTimeout(() => { s.textContent = 'Enviar Mensagem →'; e.target.reset(); }, 3000);
+    }
+  </script>
+</body>
+</html>
