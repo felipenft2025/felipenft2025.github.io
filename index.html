@@ -1,1063 +1,616 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Dr. Gabriel Rosas - Fisioterapeuta especialista em reabilitação ortopédica e esportiva em Presidente Prudente. Atendimento 100% individualizado.">
-  <title>Dr. Gabriel Rosas | Fisioterapia Especializada</title>
+import { useState, useEffect } from "react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, CartesianGrid, Legend, Area, AreaChart } from "recharts";
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+const BANKS = [
+  { name: "Caixa", taxa: 11.19, taxaRelacionamento: 10.26, cor: "#005CA9", tipo: "Público", prazoMax: 420, financiaMax: 80, indexador: "TR", aprovacao: "7-15 dias", nota: 9.2, custo500k: 680000 },
+  { name: "BRB", taxa: 11.36, taxaRelacionamento: 10.50, cor: "#00843D", tipo: "Público", prazoMax: 420, financiaMax: 90, indexador: "TR", aprovacao: "10-20 dias", nota: 8.5, custo500k: 710000 },
+  { name: "Itaú", taxa: 11.60, taxaRelacionamento: 11.10, cor: "#FF6600", tipo: "Privado", prazoMax: 360, financiaMax: 80, indexador: "TR", aprovacao: "5-10 dias", nota: 8.8, custo500k: 745000 },
+  { name: "Santander", taxa: 11.79, taxaRelacionamento: 11.29, cor: "#EC0000", tipo: "Privado", prazoMax: 360, financiaMax: 80, indexador: "TR", aprovacao: "7-12 dias", nota: 8.3, custo500k: 772000 },
+  { name: "Bradesco", taxa: 11.99, taxaRelacionamento: 11.49, cor: "#CC092F", tipo: "Privado", prazoMax: 360, financiaMax: 80, indexador: "TR", aprovacao: "10-15 dias", nota: 7.9, custo500k: 800000 },
+  { name: "Banco do Brasil", taxa: 12.00, taxaRelacionamento: 11.50, cor: "#FFCC00", tipo: "Público", prazoMax: 360, financiaMax: 80, indexador: "TR", aprovacao: "10-20 dias", nota: 7.8, custo500k: 802000 },
+  { name: "Inter", taxa: 13.76, taxaRelacionamento: 13.26, cor: "#FF7A00", tipo: "Digital", prazoMax: 360, financiaMax: 75, indexador: "TR/IPCA", aprovacao: "2-5 dias", nota: 7.0, custo500k: 950000 },
+];
 
-  <style>
-    :root {
-      --royal: #0056b3;
-      --royal-light: #0070e0;
-      --royal-dark: #003d80;
-      --navy: #0a1628;
-      --navy-mid: #0d1f3c;
-      --navy-deep: #060e1a;
-      --navy-card: #0f1d35;
-      --white: #ffffff;
-      --off-white: #e8eef6;
-      --ice: #c8d6e5;
-      --gray-300: #7a8ea3;
-      --gray-400: #5a6f8a;
-      --accent: #00b4d8;
-      --accent-glow: rgba(0, 180, 216, 0.3);
-      --accent-soft: rgba(0, 180, 216, 0.08);
-      --gold: #d4a843;
+const SELIC_HIST = [
+  { mes: "Jun/25", selic: 14.75 },
+  { mes: "Jul/25", selic: 14.75 },
+  { mes: "Ago/25", selic: 14.75 },
+  { mes: "Set/25", selic: 15.00 },
+  { mes: "Out/25", selic: 15.00 },
+  { mes: "Nov/25", selic: 15.00 },
+  { mes: "Dez/25", selic: 15.00 },
+  { mes: "Jan/26", selic: 15.00 },
+  { mes: "Fev/26", selic: 15.00 },
+  { mes: "Mar/26", selic: 15.00 },
+];
 
-      --font-display: 'Playfair Display', Georgia, serif;
-      --font-body: 'Montserrat', 'Segoe UI', sans-serif;
-      --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
+const SELIC_PROJ = [
+  { mes: "Mar/26", selic: 15.00 },
+  { mes: "Jun/26", selic: 14.50 },
+  { mes: "Set/26", selic: 13.75 },
+  { mes: "Dez/26", selic: 12.50 },
+  { mes: "Mar/27", selic: 11.75 },
+  { mes: "Jun/27", selic: 11.00 },
+];
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; }
+const formatCurrency = (v) => `R$ ${(v).toLocaleString("pt-BR")}`;
+const formatPct = (v) => `${v.toFixed(2)}%`;
 
-    body {
-      font-family: var(--font-body);
-      color: var(--off-white);
-      background: var(--navy-deep);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
+function calcParcela(valor, taxa, meses) {
+  const r = taxa / 100 / 12;
+  return (valor * r) / (1 - Math.pow(1 + r, -meses));
+}
 
-    ::selection { background: var(--royal); color: var(--white); }
-    a { text-decoration: none; color: inherit; }
-    ul { list-style: none; }
-    img { max-width: 100%; display: block; }
-
-    /* ═══ INTRO ═══ */
-    .intro-overlay {
-      position: fixed; inset: 0; z-index: 10000;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--navy-deep); overflow: hidden;
-    }
-    .intro-overlay.done { pointer-events: none; }
-
-    .intro-bg-lines { position: absolute; inset: 0; overflow: hidden; }
-
-    .intro-line {
-      position: absolute; width: 1px; height: 100%;
-      background: linear-gradient(to bottom, transparent, var(--accent), transparent);
-      opacity: 0; animation: introLineSlide 1.5s ease-out forwards;
-    }
-    @keyframes introLineSlide {
-      0% { opacity: 0; transform: translateY(100%); }
-      50% { opacity: 0.3; }
-      100% { opacity: 0; transform: translateY(-100%); }
-    }
-
-    .intro-content { position: relative; z-index: 2; text-align: center; }
-    .intro-logo-line { display: block; overflow: hidden; }
-
-    .intro-logo-text {
-      font-family: var(--font-display);
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      font-weight: 700; color: var(--white);
-      display: inline-block; transform: translateY(110%); opacity: 0;
-    }
-    .intro-logo-text span { color: var(--accent); }
-
-    .intro-subtitle {
-      font-size: 0.85rem; letter-spacing: 6px; text-transform: uppercase;
-      color: var(--accent); margin-top: 1rem; opacity: 0; font-weight: 500;
-    }
-
-    .intro-pulse-ring {
-      position: absolute; width: 300px; height: 300px;
-      border-radius: 50%; border: 1px solid rgba(0, 180, 216, 0.1);
-      top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); opacity: 0;
-    }
-
-    /* ═══ THREE.JS ═══ */
-    #three-canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
-
-    /* ═══ NAVBAR ═══ */
-    .navbar {
-      position: fixed; top:0; left:0; width:100%; z-index:1000;
-      padding: 1.2rem 0; transition: all 0.5s var(--ease-smooth);
-    }
-    .navbar.scrolled {
-      background: rgba(6, 14, 26, 0.92); backdrop-filter: blur(20px);
-      padding: 0.7rem 0; box-shadow: 0 4px 30px rgba(0,0,0,0.4);
-    }
-    .navbar .container { display: flex; align-items: center; justify-content: space-between; }
-    .nav-logo { font-family: var(--font-display); font-size: 1.4rem; color: var(--white); font-weight: 700; }
-    .nav-logo span { color: var(--accent); }
-    .nav-links { display: flex; align-items: center; gap: 2rem; }
-    .nav-links a {
-      color: rgba(255,255,255,0.6); font-size: 0.82rem; font-weight: 500;
-      letter-spacing: 0.5px; text-transform: uppercase; transition: color 0.3s; position: relative;
-    }
-    .nav-links a::after {
-      content:''; position: absolute; bottom:-4px; left:0;
-      width:0; height:2px; background: var(--accent); transition: width 0.3s;
-    }
-    .nav-links a:hover { color: var(--white); }
-    .nav-links a:hover::after { width: 100%; }
-    .nav-cta {
-      background: var(--royal)!important; color: var(--white)!important;
-      padding: 0.55rem 1.3rem!important; border-radius: 50px!important;
-      font-weight: 600!important; transition: all 0.3s!important; border: 1px solid transparent!important;
-    }
-    .nav-cta:hover { background: transparent!important; border-color: var(--accent)!important; color: var(--accent)!important; }
-    .nav-cta::after { display: none!important; }
-    .nav-toggle { display: none; background:none; border:none; color: var(--white); font-size:1.5rem; cursor:pointer; }
-
-    /* ═══ LAYOUT ═══ */
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-    section { position: relative; z-index: 1; }
-    .section-label {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 3px;
-      text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
-    }
-    .section-label::before { content:''; width:30px; height:2px; background: var(--accent); }
-    .section-title {
-      font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 700; line-height: 1.2; margin-bottom: 1.2rem; color: var(--white);
-    }
-    .section-subtitle { font-size: 1rem; color: var(--gray-300); line-height: 1.7; max-width: 560px; }
-
-    /* ═══ HERO ═══ */
-    .hero {
-      min-height: 100vh; display: flex; align-items: center;
-      position: relative; overflow: hidden;
-      background: linear-gradient(170deg, var(--navy-deep) 0%, var(--navy) 50%, rgba(0,86,179,0.12) 100%);
-    }
-    .hero::before {
-      content:''; position: absolute; inset:0;
-      background: radial-gradient(ellipse at 70% 50%, rgba(0,86,179,0.1) 0%, transparent 60%),
-                  radial-gradient(ellipse at 20% 80%, rgba(0,180,216,0.05) 0%, transparent 50%);
-      z-index: 1;
-    }
-    .hero .container {
-      position: relative; z-index: 2;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
-    }
-    .hero-content { padding: 2rem 0; }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      background: var(--accent-soft); border: 1px solid rgba(0,180,216,0.2);
-      border-radius: 50px; padding: 0.5rem 1.2rem;
-      font-size: 0.75rem; font-weight: 600; color: var(--accent);
-      letter-spacing: 0.5px; margin-bottom: 2rem;
-    }
-    .hero-badge i { font-size: 0.6rem; animation: badgePulse 2s infinite; }
-    @keyframes badgePulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
-    .hero-title {
-      font-family: var(--font-display); font-size: clamp(2.4rem, 4.5vw, 3.6rem);
-      font-weight: 700; color: var(--white); line-height: 1.15; margin-bottom: 1.5rem;
-    }
-    .hero-title em { font-style: italic; color: var(--accent); }
-    .hero-description {
-      font-size: 1.05rem; color: rgba(255,255,255,0.55);
-      line-height: 1.8; max-width: 480px; margin-bottom: 2.5rem;
-    }
-    .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
-
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      background: var(--royal); color: var(--white);
-      padding: 1rem 2rem; border-radius: 50px;
-      font-family: var(--font-body); font-size: 0.95rem; font-weight: 600;
-      border: 2px solid var(--royal); cursor: pointer;
-      transition: all 0.4s var(--ease-smooth); position: relative; overflow: hidden;
-    }
-    .btn-primary::before {
-      content:''; position: absolute; top:50%; left:50%;
-      width:0; height:0; border-radius:50%; background: rgba(255,255,255,0.1);
-      transform: translate(-50%,-50%); transition: width 0.6s, height 0.6s;
-    }
-    .btn-primary:hover::before { width:300px; height:300px; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,86,179,0.4); }
-
-    .btn-secondary {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      background: transparent; color: var(--white);
-      padding: 1rem 2rem; border-radius: 50px;
-      font-family: var(--font-body); font-size: 0.95rem; font-weight: 600;
-      border: 2px solid rgba(255,255,255,0.15); cursor: pointer; transition: all 0.4s;
-    }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
-
-    .hero-stats {
-      display: flex; gap: 2.5rem; margin-top: 3rem;
-      padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.06);
-    }
-    .hero-stat-number {
-      font-family: var(--font-display); font-size: 2.2rem; font-weight: 700;
-      color: var(--white); line-height: 1;
-    }
-    .hero-stat-number span { color: var(--accent); }
-    .hero-stat-label {
-      font-size: 0.75rem; color: rgba(255,255,255,0.35);
-      margin-top: 0.4rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;
-    }
-
-    /* Hero Photo */
-    .hero-visual { display: flex; justify-content: center; align-items: center; position: relative; }
-    .hero-photo-wrapper { position: relative; width: 400px; height: 480px; }
-
-    .hero-photo-frame {
-      width:100%; height:100%; border-radius: 24px; overflow: hidden; position: relative;
-      border: 2px solid rgba(0,180,216,0.15);
-      box-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 0 60px rgba(0,86,179,0.1);
-    }
-    .hero-photo-frame img { width:100%; height:100%; object-fit: cover; filter: brightness(0.95) contrast(1.05); }
-    .hero-photo-frame::after {
-      content:''; position: absolute; inset:0;
-      background: linear-gradient(to top, rgba(6,14,26,0.6) 0%, transparent 40%);
-    }
-
-    .hero-photo-glow {
-      position: absolute; width:120%; height:120%; top:-10%; left:-10%;
-      background: radial-gradient(circle, rgba(0,86,179,0.15) 0%, transparent 60%);
-      z-index: -1; animation: photoGlow 4s ease-in-out infinite alternate;
-    }
-    @keyframes photoGlow { 0%{opacity:0.5; transform:scale(1);} 100%{opacity:1; transform:scale(1.05);} }
-
-    .hero-photo-accent {
-      position: absolute; bottom:-12px; right:-12px; width:100%; height:100%;
-      border-radius: 24px; border: 1px solid rgba(0,180,216,0.1); z-index: -1;
-    }
-
-    .hero-photo-badge {
-      position: absolute; bottom: 24px; left: -20px;
-      background: var(--navy); border: 1px solid rgba(0,180,216,0.15);
-      padding: 1rem 1.4rem; border-radius: 16px; z-index: 3;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-      display: flex; align-items: center; gap: 0.8rem;
-    }
-    .hero-photo-badge-icon {
-      width:44px; height:44px; border-radius:12px;
-      background: linear-gradient(135deg, var(--royal), var(--accent));
-      display: flex; align-items: center; justify-content: center;
-      color: var(--white); font-size: 1.1rem;
-    }
-    .hero-photo-badge-text strong { display: block; font-size: 0.9rem; color: var(--white); }
-    .hero-photo-badge-text span { font-size: 0.72rem; color: var(--gray-300); }
-
-    /* ═══ ABOUT ═══ */
-    .about { background: var(--navy); padding: 7rem 0; border-top: 1px solid rgba(255,255,255,0.03); }
-    .about .container { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
-    .about-image-wrapper { position: relative; }
-    .about-image-box {
-      width:100%; aspect-ratio: 4/5; border-radius: 20px;
-      background: linear-gradient(135deg, var(--navy-mid), var(--navy-card));
-      overflow: hidden; position: relative;
-      display: flex; align-items: center; justify-content: center;
-      border: 1px solid rgba(255,255,255,0.04);
-    }
-    .about-image-box img { width:100%; height:100%; object-fit: cover; filter: brightness(0.9) contrast(1.05); }
-    .about-image-accent {
-      position: absolute; bottom:-16px; right:-16px; width:160px; height:160px;
-      border-radius: 20px; background: linear-gradient(135deg, var(--royal), var(--royal-dark)); z-index: -1;
-    }
-    .about-experience-badge {
-      position: absolute; top:24px; right:-24px;
-      background: var(--navy-deep); border: 1px solid rgba(0,180,216,0.15);
-      color: var(--white); padding: 1.2rem 1.5rem; border-radius: 16px;
-      text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-    }
-    .about-experience-badge strong { display:block; font-family: var(--font-display); font-size:1.8rem; color: var(--accent); }
-    .about-experience-badge span { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; }
-
-    .about-text h3 { font-family: var(--font-display); font-size:1.5rem; margin-top:1.5rem; margin-bottom:1rem; color: var(--white); }
-    .about-text p { color: var(--gray-300); line-height:1.8; margin-bottom:1.2rem; font-size: 0.95rem; }
-
-    .about-highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
-    .about-highlight {
-      display: flex; align-items: flex-start; gap: 0.8rem;
-      padding: 1rem; background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.04);
-      border-radius: 12px; transition: all 0.3s;
-    }
-    .about-highlight:hover { background: rgba(0,180,216,0.05); border-color: rgba(0,180,216,0.1); transform: translateY(-3px); }
-    .about-highlight i { color: var(--accent); font-size: 1.1rem; margin-top: 2px; }
-    .about-highlight span { font-size: 0.85rem; font-weight: 600; color: var(--off-white); line-height: 1.4; }
-
-    /* ═══ SERVICES ═══ */
-    .services { background: var(--navy-deep); padding: 7rem 0; border-top: 1px solid rgba(255,255,255,0.03); }
-    .services-header { text-align: center; margin-bottom: 4rem; }
-    .services-header .section-subtitle { margin: 0 auto; }
-    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-
-    .service-card {
-      background: var(--navy-card); border-radius: 20px; padding: 2.2rem;
-      position: relative; overflow: hidden; transition: all 0.5s var(--ease-smooth);
-      border: 1px solid rgba(255,255,255,0.04); cursor: default;
-    }
-    .service-card::before {
-      content:''; position: absolute; top:0; left:0;
-      width:100%; height:3px; background: linear-gradient(90deg, var(--royal), var(--accent));
-      transform: scaleX(0); transform-origin: left; transition: transform 0.5s;
-    }
-    .service-card:hover::before { transform: scaleX(1); }
-    .service-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,86,179,0.15); border-color: rgba(0,180,216,0.1); }
-
-    .service-icon {
-      width:56px; height:56px; border-radius:14px;
-      background: linear-gradient(135deg, rgba(0,86,179,0.15), rgba(0,180,216,0.08));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem; color: var(--accent); margin-bottom: 1.5rem; transition: all 0.4s;
-    }
-    .service-card:hover .service-icon { background: var(--royal); color: var(--white); transform: scale(1.05); }
-    .service-card h4 { font-family: var(--font-display); font-size:1.2rem; margin-bottom:0.8rem; color: var(--white); }
-    .service-card p { font-size: 0.88rem; color: var(--gray-300); line-height: 1.7; }
-
-    .service-card-arrow {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      margin-top: 1.2rem; font-size: 0.8rem; font-weight: 600;
-      color: var(--accent); opacity:0; transform: translateX(-10px); transition: all 0.4s;
-    }
-    .service-card:hover .service-card-arrow { opacity:1; transform: translateX(0); }
-
-    /* ═══ PLANS ═══ */
-    .plans {
-      background: var(--navy); padding: 7rem 0;
-      border-top: 1px solid rgba(255,255,255,0.03);
-      position: relative; overflow: hidden;
-    }
-    .plans::before {
-      content:''; position: absolute; top:0; left:50%; transform: translateX(-50%);
-      width:600px; height:600px; background: radial-gradient(circle, rgba(0,86,179,0.08) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-    .plans-header { text-align: center; margin-bottom: 4rem; position: relative; z-index: 1; }
-    .plans-header .section-subtitle { margin: 0 auto; }
-
-    .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; position: relative; z-index: 1; }
-
-    .plan-card {
-      background: var(--navy-card); border-radius: 24px; padding: 2.5rem 2rem;
-      text-align: center; position: relative; overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.04); transition: all 0.5s var(--ease-smooth);
-      display: flex; flex-direction: column;
-    }
-    .plan-card:hover {
-      transform: translateY(-10px); border-color: rgba(0,180,216,0.15);
-      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
-    }
-    .plan-card.featured {
-      border-color: rgba(0,180,216,0.25);
-      background: linear-gradient(170deg, var(--navy-card) 0%, rgba(0,86,179,0.08) 100%);
-    }
-    .plan-card.featured::before {
-      content:''; position: absolute; top:0; left:0;
-      width:100%; height:3px; background: linear-gradient(90deg, var(--royal), var(--accent));
-    }
-
-    .plan-popular {
-      position: absolute; top:16px; right:-32px;
-      background: linear-gradient(90deg, var(--royal), var(--accent));
-      color: var(--white); font-size: 0.65rem; font-weight: 700;
-      letter-spacing: 1px; text-transform: uppercase;
-      padding: 0.4rem 2.5rem; transform: rotate(45deg);
-    }
-
-    .plan-icon {
-      width:64px; height:64px; border-radius:50%; margin: 0 auto 1.5rem;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem; transition: all 0.4s;
-    }
-    .plan-card:nth-child(1) .plan-icon { background: linear-gradient(135deg, rgba(0,86,179,0.15), rgba(0,86,179,0.05)); color: var(--royal-light); }
-    .plan-card:nth-child(2) .plan-icon { background: linear-gradient(135deg, rgba(0,180,216,0.2), rgba(0,180,216,0.05)); color: var(--accent); }
-    .plan-card:nth-child(3) .plan-icon { background: linear-gradient(135deg, rgba(212,168,67,0.2), rgba(212,168,67,0.05)); color: var(--gold); }
-    .plan-card:hover .plan-icon { transform: scale(1.1); }
-
-    .plan-name { font-family: var(--font-display); font-size:1.6rem; font-weight:700; color: var(--white); margin-bottom:0.5rem; }
-    .plan-duration { font-size: 0.82rem; color: var(--gray-300); margin-bottom: 2rem; font-weight: 500; }
-
-    .plan-features { text-align: left; margin-bottom: 2rem; flex-grow: 1; }
-    .plan-feature {
-      display: flex; align-items: center; gap: 0.7rem;
-      padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.03);
-      font-size: 0.88rem; color: var(--off-white);
-    }
-    .plan-feature:last-child { border-bottom: none; }
-    .plan-feature i { font-size: 0.7rem; color: var(--accent); width: 20px; text-align: center; }
-    .plan-feature strong { color: var(--white); }
-
-    .plan-cta {
-      display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
-      width:100%; padding: 1rem 1.5rem; border-radius: 14px;
-      font-family: var(--font-body); font-size: 0.92rem; font-weight: 700;
-      cursor: pointer; transition: all 0.4s; border: none; text-align: center;
-    }
-    .plan-card:nth-child(1) .plan-cta {
-      background: rgba(0,86,179,0.12); color: var(--royal-light); border: 1px solid rgba(0,86,179,0.2);
-    }
-    .plan-card:nth-child(1) .plan-cta:hover {
-      background: var(--royal); color: var(--white); box-shadow: 0 8px 25px rgba(0,86,179,0.3); transform: translateY(-2px);
-    }
-    .plan-card:nth-child(2) .plan-cta {
-      background: linear-gradient(135deg, var(--royal), var(--accent));
-      color: var(--white); box-shadow: 0 6px 20px rgba(0,86,179,0.3);
-    }
-    .plan-card:nth-child(2) .plan-cta:hover { box-shadow: 0 12px 35px rgba(0,86,179,0.5); transform: translateY(-2px); }
-    .plan-card:nth-child(3) .plan-cta {
-      background: rgba(212,168,67,0.12); color: var(--gold); border: 1px solid rgba(212,168,67,0.2);
-    }
-    .plan-card:nth-child(3) .plan-cta:hover {
-      background: var(--gold); color: var(--navy-deep); box-shadow: 0 8px 25px rgba(212,168,67,0.3); transform: translateY(-2px);
-    }
-
-    .plan-note { text-align: center; margin-top: 2.5rem; font-size: 0.85rem; color: var(--gray-300); position: relative; z-index: 1; }
-    .plan-note i { color: var(--accent); margin-right: 0.3rem; }
-
-    /* ═══ DIFFERENTIALS ═══ */
-    .differentials {
-      background: var(--navy-deep); padding: 7rem 0;
-      border-top: 1px solid rgba(255,255,255,0.03);
-      position: relative; overflow: hidden;
-    }
-    .differentials::before {
-      content:''; position: absolute; top:-40%; right:-15%;
-      width:500px; height:500px;
-      background: radial-gradient(circle, rgba(0,86,179,0.1), transparent 70%);
-      border-radius: 50%;
-    }
-    .differentials-header { text-align: center; margin-bottom: 4rem; }
-    .differentials-header .section-subtitle { margin: 0 auto; }
-
-    .diff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-    .diff-card {
-      text-align: center; padding: 2.5rem 2rem; border-radius: 20px;
-      background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04);
-      transition: all 0.5s; backdrop-filter: blur(10px);
-    }
-    .diff-card:hover { background: rgba(255,255,255,0.04); border-color: rgba(0,180,216,0.15); transform: translateY(-5px); }
-    .diff-icon {
-      width:76px; height:76px; border-radius:50%;
-      background: linear-gradient(135deg, rgba(0,86,179,0.15), rgba(0,180,216,0.08));
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1.5rem; font-size: 1.6rem; color: var(--accent); transition: all 0.4s;
-    }
-    .diff-card:hover .diff-icon { box-shadow: 0 0 30px var(--accent-glow); transform: scale(1.05); }
-    .diff-card h4 { font-family: var(--font-display); font-size:1.2rem; color: var(--white); margin-bottom:0.8rem; }
-    .diff-card p { font-size: 0.88rem; color: rgba(255,255,255,0.4); line-height: 1.7; }
-
-    /* ═══ CTA BAND ═══ */
-    .cta-band {
-      background: linear-gradient(135deg, var(--royal) 0%, var(--royal-dark) 100%);
-      padding: 5rem 0; text-align: center; position: relative; overflow: hidden;
-    }
-    .cta-band::before {
-      content:''; position: absolute; inset:0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    }
-    .cta-band .container { position: relative; z-index: 1; }
-    .cta-band h2 { font-family: var(--font-display); font-size: clamp(1.8rem,3.5vw,2.8rem); color: var(--white); margin-bottom: 1.2rem; }
-    .cta-band p { color: rgba(255,255,255,0.65); font-size: 1.05rem; max-width: 550px; margin: 0 auto 2.5rem; line-height: 1.7; }
-
-    .btn-white {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      background: var(--white); color: var(--royal);
-      padding: 1rem 2.5rem; border-radius: 50px;
-      font-family: var(--font-body); font-size: 1rem; font-weight: 700;
-      border: none; cursor: pointer; transition: all 0.4s var(--ease-smooth);
-    }
-    .btn-white:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(0,0,0,0.2); }
-
-    /* ═══ LOCATION ═══ */
-    .location { background: var(--navy); padding: 7rem 0; border-top: 1px solid rgba(255,255,255,0.03); }
-    .location .container { max-width: 800px; }
-    .location-header { text-align: center; margin-bottom: 3rem; }
-    .location-header .section-subtitle { margin: 0 auto; }
-
-    .location-info-card {
-      background: var(--navy-card); padding: 2.5rem; border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.04);
-      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem;
-    }
-    .location-detail { text-align: center; }
-    .location-detail-icon {
-      width:52px; height:52px; border-radius:14px;
-      background: linear-gradient(135deg, rgba(0,86,179,0.15), rgba(0,180,216,0.08));
-      display: flex; align-items: center; justify-content: center;
-      color: var(--accent); font-size: 1.1rem; margin: 0 auto 1rem;
-    }
-    .location-detail h5 { font-size: 0.85rem; font-weight: 700; color: var(--white); margin-bottom: 0.4rem; }
-    .location-detail p { font-size: 0.85rem; color: var(--gray-300); line-height: 1.6; }
-
-    /* ═══ CONTACT ═══ */
-    .contact { background: var(--navy-deep); padding: 7rem 0; border-top: 1px solid rgba(255,255,255,0.03); }
-    .contact-header { text-align: center; margin-bottom: 3.5rem; }
-    .contact-header .section-subtitle { margin: 0 auto; }
-
-    .contact-form-wrapper {
-      max-width: 700px; margin: 0 auto;
-      background: var(--navy-card); padding: 3rem; border-radius: 24px;
-      border: 1px solid rgba(255,255,255,0.04);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-    }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-    .form-group.full-width { grid-column: 1 / -1; }
-    .form-group label {
-      display: block; font-size: 0.78rem; font-weight: 600;
-      color: var(--off-white); margin-bottom: 0.5rem;
-      text-transform: uppercase; letter-spacing: 0.5px;
-    }
-    .form-group input, .form-group textarea {
-      width:100%; padding: 0.9rem 1.2rem;
-      border: 2px solid rgba(255,255,255,0.06); border-radius: 12px;
-      font-family: var(--font-body); font-size: 0.92rem; color: var(--white);
-      background: rgba(255,255,255,0.03); transition: all 0.3s; outline: none;
-    }
-    .form-group input::placeholder, .form-group textarea::placeholder { color: var(--gray-400); }
-    .form-group input:focus, .form-group textarea:focus {
-      border-color: var(--accent); background: rgba(0,180,216,0.03);
-      box-shadow: 0 0 0 4px rgba(0,180,216,0.06);
-    }
-    .form-group textarea { resize: vertical; min-height: 130px; }
-    .form-submit { grid-column: 1 / -1; margin-top: 0.5rem; }
-
-    .btn-submit {
-      width:100%; display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
-      background: linear-gradient(135deg, var(--royal), var(--accent));
-      color: var(--white); padding: 1.1rem 2rem; border-radius: 14px;
-      font-family: var(--font-body); font-size: 1rem; font-weight: 700;
-      border: none; cursor: pointer; transition: all 0.4s; letter-spacing: 0.5px;
-    }
-    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(0,86,179,0.4); }
-    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
-
-    .form-success { display: none; text-align: center; padding: 2rem; }
-    .form-success.show { display: block; }
-    .form-success i { font-size: 3rem; color: #2ecc71; margin-bottom: 1rem; }
-    .form-success h4 { font-family: var(--font-display); font-size: 1.5rem; color: var(--white); margin-bottom: 0.5rem; }
-    .form-success p { color: var(--gray-300); }
-
-    /* ═══ FOOTER ═══ */
-    .footer {
-      background: var(--navy-deep); padding: 4rem 0 2rem;
-      position: relative; z-index: 2; border-top: 1px solid rgba(255,255,255,0.04);
-    }
-    .footer-top {
-      display: grid; grid-template-columns: 2fr 1fr 1fr;
-      gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.04);
-    }
-    .footer-brand p { color: rgba(255,255,255,0.35); font-size: 0.88rem; line-height: 1.7; margin-top: 1rem; max-width: 320px; }
-    .footer h5 { color: var(--white); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 1.2rem; }
-    .footer-links a { display: block; color: rgba(255,255,255,0.35); font-size: 0.88rem; padding: 0.35rem 0; transition: color 0.3s; }
-    .footer-links a:hover { color: var(--accent); }
-
-    .footer-social { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
-    .footer-social a {
-      width:40px; height:40px; border-radius:10px;
-      background: rgba(255,255,255,0.04);
-      display: flex; align-items: center; justify-content: center;
-      color: rgba(255,255,255,0.4); transition: all 0.3s;
-    }
-    .footer-social a:hover { background: var(--royal); color: var(--white); }
-
-    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; }
-    .footer-bottom p { color: rgba(255,255,255,0.2); font-size: 0.78rem; }
-
-    /* ═══ WHATSAPP ═══ */
-    .whatsapp-float {
-      position: fixed; bottom:28px; right:28px; z-index:999;
-      width:60px; height:60px; border-radius:50%;
-      background: #25d366; display: flex; align-items: center; justify-content: center;
-      color:#fff; font-size:1.7rem; box-shadow: 0 6px 25px rgba(37,211,102,0.35);
-      transition: all 0.4s; cursor: pointer;
-    }
-    .whatsapp-float:hover { transform: scale(1.1) translateY(-3px); box-shadow: 0 10px 35px rgba(37,211,102,0.5); }
-    .whatsapp-float::before {
-      content:''; position: absolute; inset:-4px;
-      border-radius:50%; border: 2px solid rgba(37,211,102,0.3);
-      animation: waPulse 2s ease-in-out infinite;
-    }
-    @keyframes waPulse { 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(1.15);opacity:0;} }
-
-    /* ═══ SCROLL TOP ═══ */
-    .scroll-top {
-      position: fixed; bottom:100px; right:32px; z-index:998;
-      width:44px; height:44px; border-radius:12px;
-      background: var(--navy-card); border: 1px solid rgba(255,255,255,0.06);
-      color: var(--white); display: flex; align-items: center; justify-content: center;
-      font-size:1rem; cursor:pointer;
-      opacity:0; visibility:hidden; transform: translateY(10px); transition: all 0.4s;
-    }
-    .scroll-top.visible { opacity:1; visibility:visible; transform: translateY(0); }
-    .scroll-top:hover { background: var(--royal); }
-
-    /* ═══ RESPONSIVE ═══ */
-    @media (max-width: 1024px) {
-      .services-grid, .diff-grid, .plans-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 768px) {
-      .nav-links {
-        position: fixed; top:0; right:-100%; width:80%; max-width:350px; height:100vh;
-        background: var(--navy-deep); flex-direction: column; justify-content: center;
-        gap:2rem; transition: right 0.5s; z-index:10001; padding:2rem;
-      }
-      .nav-links.open { right: 0; }
-      .nav-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:10000; opacity:0; visibility:hidden; transition: all 0.3s; }
-      .nav-overlay.open { opacity:1; visibility:visible; }
-      .nav-toggle { display: block; z-index: 10002; }
-
-      .hero .container { grid-template-columns: 1fr; text-align: center; }
-      .hero-content { order: 2; }
-      .hero-visual { order: 1; }
-      .hero-photo-wrapper { width: 260px; height: 320px; }
-      .hero-photo-badge { left: 0; bottom: -10px; }
-      .hero-description { margin: 0 auto 2.5rem; }
-      .hero-buttons { justify-content: center; }
-      .hero-stats { justify-content: center; }
-
-      .about .container { grid-template-columns: 1fr; gap: 3rem; }
-      .about-experience-badge { right: 10px; }
-
-      .services-grid, .diff-grid, .plans-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
-      .location-info-card { grid-template-columns: 1fr; }
-      .form-grid { grid-template-columns: 1fr; }
-
-      .footer-top { grid-template-columns: 1fr; gap: 2rem; }
-      .footer-bottom { flex-direction: column; gap:1rem; text-align: center; }
-      .contact-form-wrapper { padding: 2rem 1.5rem; }
-    }
-    @media (max-width: 480px) {
-      .container { padding: 0 1.2rem; }
-      .hero-stats { gap:1.5rem; flex-wrap: wrap; }
-    }
-  </style>
-</head>
-
-<body>
-
-  <!-- INTRO -->
-  <div class="intro-overlay" id="introOverlay">
-    <div class="intro-bg-lines" id="introLines"></div>
-    <div class="intro-pulse-ring" id="introPulse1"></div>
-    <div class="intro-pulse-ring" id="introPulse2"></div>
-    <div class="intro-content">
-      <div class="intro-logo-line">
-        <div class="intro-logo-text" id="introText1">Dr. Gabriel <span>Rosas</span></div>
-      </div>
-      <div class="intro-subtitle" id="introSubtitle">Fisioterapia Especializada</div>
+function KPICard({ label, value, sub, accent }) {
+  return (
+    <div style={{
+      background: "rgba(255,255,255,0.03)",
+      border: "1px solid rgba(255,255,255,0.08)",
+      borderRadius: 16,
+      padding: "20px 24px",
+      flex: "1 1 200px",
+      minWidth: 180,
+      position: "relative",
+      overflow: "hidden",
+    }}>
+      <div style={{
+        position: "absolute", top: 0, left: 0, width: 4, height: "100%",
+        background: accent || "#60A5FA",
+        borderRadius: "4px 0 0 4px",
+      }} />
+      <div style={{ fontSize: 12, color: "#94A3B8", textTransform: "uppercase", letterSpacing: 1.5, fontWeight: 600, marginBottom: 8 }}>{label}</div>
+      <div style={{ fontSize: 28, fontWeight: 800, color: "#F1F5F9", fontFamily: "'DM Sans', sans-serif" }}>{value}</div>
+      {sub && <div style={{ fontSize: 12, color: "#64748B", marginTop: 4 }}>{sub}</div>}
     </div>
-  </div>
+  );
+}
 
-  <canvas id="three-canvas"></canvas>
-  <div class="nav-overlay" id="navOverlay"></div>
-
-  <nav class="navbar" id="navbar">
-    <div class="container">
-      <a href="#" class="nav-logo">Dr. Gabriel <span>Rosas</span></a>
-      <div class="nav-links" id="navLinks">
-        <a href="#sobre">Sobre</a>
-        <a href="#servicos">Serviços</a>
-        <a href="#planos">Planos</a>
-        <a href="#diferenciais">Diferenciais</a>
-        <a href="#contato" class="nav-cta">Agende Agora</a>
-      </div>
-      <button class="nav-toggle" id="navToggle" aria-label="Menu"><i class="fas fa-bars" id="navIcon"></i></button>
+function SectionTitle({ children, emoji }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20, marginTop: 40 }}>
+      <span style={{ fontSize: 28 }}>{emoji}</span>
+      <h2 style={{
+        fontSize: 22, fontWeight: 800, color: "#F1F5F9", margin: 0,
+        fontFamily: "'DM Sans', sans-serif",
+        letterSpacing: -0.5,
+      }}>{children}</h2>
+      <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, rgba(255,255,255,0.1), transparent)" }} />
     </div>
-  </nav>
+  );
+}
 
-  <!-- HERO -->
-  <section class="hero" id="hero">
-    <div class="container">
-      <div class="hero-content">
-        <div class="hero-badge" data-aos="fade-down" data-aos-delay="200"><i class="fas fa-circle"></i> CREFITO Ativo — Presidente Prudente, SP</div>
-        <h1 class="hero-title" data-aos="fade-up" data-aos-delay="300">Recupere seus movimentos com <em>segurança</em> e <em>confiança</em></h1>
-        <p class="hero-description" data-aos="fade-up" data-aos-delay="400">Atendimento 100% individualizado com foco em reabilitação baseada em evidências científicas. Sua recuperação começa com um plano feito exclusivamente para você.</p>
-        <div class="hero-buttons" data-aos="fade-up" data-aos-delay="500">
-          <a href="https://wa.me/5518997749458?text=Olá Dr. Gabriel, gostaria de agendar uma consulta." class="btn-primary" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Agendar Consulta</a>
-          <a href="#servicos" class="btn-secondary"><i class="fas fa-arrow-right"></i> Conheça os Serviços</a>
-        </div>
-        <div class="hero-stats" data-aos="fade-up" data-aos-delay="600">
-          <div class="hero-stat"><div class="hero-stat-number">100<span>%</span></div><div class="hero-stat-label">Individualizado</div></div>
-          <div class="hero-stat"><div class="hero-stat-number">1<span>:</span>1</div><div class="hero-stat-label">Atendimento</div></div>
-          <div class="hero-stat"><div class="hero-stat-number">6<span>+</span></div><div class="hero-stat-label">Especialidades</div></div>
-        </div>
+function BankRankingCard({ bank, rank }) {
+  const medals = ["🥇", "🥈", "🥉"];
+  return (
+    <div style={{
+      background: rank === 0 ? "linear-gradient(135deg, rgba(96,165,250,0.1), rgba(96,165,250,0.02))" : "rgba(255,255,255,0.02)",
+      border: rank === 0 ? "1px solid rgba(96,165,250,0.3)" : "1px solid rgba(255,255,255,0.06)",
+      borderRadius: 14,
+      padding: "16px 20px",
+      display: "flex",
+      alignItems: "center",
+      gap: 16,
+      transition: "all 0.3s ease",
+      cursor: "default",
+    }}>
+      <span style={{ fontSize: 32, minWidth: 40, textAlign: "center" }}>
+        {rank < 3 ? medals[rank] : <span style={{ color: "#64748B", fontWeight: 700, fontSize: 20 }}>#{rank + 1}</span>}
+      </span>
+      <div style={{
+        width: 44, height: 44, borderRadius: 12,
+        background: bank.cor, display: "flex", alignItems: "center", justifyContent: "center",
+        fontWeight: 900, color: bank.cor === "#FFCC00" ? "#1E293B" : "#fff", fontSize: 14,
+        fontFamily: "'DM Sans', sans-serif",
+        flexShrink: 0,
+      }}>
+        {bank.name.substring(0, 2).toUpperCase()}
       </div>
-      <div class="hero-visual" data-aos="zoom-in" data-aos-delay="400">
-        <div class="hero-photo-wrapper">
-          <div class="hero-photo-glow"></div>
-          <div class="hero-photo-accent"></div>
-          <div class="hero-photo-frame"><img src="foto_sel.jpg" alt="Dr. Gabriel Rosas - Fisioterapeuta" loading="eager"></div>
-          <div class="hero-photo-badge">
-            <div class="hero-photo-badge-icon"><i class="fas fa-check-double"></i></div>
-            <div class="hero-photo-badge-text"><strong>Atendimento 1:1</strong><span>Foco total em você</span></div>
+      <div style={{ flex: 1 }}>
+        <div style={{ fontWeight: 700, fontSize: 16, color: "#F1F5F9" }}>{bank.name}</div>
+        <div style={{ fontSize: 12, color: "#64748B" }}>{bank.tipo} · Aprovação: {bank.aprovacao}</div>
+      </div>
+      <div style={{ textAlign: "right" }}>
+        <div style={{ fontSize: 22, fontWeight: 800, color: "#60A5FA", fontFamily: "'DM Sans', sans-serif" }}>{bank.taxa}%</div>
+        <div style={{ fontSize: 11, color: "#94A3B8" }}>a.a. + TR</div>
+      </div>
+    </div>
+  );
+}
+
+const CustomTooltip = ({ active, payload, label }) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <div style={{
+      background: "#1E293B", border: "1px solid rgba(255,255,255,0.1)",
+      borderRadius: 10, padding: "10px 14px", boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
+    }}>
+      <div style={{ fontWeight: 700, color: "#F1F5F9", fontSize: 13, marginBottom: 4 }}>{label}</div>
+      {payload.map((p, i) => (
+        <div key={i} style={{ color: p.color, fontSize: 12, fontWeight: 600 }}>
+          {p.name}: {typeof p.value === "number" ? (p.value > 100 ? formatCurrency(p.value) : formatPct(p.value)) : p.value}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default function Dashboard() {
+  const [activeTab, setActiveTab] = useState("ranking");
+  const [simValor, setSimValor] = useState(500000);
+  const [simEntrada, setSimEntrada] = useState(20);
+  const [simPrazo, setSimPrazo] = useState(360);
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => { setAnimate(true); }, []);
+
+  const valorFinanciado = simValor * (1 - simEntrada / 100);
+
+  const simData = BANKS.map(b => {
+    const parcela = calcParcela(valorFinanciado, b.taxa, simPrazo);
+    const totalPago = parcela * simPrazo;
+    const jurosTotal = totalPago - valorFinanciado;
+    return { ...b, parcela, totalPago, jurosTotal };
+  });
+
+  const barData = BANKS.map(b => ({
+    name: b.name,
+    "Taxa Balcão": b.taxa,
+    "Taxa Relacionamento": b.taxaRelacionamento,
+    fill: b.cor,
+  }));
+
+  const custoData = BANKS.map(b => ({
+    name: b.name,
+    "Custo Total (R$)": b.custo500k,
+    fill: b.cor,
+  }));
+
+  const radarData = BANKS.slice(0, 5).map(b => ({
+    banco: b.name,
+    "Taxa": (15 - b.taxa) * 2.5,
+    "Prazo": b.prazoMax / 42,
+    "Financiamento": b.financiaMax / 9,
+    "Aprovação": b.nota,
+    "Custo Total": ((1000000 - b.custo500k) / 1000000) * 10,
+  }));
+
+  const tabs = [
+    { id: "ranking", label: "Ranking", icon: "🏆" },
+    { id: "comparativo", label: "Comparativo", icon: "📊" },
+    { id: "simulador", label: "Simulador", icon: "🧮" },
+    { id: "cenario", label: "Cenário", icon: "📈" },
+  ];
+
+  return (
+    <div style={{
+      minHeight: "100vh",
+      background: "#0B1120",
+      fontFamily: "'DM Sans', sans-serif",
+      color: "#E2E8F0",
+      position: "relative",
+      overflow: "hidden",
+    }}>
+      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+      {/* Background effects */}
+      <div style={{
+        position: "fixed", top: -200, right: -200, width: 600, height: 600,
+        background: "radial-gradient(circle, rgba(96,165,250,0.08) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+      <div style={{
+        position: "fixed", bottom: -200, left: -200, width: 500, height: 500,
+        background: "radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+
+      <div style={{ maxWidth: 960, margin: "0 auto", padding: "32px 20px", position: "relative" }}>
+        {/* Header */}
+        <div style={{
+          textAlign: "center", marginBottom: 36,
+          opacity: animate ? 1 : 0,
+          transform: animate ? "translateY(0)" : "translateY(-20px)",
+          transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1)",
+        }}>
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 8,
+            background: "rgba(96,165,250,0.1)", border: "1px solid rgba(96,165,250,0.2)",
+            borderRadius: 20, padding: "6px 16px", fontSize: 12, color: "#60A5FA",
+            fontWeight: 600, letterSpacing: 0.5, marginBottom: 16,
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#34D399", animation: "pulse 2s infinite" }} />
+            Dados atualizados · Março 2026
+          </div>
+          <h1 style={{
+            fontSize: 36, fontWeight: 900, margin: "0 0 8px",
+            background: "linear-gradient(135deg, #F1F5F9, #60A5FA)",
+            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+            letterSpacing: -1.5, lineHeight: 1.1,
+          }}>
+            Financiamento Imobiliário
+          </h1>
+          <p style={{ color: "#64748B", fontSize: 15, margin: 0, fontWeight: 500 }}>
+            Comparativo completo de juros, taxas e condições dos principais bancos do Brasil
+          </p>
+        </div>
+
+        {/* KPIs */}
+        <div style={{
+          display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 32,
+          opacity: animate ? 1 : 0, transition: "opacity 0.8s ease 0.2s",
+        }}>
+          <KPICard label="Selic Atual" value="15,00%" sub="Meta Banco Central" accent="#F97316" />
+          <KPICard label="Menor Taxa" value="10,26%" sub="Caixa c/ relacionamento" accent="#34D399" />
+          <KPICard label="Teto SFH" value="R$ 2,25M" sub="Ampliado em 2026" accent="#60A5FA" />
+          <KPICard label="Média Mercado" value="11,70%" sub="Bancos privados" accent="#A78BFA" />
+        </div>
+
+        {/* Tabs */}
+        <div style={{
+          display: "flex", gap: 4, background: "rgba(255,255,255,0.03)",
+          borderRadius: 14, padding: 4, marginBottom: 28,
+          border: "1px solid rgba(255,255,255,0.06)",
+        }}>
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              style={{
+                flex: 1, padding: "12px 8px", border: "none", cursor: "pointer",
+                borderRadius: 10, fontSize: 13, fontWeight: 700,
+                fontFamily: "'DM Sans', sans-serif",
+                background: activeTab === tab.id ? "rgba(96,165,250,0.15)" : "transparent",
+                color: activeTab === tab.id ? "#60A5FA" : "#64748B",
+                transition: "all 0.3s ease",
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+              }}
+            >
+              <span>{tab.icon}</span> {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* TAB: RANKING */}
+        {activeTab === "ranking" && (
+          <div>
+            <SectionTitle emoji="🏆">Ranking de Taxas — Fevereiro 2026</SectionTitle>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {BANKS.map((b, i) => <BankRankingCard key={b.name} bank={b} rank={i} />)}
+            </div>
+
+            <SectionTitle emoji="💡">Destaques do Mercado</SectionTitle>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12 }}>
+              {[
+                { title: "Caixa lidera com folga", desc: "Menor taxa balcão (11,19%) e condição especial de 10,26% para correntistas. Financia até 80% do imóvel em até 420 meses.", color: "#005CA9" },
+                { title: "Itaú: o mais ágil", desc: "Taxa competitiva de 11,60% com o processo de aprovação mais rápido entre os privados (5-10 dias). Ideal para quem tem pressa.", color: "#FF6600" },
+                { title: "Inter: cuidado com o custo", desc: "Apesar do processo 100% digital, a taxa de 13,76% gera até R$270 mil a mais de juros vs. Caixa em um financiamento de R$400k.", color: "#FF7A00" },
+                { title: "Novo teto SFH: R$ 2,25M", desc: "Imóveis de alto padrão agora acessam juros regulados. Antes o limite era R$ 1,5M. Grande oportunidade para a classe média-alta.", color: "#A78BFA" },
+              ].map((item, i) => (
+                <div key={i} style={{
+                  background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
+                  borderRadius: 14, padding: "18px 20px", position: "relative", overflow: "hidden",
+                }}>
+                  <div style={{
+                    position: "absolute", top: 0, left: 0, width: "100%", height: 3,
+                    background: item.color,
+                  }} />
+                  <div style={{ fontWeight: 700, fontSize: 15, color: "#F1F5F9", marginBottom: 8 }}>{item.title}</div>
+                  <div style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.6 }}>{item.desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* TAB: COMPARATIVO */}
+        {activeTab === "comparativo" && (
+          <div>
+            <SectionTitle emoji="📊">Taxas de Juros por Banco (% a.a. + TR)</SectionTitle>
+            <div style={{
+              background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
+              borderRadius: 16, padding: "24px 16px", marginBottom: 24,
+            }}>
+              <ResponsiveContainer width="100%" height={340}>
+                <BarChart data={barData} barGap={4}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+                  <XAxis dataKey="name" tick={{ fill: "#94A3B8", fontSize: 11, fontWeight: 600 }} axisLine={false} tickLine={false} />
+                  <YAxis domain={[9, 14.5]} tick={{ fill: "#64748B", fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => `${v}%`} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend wrapperStyle={{ fontSize: 12, color: "#94A3B8" }} />
+                  <Bar dataKey="Taxa Balcão" radius={[6, 6, 0, 0]} maxBarSize={36}>
+                    {barData.map((entry, i) => <Cell key={i} fill={BANKS[i].cor} fillOpacity={0.85} />)}
+                  </Bar>
+                  <Bar dataKey="Taxa Relacionamento" radius={[6, 6, 0, 0]} maxBarSize={36}>
+                    {barData.map((entry, i) => <Cell key={i} fill={BANKS[i].cor} fillOpacity={0.45} />)}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            <SectionTitle emoji="💰">Custo Total Estimado (Imóvel R$ 500k, 360 meses)</SectionTitle>
+            <div style={{
+              background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
+              borderRadius: 16, padding: "24px 16px", marginBottom: 24,
+            }}>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={custoData} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" horizontal={false} />
+                  <XAxis type="number" tick={{ fill: "#64748B", fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={v => `R$${(v/1000).toFixed(0)}k`} />
+                  <YAxis type="category" dataKey="name" width={90} tick={{ fill: "#94A3B8", fontSize: 12, fontWeight: 600 }} axisLine={false} tickLine={false} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Bar dataKey="Custo Total (R$)" radius={[0, 8, 8, 0]} maxBarSize={28}>
+                    {custoData.map((entry, i) => <Cell key={i} fill={BANKS[i].cor} fillOpacity={0.8} />)}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+              <div style={{ textAlign: "center", fontSize: 12, color: "#F97316", fontWeight: 600, marginTop: 8 }}>
+                ⚠️ Diferença entre Caixa e Inter: ~R$ 270.000 · equivale a um segundo imóvel
+              </div>
+            </div>
+
+            <SectionTitle emoji="🎯">Análise Multidimensional (Top 5)</SectionTitle>
+            <div style={{
+              background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
+              borderRadius: 16, padding: "24px 16px",
+            }}>
+              <ResponsiveContainer width="100%" height={340}>
+                <RadarChart data={radarData}>
+                  <PolarGrid stroke="rgba(255,255,255,0.08)" />
+                  <PolarAngleAxis dataKey="banco" tick={{ fill: "#94A3B8", fontSize: 11, fontWeight: 600 }} />
+                  <PolarRadiusAxis tick={false} axisLine={false} domain={[0, 10]} />
+                  <Radar name="Taxa" dataKey="Taxa" stroke="#60A5FA" fill="#60A5FA" fillOpacity={0.15} />
+                  <Radar name="Aprovação" dataKey="Aprovação" stroke="#34D399" fill="#34D399" fillOpacity={0.1} />
+                  <Radar name="Custo Total" dataKey="Custo Total" stroke="#F97316" fill="#F97316" fillOpacity={0.1} />
+                  <Legend wrapperStyle={{ fontSize: 12 }} />
+                </RadarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
+        {/* TAB: SIMULADOR */}
+        {activeTab === "simulador" && (
+          <div>
+            <SectionTitle emoji="🧮">Simulador de Financiamento</SectionTitle>
+            <div style={{
+              background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
+              borderRadius: 16, padding: 24, marginBottom: 24,
+            }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20, marginBottom: 24 }}>
+                <div>
+                  <label style={{ fontSize: 12, color: "#94A3B8", fontWeight: 600, display: "block", marginBottom: 8 }}>
+                    Valor do Imóvel: {formatCurrency(simValor)}
+                  </label>
+                  <input type="range" min={200000} max={2250000} step={50000} value={simValor}
+                    onChange={e => setSimValor(+e.target.value)}
+                    style={{ width: "100%", accentColor: "#60A5FA" }}
+                  />
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: "#475569" }}>
+                    <span>R$ 200k</span><span>R$ 2,25M</span>
+                  </div>
+                </div>
+                <div>
+                  <label style={{ fontSize: 12, color: "#94A3B8", fontWeight: 600, display: "block", marginBottom: 8 }}>
+                    Entrada: {simEntrada}% ({formatCurrency(simValor * simEntrada / 100)})
+                  </label>
+                  <input type="range" min={10} max={50} step={5} value={simEntrada}
+                    onChange={e => setSimEntrada(+e.target.value)}
+                    style={{ width: "100%", accentColor: "#34D399" }}
+                  />
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: "#475569" }}>
+                    <span>10%</span><span>50%</span>
+                  </div>
+                </div>
+                <div>
+                  <label style={{ fontSize: 12, color: "#94A3B8", fontWeight: 600, display: "block", marginBottom: 8 }}>
+                    Prazo: {simPrazo} meses ({(simPrazo / 12).toFixed(0)} anos)
+                  </label>
+                  <input type="range" min={60} max={420} step={12} value={simPrazo}
+                    onChange={e => setSimPrazo(+e.target.value)}
+                    style={{ width: "100%", accentColor: "#A78BFA" }}
+                  />
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: "#475569" }}>
+                    <span>5 anos</span><span>35 anos</span>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{
+                background: "rgba(96,165,250,0.05)", borderRadius: 12, padding: "14px 18px",
+                border: "1px solid rgba(96,165,250,0.1)", marginBottom: 20,
+                display: "flex", flexWrap: "wrap", gap: 20, justifyContent: "center",
+              }}>
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontSize: 11, color: "#64748B", fontWeight: 600 }}>Valor Financiado</div>
+                  <div style={{ fontSize: 20, fontWeight: 800, color: "#60A5FA" }}>{formatCurrency(valorFinanciado)}</div>
+                </div>
+                <div style={{ width: 1, background: "rgba(255,255,255,0.08)", alignSelf: "stretch" }} />
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontSize: 11, color: "#64748B", fontWeight: 600 }}>Menor Parcela (Caixa)</div>
+                  <div style={{ fontSize: 20, fontWeight: 800, color: "#34D399" }}>{formatCurrency(Math.round(calcParcela(valorFinanciado, 11.19, simPrazo)))}</div>
+                </div>
+                <div style={{ width: 1, background: "rgba(255,255,255,0.08)", alignSelf: "stretch" }} />
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontSize: 11, color: "#64748B", fontWeight: 600 }}>Maior Parcela (Inter)</div>
+                  <div style={{ fontSize: 20, fontWeight: 800, color: "#F97316" }}>{formatCurrency(Math.round(calcParcela(valorFinanciado, 13.76, simPrazo)))}</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Simulation results */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {simData.map((b, i) => {
+                const maxParcela = Math.max(...simData.map(x => x.parcela));
+                const pctWidth = (b.parcela / maxParcela) * 100;
+                return (
+                  <div key={b.name} style={{
+                    background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
+                    borderRadius: 12, padding: "14px 18px",
+                  }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                        <div style={{
+                          width: 32, height: 32, borderRadius: 8, background: b.cor,
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          fontWeight: 900, color: b.cor === "#FFCC00" ? "#1E293B" : "#fff", fontSize: 11,
+                        }}>
+                          {b.name.substring(0, 2).toUpperCase()}
+                        </div>
+                        <div>
+                          <div style={{ fontWeight: 700, fontSize: 14, color: "#F1F5F9" }}>{b.name}</div>
+                          <div style={{ fontSize: 11, color: "#64748B" }}>{b.taxa}% a.a. + TR</div>
+                        </div>
+                      </div>
+                      <div style={{ textAlign: "right" }}>
+                        <div style={{ fontWeight: 800, fontSize: 18, color: "#F1F5F9", fontFamily: "'JetBrains Mono', monospace" }}>
+                          {formatCurrency(Math.round(b.parcela))}
+                        </div>
+                        <div style={{ fontSize: 10, color: "#64748B" }}>parcela/mês (Price)</div>
+                      </div>
+                    </div>
+                    <div style={{ height: 6, background: "rgba(255,255,255,0.04)", borderRadius: 3, overflow: "hidden" }}>
+                      <div style={{
+                        width: `${pctWidth}%`, height: "100%", background: b.cor,
+                        borderRadius: 3, transition: "width 0.6s ease",
+                        opacity: 0.7,
+                      }} />
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6, fontSize: 11, color: "#64748B" }}>
+                      <span>Total pago: {formatCurrency(Math.round(b.totalPago))}</span>
+                      <span>Juros: {formatCurrency(Math.round(b.jurosTotal))}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* TAB: CENÁRIO */}
+        {activeTab === "cenario" && (
+          <div>
+            <SectionTitle emoji="📈">Evolução da Taxa Selic</SectionTitle>
+            <div style={{
+              background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
+              borderRadius: 16, padding: "24px 16px", marginBottom: 24,
+            }}>
+              <ResponsiveContainer width="100%" height={280}>
+                <AreaChart data={SELIC_HIST}>
+                  <defs>
+                    <linearGradient id="selicGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#F97316" stopOpacity={0.3} />
+                      <stop offset="100%" stopColor="#F97316" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+                  <XAxis dataKey="mes" tick={{ fill: "#64748B", fontSize: 10 }} axisLine={false} tickLine={false} />
+                  <YAxis domain={[13, 16]} tick={{ fill: "#64748B", fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => `${v}%`} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Area type="monotone" dataKey="selic" stroke="#F97316" fill="url(#selicGrad)" strokeWidth={2.5} name="Selic" dot={{ fill: "#F97316", r: 3 }} />
+                </AreaChart>
+              </ResponsiveContainer>
+              <div style={{ textAlign: "center", fontSize: 12, color: "#94A3B8", marginTop: 4 }}>
+                Selic mantida em 15% desde setembro de 2025
+              </div>
+            </div>
+
+            <SectionTitle emoji="🔮">Projeção Selic (Boletim Focus)</SectionTitle>
+            <div style={{
+              background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
+              borderRadius: 16, padding: "24px 16px", marginBottom: 24,
+            }}>
+              <ResponsiveContainer width="100%" height={280}>
+                <AreaChart data={SELIC_PROJ}>
+                  <defs>
+                    <linearGradient id="projGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#34D399" stopOpacity={0.3} />
+                      <stop offset="100%" stopColor="#34D399" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+                  <XAxis dataKey="mes" tick={{ fill: "#64748B", fontSize: 10 }} axisLine={false} tickLine={false} />
+                  <YAxis domain={[10, 16]} tick={{ fill: "#64748B", fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => `${v}%`} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Area type="monotone" dataKey="selic" stroke="#34D399" fill="url(#projGrad)" strokeWidth={2.5} name="Selic Projetada" dot={{ fill: "#34D399", r: 4 }} />
+                </AreaChart>
+              </ResponsiveContainer>
+              <div style={{ textAlign: "center", fontSize: 12, color: "#34D399", fontWeight: 600, marginTop: 4 }}>
+                Expectativa: Selic em ~12,50% ao fim de 2026
+              </div>
+            </div>
+
+            <SectionTitle emoji="⚖️">Comprar Agora vs. Esperar?</SectionTitle>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12 }}>
+              <div style={{
+                background: "linear-gradient(135deg, rgba(52,211,153,0.08), rgba(52,211,153,0.01))",
+                border: "1px solid rgba(52,211,153,0.2)",
+                borderRadius: 16, padding: 22,
+              }}>
+                <div style={{ fontSize: 28, marginBottom: 8 }}>✅</div>
+                <div style={{ fontWeight: 800, fontSize: 16, color: "#34D399", marginBottom: 10 }}>Argumentos para comprar agora</div>
+                <div style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.7 }}>
+                  Taxas imobiliárias (11%) estão abaixo da Selic (15%), criando oportunidade de arbitragem. Imóveis se valorizam enquanto você espera. Portabilidade permite renegociar quando juros caírem. Novo teto SFH de R$ 2,25M amplia condições favoráveis.
+                </div>
+              </div>
+              <div style={{
+                background: "linear-gradient(135deg, rgba(249,115,22,0.08), rgba(249,115,22,0.01))",
+                border: "1px solid rgba(249,115,22,0.2)",
+                borderRadius: 16, padding: 22,
+              }}>
+                <div style={{ fontSize: 28, marginBottom: 8 }}>⏳</div>
+                <div style={{ fontWeight: 800, fontSize: 16, color: "#F97316", marginBottom: 10 }}>Argumentos para esperar</div>
+                <div style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.7 }}>
+                  Selic projetada para cair ao longo de 2026 pode resultar em taxas menores. Cenário de desaquecimento pode gerar descontos em imóveis. INCC elevado encarece imóveis na planta. Juros altos comprimem demanda — pode haver margem para negociar.
+                </div>
+              </div>
+            </div>
+
+            <div style={{
+              background: "rgba(96,165,250,0.05)", border: "1px solid rgba(96,165,250,0.15)",
+              borderRadius: 14, padding: "18px 22px", marginTop: 20, textAlign: "center",
+            }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "#60A5FA", marginBottom: 6 }}>
+                💎 Dica estratégica
+              </div>
+              <div style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.6 }}>
+                Especialistas recomendam: financie agora e faça portabilidade quando a Selic cair. Quanto maior a entrada, menores os juros compostos. Use o FGTS sem hesitar para abater o saldo devedor.
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Footer */}
+        <div style={{
+          marginTop: 48, paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.06)",
+          textAlign: "center", fontSize: 11, color: "#475569", lineHeight: 1.8,
+        }}>
+          <div>Fontes: LARYA Intelligence, MySide, Portas, Banco Central do Brasil, Boletim Focus · Dados de Fev–Mar/2026</div>
+          <div style={{ marginTop: 4, color: "#64748B" }}>
+            ⚠️ Taxas podem variar conforme perfil de crédito, relacionamento bancário e condições do imóvel.
+            Este painel é informativo e não constitui aconselhamento financeiro.
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- SOBRE -->
-  <section class="about" id="sobre">
-    <div class="container">
-      <div class="about-image-wrapper" data-aos="fade-right" data-aos-duration="800">
-        <div class="about-image-box"><img src="foto_sel.jpg" alt="Dr. Gabriel Rosas atendendo paciente"></div>
-        <div class="about-image-accent"></div>
-        <div class="about-experience-badge"><strong>Esp.</strong><span>Ortopédica &<br>Esportiva</span></div>
-      </div>
-      <div class="about-text" data-aos="fade-left" data-aos-duration="800">
-        <span class="section-label">Sobre o Profissional</span>
-        <h2 class="section-title">Dr. Gabriel Rosas</h2>
-        <h3>Especialista em Avaliação Funcional e Reabilitação</h3>
-        <p>Fisioterapeuta com formação sólida e foco em reabilitação ortopédica e esportiva, o Dr. Gabriel Rosas combina técnicas baseadas em evidências científicas com um olhar clínico atencioso e humanizado.</p>
-        <p>Cada paciente é tratado de forma única, com protocolos personalizados que respeitam o tempo do corpo e potencializam os resultados. O objetivo é claro: devolver qualidade de vida com segurança.</p>
-        <div class="about-highlights">
-          <div class="about-highlight"><i class="fas fa-microscope"></i><span>Avaliação funcional detalhada</span></div>
-          <div class="about-highlight"><i class="fas fa-brain"></i><span>Prática baseada em evidências</span></div>
-          <div class="about-highlight"><i class="fas fa-person-running"></i><span>Reabilitação esportiva</span></div>
-          <div class="about-highlight"><i class="fas fa-bone"></i><span>Ortopedia e pós-cirúrgico</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SERVIÇOS -->
-  <section class="services" id="servicos">
-    <div class="container">
-      <div class="services-header">
-        <span class="section-label" data-aos="fade-up">Serviços</span>
-        <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Tratamentos Especializados</h2>
-        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">Técnicas avançadas aplicadas com precisão para cada necessidade do seu corpo.</p>
-      </div>
-      <div class="services-grid">
-        <div class="service-card" data-aos="fade-up" data-aos-delay="0"><div class="service-icon"><i class="fas fa-hands"></i></div><h4>Liberação Miofascial</h4><p>Técnica manual que alivia tensões profundas nos tecidos, reduzindo dores crônicas e melhorando a amplitude de movimento.</p><div class="service-card-arrow">Saiba mais <i class="fas fa-arrow-right"></i></div></div>
-        <div class="service-card" data-aos="fade-up" data-aos-delay="100"><div class="service-icon"><i class="fas fa-rotate"></i></div><h4>Mobilização Articular</h4><p>Restauração do movimento natural das articulações com técnicas precisas que devolvem funcionalidade e conforto.</p><div class="service-card-arrow">Saiba mais <i class="fas fa-arrow-right"></i></div></div>
-        <div class="service-card" data-aos="fade-up" data-aos-delay="200"><div class="service-icon"><i class="fas fa-circle-dot"></i></div><h4>Ventosaterapia</h4><p>Terapia com ventosas que acelera a recuperação muscular, melhora a circulação e promove alívio imediato.</p><div class="service-card-arrow">Saiba mais <i class="fas fa-arrow-right"></i></div></div>
-        <div class="service-card" data-aos="fade-up" data-aos-delay="0"><div class="service-icon"><i class="fas fa-dumbbell"></i></div><h4>Exercícios Terapêuticos</h4><p>Protocolos personalizados para fortalecer, corrigir a postura e aumentar a mobilidade funcional do seu corpo.</p><div class="service-card-arrow">Saiba mais <i class="fas fa-arrow-right"></i></div></div>
-        <div class="service-card" data-aos="fade-up" data-aos-delay="100"><div class="service-icon"><i class="fas fa-staff-snake"></i></div><h4>Reabilitação Pós-Cirúrgica</h4><p>Acompanhamento especializado para uma recuperação segura e eficiente após procedimentos ortopédicos.</p><div class="service-card-arrow">Saiba mais <i class="fas fa-arrow-right"></i></div></div>
-        <div class="service-card" data-aos="fade-up" data-aos-delay="200"><div class="service-icon"><i class="fas fa-person-running"></i></div><h4>Fisioterapia Esportiva</h4><p>Foco em atletas e praticantes de esporte com prevenção de lesões e retorno ao desempenho máximo.</p><div class="service-card-arrow">Saiba mais <i class="fas fa-arrow-right"></i></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PLANOS -->
-  <section class="plans" id="planos">
-    <div class="container">
-      <div class="plans-header">
-        <span class="section-label" data-aos="fade-up">Planos de Tratamento</span>
-        <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Escolha o Plano Ideal para Você</h2>
-        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">Planos estruturados para garantir melhor evolução clínica e constância no seu tratamento.</p>
-      </div>
-      <div class="plans-grid">
-        <div class="plan-card" data-aos="fade-up" data-aos-delay="0">
-          <div class="plan-icon"><i class="fas fa-calendar-check"></i></div>
-          <div class="plan-name">Mensal</div>
-          <div class="plan-duration">Duração de 1 mês</div>
-          <div class="plan-features">
-            <div class="plan-feature"><i class="fas fa-check"></i> Frequência: <strong>&nbsp;2x por semana</strong></div>
-            <div class="plan-feature"><i class="fas fa-check"></i> Total de <strong>&nbsp;8 sessões</strong></div>
-            <div class="plan-feature"><i class="fas fa-check"></i> Avaliação funcional inclusa</div>
-            <div class="plan-feature"><i class="fas fa-check"></i> Protocolo personalizado</div>
-            <div class="plan-feature"><i class="fas fa-check"></i> Acompanhamento contínuo</div>
-          </div>
-          <a href="https://wa.me/5518997749458?text=Olá Dr. Gabriel! Tenho interesse no *Plano Mensal* (8 sessões). Gostaria de mais informações." class="plan-cta" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Agendar — Plano Mensal</a>
-        </div>
-        <div class="plan-card featured" data-aos="fade-up" data-aos-delay="150">
-          <div class="plan-popular">Popular</div>
-          <div class="plan-icon"><i class="fas fa-star"></i></div>
-          <div class="plan-name">Bimestral</div>
-          <div class="plan-duration">Duração de 2 meses</div>
-          <div class="plan-features">
-            <div class="plan-feature"><i class="fas fa-check"></i> Frequência: <strong>&nbsp;2x por semana</strong></div>
-            <div class="plan-feature"><i class="fas fa-check"></i> Total de <strong>&nbsp;16 sessões</strong></div>
-            <div class="plan-feature"><i class="fas fa-check"></i> Avaliação funcional inclusa</div>
-            <div class="plan-feature"><i class="fas fa-check"></i> Protocolo personalizado</div>
-            <div class="plan-feature"><i class="fas fa-check"></i> Melhor custo por sessão</div>
-          </div>
-          <a href="https://wa.me/5518997749458?text=Olá Dr. Gabriel! Tenho interesse no *Plano Bimestral* (16 sessões). Gostaria de mais informações." class="plan-cta" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Agendar — Plano Bimestral</a>
-        </div>
-        <div class="plan-card" data-aos="fade-up" data-aos-delay="300">
-          <div class="plan-icon"><i class="fas fa-crown"></i></div>
-          <div class="plan-name">Trimestral</div>
-          <div class="plan-duration">Duração de 3 meses</div>
-          <div class="plan-features">
-            <div class="plan-feature"><i class="fas fa-check"></i> Frequência: <strong>&nbsp;2x por semana</strong></div>
-            <div class="plan-feature"><i class="fas fa-check"></i> Total de <strong>&nbsp;24 sessões</strong></div>
-            <div class="plan-feature"><i class="fas fa-check"></i> Avaliação funcional inclusa</div>
-            <div class="plan-feature"><i class="fas fa-check"></i> Protocolo personalizado</div>
-            <div class="plan-feature"><i class="fas fa-check"></i> Máxima economia por sessão</div>
-          </div>
-          <a href="https://wa.me/5518997749458?text=Olá Dr. Gabriel! Tenho interesse no *Plano Trimestral* (24 sessões). Gostaria de mais informações." class="plan-cta" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Agendar — Plano Trimestral</a>
-        </div>
-      </div>
-      <p class="plan-note" data-aos="fade-up" data-aos-delay="400"><i class="fas fa-info-circle"></i> Planos mais longos oferecem melhor custo por sessão e um acompanhamento mais consistente da sua evolução.</p>
-    </div>
-  </section>
-
-  <!-- DIFERENCIAIS -->
-  <section class="differentials" id="diferenciais">
-    <div class="container">
-      <div class="differentials-header">
-        <span class="section-label" data-aos="fade-up">Por que escolher</span>
-        <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Diferenciais do Atendimento</h2>
-        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">Uma experiência de cuidado que vai além do tratamento convencional.</p>
-      </div>
-      <div class="diff-grid">
-        <div class="diff-card" data-aos="zoom-in" data-aos-delay="0"><div class="diff-icon"><i class="fas fa-user-check"></i></div><h4>Atendimento 1:1</h4><p>Sem divisão de atenção. Cada sessão é dedicada integralmente a você, garantindo foco total no seu tratamento.</p></div>
-        <div class="diff-card" data-aos="zoom-in" data-aos-delay="150"><div class="diff-icon"><i class="fas fa-clipboard-list"></i></div><h4>Planos Personalizados</h4><p>Nenhum paciente é igual. Cada protocolo é desenhado individualmente com base na sua avaliação funcional completa.</p></div>
-        <div class="diff-card" data-aos="zoom-in" data-aos-delay="300"><div class="diff-icon"><i class="fas fa-heart-pulse"></i></div><h4>Ambiente Acolhedor</h4><p>Espaço projetado para seu conforto e recuperação, com atendimento humanizado que valoriza o seu bem-estar.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-band">
-    <div class="container">
-      <h2 data-aos="fade-up">Pronto para recuperar sua <em style="font-family:var(--font-display);font-style:italic;">qualidade de vida</em>?</h2>
-      <p data-aos="fade-up" data-aos-delay="100">Agende sua avaliação e dê o primeiro passo rumo a uma vida com mais movimento, menos dor e total confiança.</p>
-      <a href="https://wa.me/5518997749458?text=Olá Dr. Gabriel, gostaria de agendar uma avaliação." class="btn-white" data-aos="fade-up" data-aos-delay="200" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Agendar pelo WhatsApp</a>
-    </div>
-  </section>
-
-  <!-- LOCALIZAÇÃO -->
-  <section class="location" id="localizacao">
-    <div class="container">
-      <div class="location-header">
-        <span class="section-label" data-aos="fade-up">Localização</span>
-        <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Onde Estamos</h2>
-        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">Localização central e de fácil acesso em Presidente Prudente.</p>
-      </div>
-      <div class="location-info-card" data-aos="fade-up" data-aos-delay="300">
-        <div class="location-detail"><div class="location-detail-icon"><i class="fas fa-location-dot"></i></div><h5>Endereço</h5><p>R. Assis Chateaubriand, 85<br>Jardim Paulistano<br>Presidente Prudente — SP</p></div>
-        <div class="location-detail"><div class="location-detail-icon"><i class="fab fa-whatsapp"></i></div><h5>WhatsApp</h5><p>(18) 99774-9458</p></div>
-        <div class="location-detail"><div class="location-detail-icon"><i class="fas fa-clock"></i></div><h5>Horário</h5><p>Seg a Sex: 8h às 18h<br>Sábado: Sob agendamento</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTATO -->
-  <section class="contact" id="contato">
-    <div class="container">
-      <div class="contact-header">
-        <span class="section-label" data-aos="fade-up">Contato</span>
-        <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Entre em Contato</h2>
-        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">Preencha o formulário e retornaremos em breve.</p>
-      </div>
-      <div class="contact-form-wrapper" data-aos="fade-up" data-aos-delay="300">
-        <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="form-grid">
-          <div class="form-group"><label for="name">Nome Completo</label><input type="text" id="name" name="name" placeholder="Seu nome" required></div>
-          <div class="form-group"><label for="email">E-mail</label><input type="email" id="email" name="email" placeholder="seu@email.com" required></div>
-          <div class="form-group"><label for="whatsapp">WhatsApp</label><input type="tel" id="whatsapp" name="whatsapp" placeholder="(18) 99999-9999" required></div>
-          <div class="form-group"><label for="subject">Assunto</label><input type="text" id="subject" name="subject" placeholder="Ex: Agendar avaliação"></div>
-          <div class="form-group full-width"><label for="message">Mensagem</label><textarea id="message" name="message" placeholder="Descreva brevemente o que você precisa..." required></textarea></div>
-          <div class="form-submit"><button type="submit" class="btn-submit" id="submitBtn"><i class="fas fa-paper-plane"></i> Enviar Mensagem</button></div>
-        </form>
-        <div class="form-success" id="formSuccess"><i class="fas fa-circle-check"></i><h4>Mensagem enviada!</h4><p>Obrigado pelo contato. Retornaremos em breve.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <a href="#" class="nav-logo">Dr. Gabriel <span>Rosas</span></a>
-          <p>Fisioterapia especializada com atendimento 100% individualizado. Reabilitação ortopédica e esportiva baseada em evidências científicas.</p>
-          <div class="footer-social">
-            <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://wa.me/5518997749458" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-          </div>
-        </div>
-        <div><h5>Navegação</h5><div class="footer-links"><a href="#sobre">Sobre</a><a href="#servicos">Serviços</a><a href="#planos">Planos</a><a href="#diferenciais">Diferenciais</a><a href="#contato">Contato</a></div></div>
-        <div><h5>Serviços</h5><div class="footer-links"><a href="#servicos">Liberação Miofascial</a><a href="#servicos">Mobilização Articular</a><a href="#servicos">Ventosaterapia</a><a href="#servicos">Fisioterapia Esportiva</a><a href="#servicos">Reab. Pós-Cirúrgica</a></div></div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Dr. Gabriel Rosas — Todos os direitos reservados.</p>
-        <p>Desenvolvido com <i class="fas fa-heart" style="color:var(--accent);font-size:0.7rem;"></i> para sua saúde</p>
-      </div>
-    </div>
-  </footer>
-
-  <a href="https://wa.me/5518997749458?text=Olá Dr. Gabriel, gostaria de mais informações." class="whatsapp-float" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-  <div class="scroll-top" id="scrollTop"><i class="fas fa-chevron-up"></i></div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      playIntro();
-      initThreeBackground();
-      initNavbar();
-      initMobileNav();
-      initForm();
-      initScrollTop();
-      initPhoneMask();
-    });
-
-    function playIntro() {
-      const overlay = document.getElementById('introOverlay');
-      const linesContainer = document.getElementById('introLines');
-      const text1 = document.getElementById('introText1');
-      const subtitle = document.getElementById('introSubtitle');
-      const pulse1 = document.getElementById('introPulse1');
-      const pulse2 = document.getElementById('introPulse2');
-
-      for (let i = 0; i < 20; i++) {
-        const line = document.createElement('div');
-        line.className = 'intro-line';
-        line.style.left = (Math.random() * 100) + '%';
-        line.style.animationDelay = (Math.random() * 1) + 's';
-        line.style.animationDuration = (1 + Math.random() * 1) + 's';
-        linesContainer.appendChild(line);
-      }
-
-      const tl = gsap.timeline({
-        onComplete: () => {
-          overlay.classList.add('done');
-          AOS.init({ duration: 700, once: true, offset: 80, easing: 'ease-out-cubic' });
-          initGSAP();
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
         }
-      });
-
-      tl.to(pulse1, { scale: 3, opacity: 0.15, duration: 1.2, ease: 'power2.out' }, 0)
-        .to(pulse2, { scale: 5, opacity: 0.05, duration: 1.8, ease: 'power2.out' }, 0.3)
-        .to(text1, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out' }, 0.5)
-        .to(subtitle, { opacity: 1, duration: 0.8, ease: 'power2.out' }, 1)
-        .to(subtitle, { opacity: 0, y: -20, duration: 0.5, ease: 'power2.in' }, 2.2)
-        .to(text1, { opacity: 0, y: -40, duration: 0.5, ease: 'power2.in' }, 2.2)
-        .to(overlay, { clipPath: 'circle(0% at 50% 50%)', duration: 1, ease: 'power3.inOut' }, 2.5)
-        .set(overlay, { display: 'none' });
-    }
-
-    function initThreeBackground() {
-      const canvas = document.getElementById('three-canvas');
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 5;
-
-      const geometry = new THREE.TorusKnotGeometry(1.2, 0.35, 128, 32);
-      const material = new THREE.MeshBasicMaterial({ color: 0x0056b3, wireframe: true, transparent: true, opacity: 0.08 });
-      const torusKnot = new THREE.Mesh(geometry, material);
-      torusKnot.position.set(2.5, 0, 0);
-      scene.add(torusKnot);
-
-      const pCount = 350;
-      const pGeo = new THREE.BufferGeometry();
-      const pos = new Float32Array(pCount * 3);
-      for (let i = 0; i < pCount * 3; i++) pos[i] = (Math.random() - 0.5) * 16;
-      pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-      const pMat = new THREE.PointsMaterial({ color: 0x00b4d8, size: 0.018, transparent: true, opacity: 0.4 });
-      const particles = new THREE.Points(pGeo, pMat);
-      scene.add(particles);
-
-      window.__three = { torusKnot, particles, camera, renderer, scene };
-
-      (function animate() {
-        requestAnimationFrame(animate);
-        torusKnot.rotation.x += 0.0015;
-        torusKnot.rotation.y += 0.002;
-        particles.rotation.y += 0.0003;
-        renderer.render(scene, camera);
-      })();
-
-      window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      });
-    }
-
-    function initGSAP() {
-      gsap.registerPlugin(ScrollTrigger);
-      if (!window.__three) return;
-      const { torusKnot, particles } = window.__three;
-
-      gsap.to(torusKnot.position, { x: -2.5, y: 1.5, scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 1.5 } });
-      gsap.to(torusKnot.scale, { x: 1.8, y: 1.8, z: 1.8, scrollTrigger: { trigger: 'body', start: 'top top', end: '50% 50%', scrub: 1 } });
-      gsap.to(torusKnot.rotation, { z: Math.PI * 2, scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 2 } });
-      gsap.to(torusKnot.material, { opacity: 0.03, scrollTrigger: { trigger: 'body', start: '60% top', end: 'bottom bottom', scrub: 1 } });
-      gsap.to(particles.rotation, { x: Math.PI * 0.5, scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 3 } });
-      gsap.to('.hero-content', { yPercent: 30, opacity: 0, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } });
-      gsap.to('.hero-visual', { yPercent: 20, opacity: 0, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } });
-    }
-
-    function initNavbar() {
-      const navbar = document.getElementById('navbar');
-      window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.pageYOffset > 50));
-    }
-
-    function initMobileNav() {
-      const toggle = document.getElementById('navToggle');
-      const links = document.getElementById('navLinks');
-      const overlay = document.getElementById('navOverlay');
-      const icon = document.getElementById('navIcon');
-      function closeMenu() { links.classList.remove('open'); overlay.classList.remove('open'); icon.classList.replace('fa-xmark','fa-bars'); }
-      toggle.addEventListener('click', () => {
-        const o = links.classList.toggle('open'); overlay.classList.toggle('open');
-        icon.classList.replace(o?'fa-bars':'fa-xmark', o?'fa-xmark':'fa-bars');
-      });
-      overlay.addEventListener('click', closeMenu);
-      links.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
-    }
-
-    function initForm() {
-      const form = document.getElementById('contactForm');
-      const btn = document.getElementById('submitBtn');
-      const success = document.getElementById('formSuccess');
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault(); btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-        try {
-          const res = await fetch(form.action, { method:'POST', body: new FormData(form), headers:{'Accept':'application/json'} });
-          if (res.ok) { form.style.display='none'; success.classList.add('show'); } else throw new Error();
-        } catch {
-          btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Mensagem';
-          alert('Erro ao enviar. Tente pelo WhatsApp.');
+        input[type="range"] {
+          height: 6px;
+          border-radius: 3px;
+          -webkit-appearance: none;
+          background: rgba(255,255,255,0.08);
         }
-      });
-    }
-
-    function initScrollTop() {
-      const btn = document.getElementById('scrollTop');
-      window.addEventListener('scroll', () => btn.classList.toggle('visible', window.pageYOffset > 500));
-      btn.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
-    }
-
-    function initPhoneMask() {
-      const input = document.getElementById('whatsapp');
-      input.addEventListener('input', (e) => {
-        let v = e.target.value.replace(/\D/g,'');
-        if (v.length > 11) v = v.slice(0,11);
-        if (v.length > 6) v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
-        else if (v.length > 2) v = '(' + v.slice(0,2) + ') ' + v.slice(2);
-        else if (v.length > 0) v = '(' + v;
-        e.target.value = v;
-      });
-    }
-  </script>
-</body>
-</html>
+        input[type="range"]::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+      `}</style>
+    </div>
+  );
+}
