@@ -2,1305 +2,1645 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Marcos Janini | Corretor Premium</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia de Configuração DNS — Customer Success</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-:root{--gold:#C9A84C;--gold-l:#E8C97A;--gold-d:#A07830;--bk:#030303;--d2:#111;--d3:#1A1A1A;--d4:#222;--gr:#888;--grl:#bbb;--wh:#F8F6F0}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bk);color:var(--wh);font-family:'Inter',sans-serif;overflow-x:hidden}
+  :root {
+    --bg: #0b0f1a;
+    --bg2: #111827;
+    --bg3: #1a2235;
+    --surface: #1e2d45;
+    --surface2: #243550;
+    --border: #2a3f5f;
+    --accent: #3b82f6;
+    --accent2: #60a5fa;
+    --accent3: #93c5fd;
+    --green: #10b981;
+    --green2: #34d399;
+    --yellow: #f59e0b;
+    --yellow2: #fbbf24;
+    --red: #ef4444;
+    --red2: #f87171;
+    --purple: #8b5cf6;
+    --purple2: #a78bfa;
+    --teal: #14b8a6;
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --text3: #64748b;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --display: 'Syne', sans-serif;
+  }
 
-/* ── CURSOR ── */
-.cur,.cur-r{position:fixed;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);border-radius:50%}
-.cur{width:10px;height:10px;background:var(--gold);transition:width .3s,height .3s}
-.cur-r{width:36px;height:36px;border:1.5px solid rgba(201,168,76,.45);z-index:99998;transition:all .14s ease}
-.cur.hv{width:6px;height:6px}.cur-r.hv{width:54px;height:54px;border-color:var(--gold)}
-@media(pointer:coarse){body{cursor:auto}.cur,.cur-r{display:none}}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* ── LOADER ── */
-#loader{position:fixed;inset:0;background:var(--bk);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .5s}
-.ld-logo{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.5rem);font-weight:700;letter-spacing:5px;opacity:0;animation:fuUp .8s .3s forwards}
-.ld-logo span{color:var(--gold)}
-.ld-line{width:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:expand 1.2s .9s forwards}
-.ld-txt{font-size:.62rem;letter-spacing:5px;color:var(--gr);text-transform:uppercase;opacity:0;animation:fuIn .5s 1.5s forwards}
-@keyframes expand{to{width:200px}}
-@keyframes fuUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-@keyframes fuIn{to{opacity:1}}
+  html { scroll-behavior: smooth; }
 
-/* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;z-index:1000;transition:all .4s}
-nav.sc{background:rgba(3,3,3,.97);backdrop-filter:blur(20px);padding:13px 48px;border-bottom:1px solid rgba(201,168,76,.1)}
-.n-logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;letter-spacing:2px;text-decoration:none;color:var(--wh);z-index:1001}
-.n-logo span{color:var(--gold)}
-.n-links{display:flex;gap:32px;list-style:none}
-.n-links a{color:var(--grl);text-decoration:none;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;transition:color .3s;position:relative}
-.n-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
-.n-links a:hover{color:var(--gold)}.n-links a:hover::after{width:100%}
-.n-cta{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:9px 24px;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block}
-.n-cta:hover{background:var(--gold);color:var(--bk)}
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.7;
+    display: flex;
+    min-height: 100vh;
+  }
 
-/* HAMBURGER */
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1001;padding:4px}
-.hamburger span{width:26px;height:2px;background:var(--wh);transition:all .3s;display:block}
-.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
-.hamburger.open span:nth-child(2){opacity:0}
-.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+  /* ── SIDEBAR ── */
+  nav {
+    width: 280px;
+    min-width: 280px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
 
-/* MOBILE MENU */
-.mobile-menu{position:fixed;inset:0;background:rgba(3,3,3,.98);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:32px;transform:translateX(100%);transition:transform .4s cubic-bezier(.77,0,.18,1)}
-.mobile-menu.open{transform:none}
-.mobile-menu a{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,6vw,2.5rem);font-weight:700;color:var(--wh);text-decoration:none;letter-spacing:2px;transition:color .3s}
-.mobile-menu a:hover{color:var(--gold)}
-.mobile-menu .m-cta{background:var(--gold);color:var(--bk);padding:14px 40px;font-size:.85rem;letter-spacing:3px;text-transform:uppercase;font-weight:600;font-family:'Inter',sans-serif;margin-top:12px}
+  .nav-header {
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid var(--border);
+  }
 
-/* ── HERO ── */
-#hero{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;padding-top:80px}
-.h-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 68% 50%,rgba(201,168,76,.055) 0%,transparent 60%),radial-gradient(ellipse at 18% 80%,rgba(201,168,76,.03) 0%,transparent 50%)}
-.h-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%)}
-.h-wrap{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:40px 48px 80px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-.h-eye{display:flex;align-items:center;gap:12px;margin-bottom:20px}
-.h-eye-line{width:32px;height:1px;background:var(--gold)}
-.h-eye span{font-size:.62rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold)}
-.h-title{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,5vw,5rem);font-weight:900;line-height:1.05;margin-bottom:22px}
-.hl{color:var(--gold);font-style:italic}
-.h-sub{font-size:.92rem;color:var(--grl);line-height:1.8;max-width:440px;margin-bottom:40px;font-weight:300}
-.h-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-.btn-p{background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--bk);padding:14px 36px;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;text-decoration:none;transition:all .3s;position:relative;overflow:hidden;display:inline-block;white-space:nowrap}
-.btn-p::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold-l),var(--gold));opacity:0;transition:opacity .3s}
-.btn-p:hover::before{opacity:1}.btn-p:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(201,168,76,.3)}
-.btn-p span{position:relative;z-index:1}
-.btn-s{display:flex;align-items:center;gap:10px;color:var(--wh);font-size:.8rem;text-decoration:none;transition:color .3s}
-.btn-s:hover{color:var(--gold)}
-.play{width:44px;height:44px;border:1px solid rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;transition:all .3s;flex-shrink:0}
-.btn-s:hover .play{border-color:var(--gold);background:rgba(201,168,76,.1)}
-.h-stats{display:flex;gap:28px;margin-top:48px;flex-wrap:wrap}
-.stat{border-left:1px solid rgba(201,168,76,.3);padding-left:16px}
-.stat-n{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:var(--gold);line-height:1}
-.stat-l{font-size:.62rem;letter-spacing:2px;color:var(--gr);text-transform:uppercase;margin-top:4px}
+  .nav-logo {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
 
-/* HERO VISUAL */
-.h-vis{position:relative;height:560px}
-.h-main{position:absolute;right:0;top:50%;transform:translateY(-50%);width:340px;background:var(--d3);border:1px solid rgba(201,168,76,.15);overflow:hidden;animation:flt 6s ease-in-out infinite}
-@keyframes flt{0%,100%{transform:translateY(-50%) translateY(0)}50%{transform:translateY(-50%) translateY(-14px)}}
-.h-card-img{width:100%;height:220px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#1a1a1a}
-.h-card-img img{width:100%;height:100%;object-fit:cover;opacity:.7}
-.h-card-img .no-img{font-size:4rem;color:rgba(201,168,76,.15)}
-.h-badge{position:absolute;top:12px;left:12px;background:var(--gold);color:var(--bk);font-size:.58rem;font-weight:700;letter-spacing:2px;padding:5px 11px;text-transform:uppercase}
-.badge-new{position:absolute;top:12px;right:12px;background:#4CAF50;color:#fff;font-size:.56rem;font-weight:700;letter-spacing:1px;padding:4px 9px;text-transform:uppercase}
-.h-card-body{padding:20px}
-.h-price{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;color:var(--gold);margin-bottom:6px}
-.h-ctitle{font-size:.92rem;font-weight:500;margin-bottom:8px}
-.h-cinfo{display:flex;gap:14px;color:var(--gr);font-size:.72rem;flex-wrap:wrap}
-.h-cinfo span{display:flex;align-items:center;gap:4px}
-.h-sm{position:absolute;width:178px;background:var(--d3);border:1px solid rgba(201,168,76,.15);padding:16px;animation:flt2 5s ease-in-out infinite 1s}
-@keyframes flt2{0%,100%{transform:none}50%{transform:translateY(-10px)}}
-.h-sm-1{top:8%;left:0}.h-sm-2{bottom:8%;left:40px}
-.sm-lbl{font-size:.58rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:5px}
-.sm-val{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700}
-.sm-sub{font-size:.62rem;color:var(--gr);margin-top:2px}
-.sm-trend{color:#4CAF50;font-size:.62rem;margin-top:4px}
-.scroll-ind{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--gr);font-size:.58rem;letter-spacing:3px;text-transform:uppercase;z-index:2}
-.s-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--gold),transparent);animation:sp 2s ease-in-out infinite}
-@keyframes sp{0%,100%{opacity:1}50%{opacity:.3}}
+  .nav-title {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
 
-/* ── SECTIONS ── */
-section{padding:100px 0}
-.container{max-width:1400px;margin:0 auto;padding:0 48px}
-.s-eye{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.s-eye-l{width:32px;height:1px;background:var(--gold)}
-.s-eye span{font-size:.62rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold)}
-.s-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,3.2rem);font-weight:700;line-height:1.15;margin-bottom:16px}
-.s-sub{font-size:.92rem;color:var(--grl);line-height:1.8;font-weight:300;max-width:520px}
+  .nav-sub {
+    font-size: 12px;
+    color: var(--text3);
+    margin-top: 4px;
+  }
 
-/* ── SOBRE ── */
-#sobre{background:var(--d2)}
-.sb-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
-.sb-vis{position:relative}
-.sb-frame{width:100%;aspect-ratio:3/4;background:var(--d3);border:1px solid rgba(201,168,76,.1);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.sb-frame img{width:100%;height:100%;object-fit:cover}
-.sb-frame .no-img{font-size:7rem;color:rgba(201,168,76,.12)}
-.sb-frame::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.04),transparent);z-index:1;pointer-events:none}
-.sb-c{position:absolute;width:36px;height:36px;border-color:var(--gold);border-style:solid;border-width:0;z-index:2}
-.sb-c.tl{top:-1px;left:-1px;border-top-width:2px;border-left-width:2px}
-.sb-c.br{bottom:-1px;right:-1px;border-bottom-width:2px;border-right-width:2px}
-.sb-badge{position:absolute;bottom:-16px;right:-16px;width:120px;height:120px;background:var(--gold);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--bk);font-weight:700;z-index:2}
-.sb-badge .n{font-family:'Playfair Display',serif;font-size:2.2rem;line-height:1}
-.sb-badge .t{font-size:.55rem;letter-spacing:1px;text-align:center;line-height:1.4}
-.sb-feats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:32px}
-.feat{display:flex;align-items:flex-start;gap:12px;padding:16px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.08);transition:all .3s}
-.feat:hover{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.2)}
-.feat-ic{width:36px;height:36px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.78rem;flex-shrink:0;transition:all .3s}
-.feat:hover .feat-ic{background:var(--gold);color:var(--bk)}
-.feat-t h4{font-size:.8rem;font-weight:600;margin-bottom:2px}
-.feat-t p{font-size:.7rem;color:var(--gr);line-height:1.5}
+  .nav-section {
+    padding: 16px 16px 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text3);
+    font-family: var(--display);
+  }
 
-/* ── IMÓVEIS ── */
-#imoveis{background:var(--bk)}
-.im-tabs-wrap{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:20px}
-.im-tabs{display:flex;background:var(--d2);border:1px solid rgba(201,168,76,.1);overflow:hidden}
-.im-tab{padding:14px 32px;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--gr);background:transparent;border:none;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif;position:relative;white-space:nowrap}
-.im-tab.act{background:var(--gold);color:var(--bk);font-weight:700}
-.im-tab:not(.act):hover{color:var(--gold)}
-.im-tab .tab-count{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;background:rgba(201,168,76,.15);border-radius:50%;font-size:.6rem;margin-left:8px;color:var(--gold)}
-.im-tab.act .tab-count{background:rgba(0,0,0,.2);color:var(--bk)}
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 16px;
+    font-size: 13px;
+    color: var(--text2);
+    text-decoration: none;
+    border-radius: 6px;
+    margin: 1px 8px;
+    transition: all 0.15s;
+    font-weight: 400;
+  }
 
-/* PANE */
-.im-pane{display:none}
-.im-pane.act{display:block}
+  nav a:hover { background: var(--surface); color: var(--text); }
+  nav a.active { background: var(--surface); color: var(--accent2); font-weight: 500; }
 
-/* GRID */
-.im-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.im-grid.two-col{grid-template-columns:repeat(2,1fr)}
+  nav a .tag {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
 
-/* CARD */
-.im-card{background:var(--d2);border:1px solid rgba(201,168,76,.1);overflow:hidden;transition:all .4s;cursor:pointer;display:flex;flex-direction:column}
-.im-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-8px);box-shadow:0 36px 72px rgba(0,0,0,.5)}
-.im-card.featured{grid-column:span 2}
+  .tag-mx   { background: #1e3a5f; color: #60a5fa; }
+  .tag-spf  { background: #14401f; color: #4ade80; }
+  .tag-dkim { background: #3b1f5e; color: #c084fc; }
+  .tag-dmarc{ background: #431c1c; color: #f87171; }
+  .tag-cname{ background: #1c3a3a; color: #5eead4; }
+  .tag-txt  { background: #3a2c00; color: #fbbf24; }
 
-/* CARD IMAGE */
-.c-img-wrap{position:relative;overflow:hidden;flex-shrink:0}
-.c-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .6s;display:block}
-.im-card:hover .c-img-wrap img{transform:scale(1.05)}
-.c-img-wrap .no-photo{width:100%;display:flex;align-items:center;justify-content:center;background:var(--d3)}
-.c-img-wrap .no-photo i{font-size:4rem;color:rgba(201,168,76,.1)}
-.c-img-wrap{height:220px}
-.im-card.featured .c-img-wrap{height:300px}
+  /* ── MAIN ── */
+  main {
+    flex: 1;
+    max-width: 900px;
+    padding: 56px 56px 80px;
+    overflow-x: hidden;
+  }
 
-.c-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 55%);opacity:0;transition:opacity .35s}
-.im-card:hover .c-ov{opacity:1}
-.c-acts{position:absolute;bottom:14px;right:14px;display:flex;gap:7px;transform:translateY(16px);opacity:0;transition:all .35s}
-.im-card:hover .c-acts{transform:none;opacity:1}
-.c-ab{width:34px;height:34px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.74rem;transition:all .3s;cursor:pointer}
-.c-ab:hover{background:var(--gold);border-color:var(--gold);color:var(--bk)}
-.c-type-badge{position:absolute;top:12px;left:12px;font-size:.58rem;font-weight:700;letter-spacing:2px;padding:5px 11px;text-transform:uppercase}
-.bt-sale{background:var(--gold);color:var(--bk)}
-.bt-rent{background:transparent;border:1px solid var(--gold);color:var(--gold)}
-.bt-new{position:absolute;top:12px;right:12px;background:#4CAF50;color:#fff;font-size:.55rem;font-weight:700;letter-spacing:1px;padding:4px 9px;text-transform:uppercase}
+  /* ── HERO ── */
+  .hero {
+    margin-bottom: 64px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+  }
 
-/* PHOTO COUNT */
-.photo-count{position:absolute;bottom:12px;left:12px;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);color:var(--wh);font-size:.65rem;padding:4px 10px;display:flex;align-items:center;gap:5px;opacity:0;transition:opacity .3s}
-.im-card:hover .photo-count{opacity:1}
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(59,130,246,0.12);
+    border: 1px solid rgba(59,130,246,0.25);
+    color: var(--accent2);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    font-family: var(--display);
+  }
 
-/* CARD BODY */
-.c-body{padding:20px;display:flex;flex-direction:column;flex:1}
-.c-price{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:var(--gold);margin-bottom:5px}
-.c-title{font-size:.92rem;font-weight:500;margin-bottom:4px;line-height:1.4}
-.c-loc{font-size:.74rem;color:var(--gr);margin-bottom:12px;display:flex;align-items:center;gap:5px}
-.c-div{height:1px;background:rgba(255,255,255,.06);margin-bottom:12px}
-.c-specs{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px}
-.sp{display:flex;align-items:center;gap:4px;font-size:.72rem;color:var(--grl)}
-.sp i{color:var(--gold);font-size:.64rem}
-.c-cta{margin-top:auto;display:flex;gap:8px}
-.c-btn-detail{flex:1;padding:10px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);color:var(--gold);font-size:.66rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif;font-weight:600}
-.c-btn-detail:hover{background:var(--gold);color:var(--bk)}
-.c-btn-wa{width:40px;padding:10px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.25);color:#25D366;font-size:.85rem;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.c-btn-wa:hover{background:#25D366;color:#fff}
+  h1 {
+    font-family: var(--display);
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
 
-/* ── MODAL ── */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:5000;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .35s;backdrop-filter:blur(8px)}
-.modal-bg.open{opacity:1;pointer-events:all}
-.modal{background:var(--d2);width:100%;max-width:960px;margin:auto;position:relative;border:1px solid rgba(201,168,76,.15);animation:modalIn .4s ease}
-@keyframes modalIn{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
-.modal-close{position:absolute;top:16px;right:16px;width:40px;height:40px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.4);color:var(--wh);font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:all .3s}
-.modal-close:hover{border-color:var(--gold);color:var(--gold)}
+  h1 span { color: var(--accent2); }
 
-/* GALLERY */
-.gallery{position:relative;height:380px;background:var(--d3);overflow:hidden}
-.gallery-slides{display:flex;height:100%;transition:transform .45s cubic-bezier(.77,0,.18,1)}
-.gallery-slide{min-width:100%;height:100%;position:relative}
-.gallery-slide img{width:100%;height:100%;object-fit:cover}
-.gallery-slide .no-slide{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--d3)}
-.gallery-slide .no-slide i{font-size:5rem;color:rgba(201,168,76,.12)}
-.gal-btn{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;background:rgba(0,0,0,.6);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);color:var(--wh);font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5;transition:all .3s}
-.gal-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--bk)}
-.gal-prev{left:14px}.gal-next{right:14px}
-.gal-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:7px}
-.gal-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .3s}
-.gal-dot.act{background:var(--gold);width:20px;border-radius:4px}
-.gal-count{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.7);color:var(--wh);font-size:.68rem;padding:5px 12px;letter-spacing:1px}
-.gal-type{position:absolute;top:14px;left:14px;font-size:.6rem;font-weight:700;letter-spacing:2px;padding:5px 12px;text-transform:uppercase}
+  .hero-desc {
+    font-size: 16px;
+    color: var(--text2);
+    max-width: 600px;
+    line-height: 1.7;
+  }
 
-/* THUMBS */
-.gal-thumbs{display:flex;gap:6px;padding:10px;background:var(--bk);overflow-x:auto}
-.gal-thumbs::-webkit-scrollbar{height:3px}.gal-thumbs::-webkit-scrollbar-thumb{background:var(--gold)}
-.gal-thumb{width:68px;height:50px;flex-shrink:0;cursor:pointer;border:2px solid transparent;overflow:hidden;transition:border-color .3s}
-.gal-thumb.act{border-color:var(--gold)}
-.gal-thumb img{width:100%;height:100%;object-fit:cover}
-.gal-thumb .no-thumb{width:100%;height:100%;background:var(--d3);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:rgba(201,168,76,.2)}
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 32px;
+  }
 
-/* MODAL BODY */
-.modal-body{padding:32px;display:grid;grid-template-columns:1fr 340px;gap:32px}
-.modal-left{}
-.modal-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
-.m-badge{font-size:.58rem;font-weight:700;letter-spacing:2px;padding:4px 10px;text-transform:uppercase}
-.m-status{font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:4px 10px}
-.modal-price{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.4rem);font-weight:700;color:var(--gold);margin-bottom:6px}
-.modal-title{font-family:'Playfair Display',serif;font-size:clamp(1.1rem,2.5vw,1.4rem);font-weight:700;margin-bottom:6px}
-.modal-location{font-size:.82rem;color:var(--gr);margin-bottom:20px;display:flex;align-items:center;gap:6px}
-.modal-specs{display:flex;gap:0;margin-bottom:24px;background:var(--d3);border:1px solid rgba(201,168,76,.08);flex-wrap:wrap}
-.mspec{flex:1;min-width:80px;padding:16px 14px;text-align:center;border-right:1px solid rgba(201,168,76,.08);display:flex;flex-direction:column;align-items:center;gap:6px}
-.mspec:last-child{border-right:none}
-.mspec i{font-size:.9rem;color:var(--gold)}
-.mspec .mv{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700}
-.mspec .ml{font-size:.58rem;letter-spacing:1px;color:var(--gr);text-transform:uppercase}
-.modal-section-title{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(201,168,76,.1)}
-.modal-desc{font-size:.84rem;color:var(--grl);line-height:1.8;margin-bottom:24px}
-.modal-features{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px}
-.mfeat{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--grl)}
-.mfeat i{color:var(--gold);font-size:.65rem;width:14px;flex-shrink:0}
+  .hero-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
 
-/* MODAL SIDEBAR */
-.modal-right{}
-.modal-agent{background:var(--d3);border:1px solid rgba(201,168,76,.1);padding:22px;margin-bottom:16px}
-.agent-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.06)}
-.agent-avatar{width:52px;height:52px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--bk);flex-shrink:0;overflow:hidden}
-.agent-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.agent-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700}
-.agent-role{font-size:.65rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:2px}
-.agent-creci{font-size:.6rem;color:var(--gr);margin-top:2px}
-.agent-btns{display:flex;flex-direction:column;gap:8px}
-.abtn{width:100%;padding:13px;font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;border:none}
-.abtn-wa{background:#25D366;color:#fff}.abtn-wa:hover{background:#1da851}
-.abtn-tel{background:transparent;border:1px solid rgba(201,168,76,.3);color:var(--gold)}.abtn-tel:hover{background:rgba(201,168,76,.1);border-color:var(--gold)}
+  .hero-card .num {
+    font-family: var(--display);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent2);
+  }
 
-/* PROPOSTA FORM */
-.modal-form{background:var(--d3);border:1px solid rgba(201,168,76,.1);padding:22px}
-.mform-title{font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
-.mfg{margin-bottom:12px}
-.mfg label{display:block;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--gr);margin-bottom:7px}
-.mfg input,.mfg select,.mfg textarea{width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--wh);padding:11px 14px;font-size:.8rem;font-family:'Inter',sans-serif;outline:none;transition:all .3s}
-.mfg select option{background:var(--d2)}
-.mfg input:focus,.mfg select:focus,.mfg textarea:focus{border-color:var(--gold);background:rgba(201,168,76,.03)}
-.mfg textarea{resize:none;height:80px;font-size:.78rem}
-.mf-btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--bk);border:none;padding:14px;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px}
-.mf-btn:hover{box-shadow:0 12px 30px rgba(201,168,76,.3);transform:translateY(-1px)}
-.mf-ok{display:none;text-align:center;padding:20px}
-.mf-ok i{font-size:1.6rem;color:var(--gold);margin-bottom:8px;display:block}
-.mf-ok h4{font-family:'Playfair Display',serif;margin-bottom:4px;font-size:1rem}
-.mf-ok p{font-size:.75rem;color:var(--gr)}
+  .hero-card .lbl {
+    font-size: 12px;
+    color: var(--text3);
+    margin-top: 2px;
+  }
 
-/* ── SERVIÇOS ── */
-#servicos{background:var(--d2)}
-.sv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(201,168,76,.07);margin-top:48px}
-.sv-item{background:var(--d2);padding:40px 26px;position:relative;overflow:hidden;transition:all .4s}
-.sv-item::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform .4s}
-.sv-item:hover{background:var(--d3)}.sv-item:hover::before{transform:scaleX(1)}
-.sv-n{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:700;color:rgba(201,168,76,.07);position:absolute;top:16px;right:18px;line-height:1;transition:color .4s}
-.sv-item:hover .sv-n{color:rgba(201,168,76,.13)}
-.sv-ic{width:50px;height:50px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.14);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1rem;margin-bottom:20px;transition:all .4s}
-.sv-item:hover .sv-ic{background:var(--gold);color:var(--bk)}
-.sv-t{font-size:.9rem;font-weight:600;margin-bottom:8px}
-.sv-d{font-size:.76rem;color:var(--gr);line-height:1.7}
+  /* ── SECTIONS ── */
+  section {
+    margin-bottom: 72px;
+    scroll-margin-top: 24px;
+  }
 
-/* ── DEPOIMENTOS ── */
-#depoimentos{background:var(--bk);overflow:hidden}
-.dp-track{overflow:hidden;margin-top:48px}
-.dp-slider{display:flex;gap:20px;animation:slid 32s linear infinite;width:max-content}
-.dp-track:hover .dp-slider{animation-play-state:paused}
-@keyframes slid{0%{transform:none}100%{transform:translateX(-50%)}}
-.dp-card{width:360px;background:var(--d2);border:1px solid rgba(201,168,76,.1);padding:28px;flex-shrink:0}
-.dp-q{font-family:'Playfair Display',serif;font-size:3.5rem;color:var(--gold);opacity:.25;line-height:.5;margin-bottom:12px}
-.dp-txt{font-size:.82rem;color:var(--grl);line-height:1.8;margin-bottom:20px;font-style:italic}
-.dp-div{height:1px;background:rgba(201,168,76,.12);margin-bottom:16px}
-.dp-auth{display:flex;align-items:center;gap:12px}
-.dp-av{width:42px;height:42px;border-radius:50%;background:var(--d3);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.95rem;color:var(--gold);font-weight:700;flex-shrink:0}
-.dp-name{font-size:.82rem;font-weight:600}
-.dp-role{font-size:.66rem;color:var(--gr);margin-top:2px}
-.dp-stars{color:var(--gold);font-size:.65rem;margin-bottom:3px;letter-spacing:2px}
+  .section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-bottom: 14px;
+  }
 
-/* ── CONTATO ── */
-#contato{background:var(--d2)}
-.ct-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px}
-.channels{display:flex;flex-direction:column;gap:14px;margin-top:32px}
-.channel{display:flex;align-items:center;gap:16px;padding:20px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.08);text-decoration:none;color:var(--wh);transition:all .3s}
-.channel:hover{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.3);transform:translateX(8px)}
-.ch-ic{width:46px;height:46px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1rem;flex-shrink:0;transition:all .3s}
-.channel:hover .ch-ic{background:var(--gold);color:var(--bk)}
-.ch-t label{font-size:.58rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:2px;cursor:pointer}
-.ch-t span{font-size:.86rem;font-weight:500}
-.fg{margin-bottom:16px}
-.fg label{display:block;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--gr);margin-bottom:8px}
-.fg input,.fg select,.fg textarea{width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--wh);padding:13px 16px;font-size:.84rem;font-family:'Inter',sans-serif;outline:none;transition:all .3s}
-.fg select option{background:var(--d2)}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold);background:rgba(201,168,76,.03)}
-.fg textarea{resize:none;height:108px}
-.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.f-btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--bk);border:none;padding:16px;font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px}
-.f-btn:hover{box-shadow:0 16px 36px rgba(201,168,76,.3);transform:translateY(-2px)}
-.f-ok{display:none;text-align:center;padding:36px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15)}
-.f-ok i{font-size:1.8rem;color:var(--gold);margin-bottom:12px;display:block}
-.f-ok h3{font-family:'Playfair Display',serif;margin-bottom:6px;font-size:1.2rem}
-.f-ok p{font-size:.8rem;color:var(--gr)}
+  h2 {
+    font-family: var(--display);
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
 
-/* ── FOOTER ── */
-footer{background:var(--bk);padding:70px 0 32px;border-top:1px solid rgba(201,168,76,.08)}
-.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
-.ft-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;letter-spacing:2px}
-.ft-logo span{color:var(--gold)}
-.ft-brand p{font-size:.8rem;color:var(--gr);line-height:1.8;margin-top:12px;max-width:290px}
-.ft-soc{display:flex;gap:8px;margin-top:20px}
-.soc{width:36px;height:36px;border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;color:var(--gr);text-decoration:none;font-size:.8rem;transition:all .3s}
-.soc:hover{border-color:var(--gold);color:var(--gold)}
-.ft-col h4{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
-.ft-links{list-style:none;display:flex;flex-direction:column;gap:10px}
-.ft-links a{color:var(--gr);text-decoration:none;font-size:.8rem;transition:color .3s}
-.ft-links a:hover{color:var(--wh)}
-.ft-btm{padding-top:32px;border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.ft-btm p{font-size:.7rem;color:var(--gr)}
-.creci-b{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);color:var(--gold);padding:4px 11px;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;font-weight:600}
+  h3 {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 28px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
-/* WA */
-.wa{position:fixed;bottom:28px;right:28px;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.3rem;text-decoration:none;z-index:100;box-shadow:0 8px 28px rgba(37,211,102,.4);animation:waP 2s ease-in-out infinite;cursor:pointer}
-@keyframes waP{0%,100%{box-shadow:0 8px 28px rgba(37,211,102,.4)}50%{box-shadow:0 8px 44px rgba(37,211,102,.7),0 0 0 8px rgba(37,211,102,.08)}}
-.wa::before{content:'Fale comigo';position:absolute;right:66px;background:var(--d3);border:1px solid rgba(255,255,255,.1);color:var(--wh);font-size:.66rem;letter-spacing:1px;padding:7px 12px;white-space:nowrap;opacity:0;transform:translateX(8px);transition:all .3s;font-family:'Inter',sans-serif}
-.wa:hover::before{opacity:1;transform:none}
+  h3::before {
+    content: '';
+    display: block;
+    width: 3px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
 
-/* REVEAL */
-.rv{opacity:0;transform:translateY(32px);transition:opacity .7s,transform .7s}
-.rv.vis{opacity:1;transform:none}
-.rv-1{transition-delay:.1s}.rv-2{transition-delay:.2s}.rv-3{transition-delay:.3s}
+  p { color: var(--text2); margin-bottom: 14px; }
 
-/* ─────────────── RESPONSIVE ─────────────── */
-@media(max-width:1100px){
-  .im-grid{grid-template-columns:repeat(2,1fr)}
-  .im-card.featured{grid-column:span 2}
-  .sv-grid{grid-template-columns:1fr 1fr}
-  .modal-body{grid-template-columns:1fr}
-}
+  /* ── CODE ── */
+  code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 4px;
+    color: var(--accent3);
+  }
 
-@media(max-width:900px){
-  nav,nav.sc{padding:16px 20px}
-  .n-links,.n-cta{display:none}
-  .hamburger{display:flex}
-  .h-wrap{grid-template-columns:1fr;padding:32px 20px 60px;gap:32px}
-  .h-vis{display:none}
-  .container{padding:0 20px}
-  .sb-grid{grid-template-columns:1fr;gap:48px}
-  .sb-badge{width:100px;height:100px;bottom:-12px;right:-12px}
-  .sb-badge .n{font-size:1.9rem}
-  .ct-grid{grid-template-columns:1fr;gap:40px}
-  .ft-grid{grid-template-columns:1fr 1fr;gap:32px}
-  .ft-brand{grid-column:span 2}
-  .im-grid{grid-template-columns:1fr}
-  .im-card.featured{grid-column:span 1}
-  .im-card.featured .c-img-wrap{height:220px}
-}
+  pre {
+    background: #0d1520;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    overflow-x: auto;
+    margin: 16px 0;
+    position: relative;
+  }
 
-@media(max-width:600px){
-  section{padding:70px 0}
-  .h-title{font-size:clamp(2.2rem,9vw,3rem)}
-  .h-stats{gap:16px}
-  .stat-n{font-size:1.6rem}
-  .sv-grid{grid-template-columns:1fr}
-  .sb-feats{grid-template-columns:1fr}
-  .fr{grid-template-columns:1fr}
-  .ft-grid{grid-template-columns:1fr}
-  .ft-brand{grid-column:span 1}
-  .ft-btm{flex-direction:column;align-items:flex-start;gap:8px}
-  .gallery{height:240px}
-  .modal-body{padding:20px}
-  .modal-specs{overflow-x:auto}
-  .mspec{min-width:70px;padding:12px 10px}
-  .modal-features{grid-template-columns:1fr}
-  .im-tabs-wrap{flex-direction:column;align-items:flex-start}
-  .im-tab{padding:12px 20px}
-  .gal-thumbs .gal-thumb{width:56px;height:42px}
-  .h-actions{gap:12px}
-}
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.8;
+  }
 
-@media(max-width:400px){
-  .modal{margin:10px}
-  .modal-bg{padding:10px}
-}
+  pre .cm { color: var(--text3); }
+  pre .kw { color: var(--accent2); }
+  pre .val { color: var(--green2); }
+  pre .str { color: var(--yellow2); }
+  pre .op  { color: var(--red2); }
+  pre .hl  { color: #fff; font-weight: 600; }
+
+  .pre-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  /* ── CALLOUTS ── */
+  .callout {
+    display: flex;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 8px;
+    margin: 18px 0;
+    border-left: 3px solid;
+  }
+
+  .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+  .callout-body { flex: 1; }
+  .callout-body strong { display: block; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .callout-body p { margin: 0; font-size: 13px; }
+
+  .callout.info  { background: rgba(59,130,246,0.07);  border-color: var(--accent);  }
+  .callout.info  .callout-body strong { color: var(--accent2); }
+
+  .callout.tip   { background: rgba(16,185,129,0.07);  border-color: var(--green);   }
+  .callout.tip   .callout-body strong { color: var(--green2); }
+
+  .callout.warn  { background: rgba(245,158,11,0.07);  border-color: var(--yellow);  }
+  .callout.warn  .callout-body strong { color: var(--yellow2); }
+
+  .callout.danger{ background: rgba(239,68,68,0.07);   border-color: var(--red);     }
+  .callout.danger .callout-body strong { color: var(--red2); }
+
+  /* ── CHEATSHEET TABLE ── */
+  .cheat {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+
+  .cheat th {
+    background: var(--surface);
+    padding: 10px 14px;
+    text-align: left;
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text3);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cheat td {
+    padding: 11px 14px;
+    border-bottom: 1px solid rgba(42,63,95,0.5);
+    vertical-align: top;
+    color: var(--text2);
+  }
+
+  .cheat tr:last-child td { border-bottom: none; }
+  .cheat tr:hover td { background: rgba(30,45,69,0.4); }
+
+  .cheat td:first-child {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent3);
+    white-space: nowrap;
+  }
+
+  .cheat-wrap {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+
+  .cheat-title {
+    padding: 12px 16px;
+    background: var(--surface);
+    font-family: var(--display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ── DNS TABLE ── */
+  .dns-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 16px 0;
+  }
+
+  .dns-table th {
+    background: var(--surface2);
+    padding: 10px 14px;
+    text-align: left;
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text2);
+    text-transform: uppercase;
+  }
+
+  .dns-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(42,63,95,0.4);
+    color: var(--text2);
+  }
+
+  .dns-table td.mono {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--green2);
+  }
+
+  .dns-table td.type-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .dns-wrap {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+
+  .dns-header {
+    padding: 12px 16px;
+    background: var(--surface);
+    font-family: var(--display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ── BADGES ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .badge-green  { background: rgba(16,185,129,0.15); color: var(--green2); }
+  .badge-red    { background: rgba(239,68,68,0.15);  color: var(--red2); }
+  .badge-yellow { background: rgba(245,158,11,0.15); color: var(--yellow2); }
+  .badge-blue   { background: rgba(59,130,246,0.15); color: var(--accent2); }
+  .badge-purple { background: rgba(139,92,246,0.15); color: var(--purple2); }
+
+  /* ── STEPS ── */
+  .steps { margin: 20px 0; }
+
+  .step {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(42,63,95,0.3);
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--display);
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--accent2);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step-body { flex: 1; }
+  .step-body strong { color: var(--text); display: block; margin-bottom: 4px; font-size: 14px; }
+  .step-body p { margin: 0; font-size: 13px; }
+
+  /* ── TOOLS ── */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .tool-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .tool-card .tc-name {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .tool-card .tc-url {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .tool-card p { font-size: 12.5px; margin: 0; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+    margin: 40px 0;
+  }
+
+  /* ── SPF LIMIT METER ── */
+  .spf-meter {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+  }
+
+  .spf-meter-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text3);
+    margin-bottom: 8px;
+  }
+
+  .spf-bar-track {
+    height: 8px;
+    background: var(--surface);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .spf-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.4s;
+  }
+
+  .panel-example {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+
+  .panel-topbar {
+    background: var(--surface);
+    padding: 10px 16px;
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text3);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .panel-topbar .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  .flow-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 20px 0;
+    overflow-x: auto;
+  }
+
+  .flow-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+  }
+
+  .flow-box .fb-title {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent3);
+    margin-bottom: 4px;
+  }
+
+  .flow-box p { font-size: 11px; margin: 0; color: var(--text3); }
+
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    color: var(--text3);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  /* ── SCROLLBAR ── */
+  nav::-webkit-scrollbar { width: 4px; }
+  nav::-webkit-scrollbar-track { background: transparent; }
+  nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 </style>
 </head>
 <body>
-<div class="cur" id="cur"></div>
-<div class="cur-r" id="curR"></div>
 
-<!-- LOADER -->
-<div id="loader">
-  <div class="ld-logo">MARCOS <span>JANINI</span></div>
-  <div class="ld-line"></div>
-  <div class="ld-txt">Corretor de Imóveis Premium</div>
-</div>
-
-<!-- NAV -->
-<nav id="nav">
-  <a href="#" class="n-logo">M<span>.</span>JANINI</a>
-  <ul class="n-links">
-    <li><a href="#sobre">Sobre</a></li>
-    <li><a href="#imoveis">Imóveis</a></li>
-    <li><a href="#servicos">Serviços</a></li>
-    <li><a href="#depoimentos">Depoimentos</a></li>
-    <li><a href="#contato">Contato</a></li>
-  </ul>
-  <a href="#contato" class="n-cta">Agendar Visita</a>
-  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
+<!-- SIDEBAR NAV -->
+<nav>
+  <div class="nav-header">
+    <div class="nav-logo">Customer Success</div>
+    <div class="nav-title">Guia DNS & Email Auth</div>
+    <div class="nav-sub">Configuração de Entregabilidade</div>
   </div>
+
+  <div class="nav-section">Fundamentos</div>
+  <a href="#intro">🗺️ Visão Geral</a>
+  <a href="#mx">📬 MX & Whois <span class="tag tag-mx">MX</span></a>
+  <a href="#whois">🔍 Encontrar DNS do Cliente</a>
+  <a href="#painel">⚙️ Painel DNS — Campos</a>
+
+  <div class="nav-section">Autenticação</div>
+  <a href="#spf">🛡️ SPF <span class="tag tag-spf">TXT</span></a>
+  <a href="#dkim">🔑 DKIM <span class="tag tag-dkim">TXT</span></a>
+  <a href="#dmarc">📋 DMARC <span class="tag tag-dmarc">TXT</span></a>
+  <a href="#cname">🔗 CNAME (Postmaster) <span class="tag tag-cname">CNAME</span></a>
+  <a href="#yahoo">📧 TXT Yahoo <span class="tag tag-txt">TXT</span></a>
+
+  <div class="nav-section">Exemplos de Painéis</div>
+  <a href="#aws">☁️ Amazon Route 53</a>
+  <a href="#azure">🪟 Microsoft Azure DNS</a>
+
+  <div class="nav-section">Referência</div>
+  <a href="#resumo">📌 Resumo Completo</a>
 </nav>
 
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#sobre" onclick="closeMenu()">Sobre</a>
-  <a href="#imoveis" onclick="closeMenu()">Imóveis</a>
-  <a href="#servicos" onclick="closeMenu()">Serviços</a>
-  <a href="#depoimentos" onclick="closeMenu()">Depoimentos</a>
-  <a href="#contato" onclick="closeMenu()">Contato</a>
-  <a href="#contato" class="m-cta" onclick="closeMenu()">Agendar Visita</a>
-</div>
+<!-- MAIN CONTENT -->
+<main>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="h-bg"></div>
-  <div class="h-grid" id="hGrid"></div>
-  <div class="h-wrap">
-    <div>
-      <div class="h-eye"><div class="h-eye-line"></div><span>Corretor Premium · CRECI 12345-F</span></div>
-      <h1 class="h-title">Seu próximo<br>imóvel dos<br><span class="hl">sonhos</span></h1>
-      <p class="h-sub">Especialista em imóveis de alto padrão com mais de 15 anos de experiência. Encontro a propriedade perfeita com exclusividade e dedicação total.</p>
-      <div class="h-actions">
-        <a href="#imoveis" class="btn-p"><span>Ver Imóveis</span></a>
-        <a href="#contato" class="btn-s"><div class="play"><i class="fas fa-arrow-right"></i></div><span>Fale comigo</span></a>
-      </div>
-      <div class="h-stats">
-        <div class="stat"><div class="stat-n" data-count="500">0</div><div class="stat-l">Imóveis vendidos</div></div>
-        <div class="stat"><div class="stat-n" data-count="15">0</div><div class="stat-l">Anos exp.</div></div>
-        <div class="stat"><div class="stat-n" data-count="98">0</div><div class="stat-l">% satisfação</div></div>
-      </div>
-    </div>
-    <div class="h-vis">
-      <div class="h-sm h-sm-1"><div class="sm-lbl">Avaliação</div><div class="sm-val">⭐ 4.9</div><div class="sm-sub">+300 avaliações</div></div>
-      <div class="h-main">
-        <div class="h-card-img">
-          <!-- SUBSTITUA src pela foto real -->
-          <img src="" alt="Cobertura Duplex" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="no-img" style="display:flex;width:100%;height:100%;align-items:center;justify-content:center"><i class="fas fa-city"></i></div>
-          <div class="h-badge">Destaque</div>
-          <div class="badge-new">NOVO</div>
-        </div>
-        <div class="h-card-body">
-          <div class="h-price">R$ 2.850.000</div>
-          <div class="h-ctitle">Cobertura Duplex Luxo</div>
-          <div class="h-cinfo"><span><i class="fas fa-vector-square"></i> 280m²</span><span><i class="fas fa-bed"></i> 4 suítes</span><span><i class="fas fa-car"></i> 3 vagas</span></div>
-        </div>
-      </div>
-      <div class="h-sm h-sm-2"><div class="sm-lbl">Negócios 2024</div><div class="sm-val">R$ 45M+</div><div class="sm-trend">↑ 28% vs anterior</div></div>
+  <!-- HERO -->
+  <div class="hero" id="intro">
+    <div class="hero-badge">📬 Guia de Treinamento</div>
+    <h1>DNS & <span>Email Auth</span><br>para Customer Success</h1>
+    <p class="hero-desc">
+      Tudo que você precisa para configurar SPF, DKIM, DMARC, CNAME e TXT junto com o cliente — do zero, com confiança. Exemplos práticos usando o domínio <code>devfelipelima.com.br</code>.
+    </p>
+    <div class="hero-grid">
+      <div class="hero-card"><div class="num">5</div><div class="lbl">Tipos de registro</div></div>
+      <div class="hero-card"><div class="num">4</div><div class="lbl">Camadas de auth</div></div>
+      <div class="hero-card"><div class="num">✔</div><div class="lbl">Cheatsheets prontos</div></div>
     </div>
   </div>
-  <div class="scroll-ind"><div class="s-line"></div><span>Scroll</span></div>
-</section>
 
-<!-- SOBRE -->
-<section id="sobre">
-  <div class="container">
-    <div class="sb-grid">
-      <div class="sb-vis rv">
-        <div class="sb-frame">
-          <div class="sb-c tl"></div><div class="sb-c br"></div>
-          <!-- SUBSTITUA src pela sua foto -->
-          <img src="" alt="Marcos Janini" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <i class="fas fa-user no-img" style="display:none;font-size:7rem;color:rgba(201,168,76,.12)"></i>
-        </div>
-        <div class="sb-badge"><div class="n">15</div><div class="t">ANOS DE<br>MERCADO</div></div>
-      </div>
-      <div>
-        <div class="s-eye rv"><div class="s-eye-l"></div><span>Sobre mim</span></div>
-        <h2 class="s-title rv rv-1">Excelência que<br>transforma <em class="hl">sonhos</em><br>em realidade</h2>
-        <p class="s-sub rv rv-2" style="margin-bottom:18px">Sou Marcos Janini, corretor de imóveis com mais de 15 anos dedicados ao mercado imobiliário de alto padrão. Minha missão é ir além da transação — construo relacionamentos duradouros com cada cliente.</p>
-        <p class="s-sub rv rv-2" style="font-size:.84rem">Especializado nos melhores bairros da cidade, ofereço consultoria completa da busca até a assinatura, com total transparência e compromisso.</p>
-        <div class="sb-feats rv rv-3">
-          <div class="feat"><div class="feat-ic"><i class="fas fa-shield-alt"></i></div><div class="feat-t"><h4>CRECI Ativo</h4><p>Registro regularizado e atualizado</p></div></div>
-          <div class="feat"><div class="feat-ic"><i class="fas fa-trophy"></i></div><div class="feat-t"><h4>Top Corretor</h4><p>Premiado entre os melhores do estado</p></div></div>
-          <div class="feat"><div class="feat-ic"><i class="fas fa-handshake"></i></div><div class="feat-t"><h4>500+ negócios</h4><p>Histórico comprovado</p></div></div>
-          <div class="feat"><div class="feat-ic"><i class="fas fa-clock"></i></div><div class="feat-t"><h4>Disponibilidade</h4><p>Atendimento 7 dias por semana</p></div></div>
-        </div>
-      </div>
+  <!-- ═══════════════════════════════════════
+       1. MX & WHOIS
+  ════════════════════════════════════════ -->
+  <section id="mx">
+    <div class="section-badge" style="background:rgba(59,130,246,0.1);color:var(--accent2)">📬 Seção 1</div>
+    <h2>O que é MX e Whois</h2>
+
+    <h3>Registro MX (Mail Exchanger)</h3>
+    <p>O registro MX indica <strong>qual servidor de e-mail</strong> deve receber mensagens para aquele domínio. Sem MX configurado, e-mails enviados para <code>@devfelipelima.com.br</code> não chegam a lugar nenhum.</p>
+
+    <div class="flow-row">
+      <div class="flow-box"><div class="fb-title">Remetente</div><p>Envia e-mail para devfelipelima.com.br</p></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box"><div class="fb-title">Consulta MX</div><p>DNS resolve qual servidor recebe</p></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box"><div class="fb-title">Servidor MX</div><p>mail.devfelipelima.com.br</p></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box"><div class="fb-title">Entrega</div><p>Mensagem chega na caixa de entrada</p></div>
     </div>
-  </div>
-</section>
 
-<!-- IMÓVEIS -->
-<section id="imoveis">
-  <div class="container">
-    <!-- HEADER + TABS -->
-    <div class="im-tabs-wrap rv">
-      <div>
-        <div class="s-eye"><div class="s-eye-l"></div><span>Portfólio</span></div>
-        <h2 class="s-title">Imóveis em <em class="hl">destaque</em></h2>
-      </div>
-      <div class="im-tabs">
-        <button class="im-tab act" onclick="switchTab(this,'venda')">
-          <i class="fas fa-key" style="margin-right:6px;font-size:.65rem"></i>Venda<span class="tab-count">4</span>
-        </button>
-        <button class="im-tab" onclick="switchTab(this,'aluguel')">
-          <i class="fas fa-home" style="margin-right:6px;font-size:.65rem"></i>Aluguel<span class="tab-count">3</span>
-        </button>
+    <div class="dns-wrap">
+      <div class="dns-header">📄 Exemplo de registro MX — devfelipelima.com.br</div>
+      <table class="dns-table">
+        <tr><th>Nome/Host</th><th>Tipo</th><th>TTL</th><th>Prioridade</th><th>Valor/Destino</th></tr>
+        <tr>
+          <td class="mono">devfelipelima.com.br</td>
+          <td class="type-badge" style="color:var(--accent2)">MX</td>
+          <td>3600</td>
+          <td>10</td>
+          <td class="mono">mail.devfelipelima.com.br</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <strong>Prioridade MX</strong>
+        <p>Números menores = maior prioridade. Se houver dois registros (prioridade 10 e 20), o servidor tenta o 10 primeiro. Se falhar, tenta o 20.</p>
       </div>
     </div>
 
-    <!-- PANE VENDA -->
-    <div class="im-pane act" id="pane-venda">
-      <div class="im-grid">
+    <h3>O que é Whois</h3>
+    <p>Whois é uma consulta pública que revela <strong>quem é o dono</strong> de um domínio, quando foi registrado, quando expira, e principalmente: <strong>quais são os Nameservers (NS)</strong> — ou seja, onde o DNS está hospedado.</p>
 
-        <!-- CARD V1 — DESTAQUE -->
-        <div class="im-card featured rv" onclick="openModal('v1')">
-          <div class="c-img-wrap">
-            <!-- FOTO 1: Substitua os src pelas URLs das fotos reais -->
-            <img src="" alt="Cobertura Jardins" onerror="this.parentElement.classList.add('no-photo-shown')">
-            <div class="no-photo" style="height:300px"><i class="fas fa-city"></i></div>
-            <div class="c-ov"></div>
-            <div class="c-acts">
-              <div class="c-ab" onclick="event.stopPropagation();openModal('v1')"><i class="fas fa-expand"></i></div>
-              <div class="c-ab" onclick="event.stopPropagation();openWA('Cobertura Jardins')"><i class="fab fa-whatsapp"></i></div>
-            </div>
-            <span class="c-type-badge bt-sale">Venda</span>
-            <span class="bt-new">Lançamento</span>
-            <div class="photo-count"><i class="fas fa-camera"></i> 8 fotos</div>
-          </div>
-          <div class="c-body">
-            <div class="c-price">R$ 3.200.000</div>
-            <div class="c-title">Cobertura Alto Padrão com Vista Panorâmica</div>
-            <div class="c-loc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Jardins, São Paulo</div>
-            <div class="c-div"></div>
-            <div class="c-specs">
-              <div class="sp"><i class="fas fa-vector-square"></i> 320m²</div>
-              <div class="sp"><i class="fas fa-bed"></i> 4 suítes</div>
-              <div class="sp"><i class="fas fa-bath"></i> 5 ban.</div>
-              <div class="sp"><i class="fas fa-car"></i> 4 vagas</div>
-            </div>
-            <div class="c-cta">
-              <button class="c-btn-detail" onclick="event.stopPropagation();openModal('v1')"><i class="fas fa-search-plus" style="margin-right:5px"></i>Ver detalhes</button>
-              <button class="c-btn-wa" onclick="event.stopPropagation();openWA('Cobertura Jardins')"><i class="fab fa-whatsapp"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- CARD V2 -->
-        <div class="im-card rv rv-1" onclick="openModal('v2')">
-          <div class="c-img-wrap">
-            <img src="" alt="Garden Moema" onerror="this.parentElement.classList.add('no-photo-shown')">
-            <div class="no-photo" style="height:220px"><i class="fas fa-building"></i></div>
-            <div class="c-ov"></div>
-            <div class="c-acts">
-              <div class="c-ab" onclick="event.stopPropagation();openModal('v2')"><i class="fas fa-expand"></i></div>
-              <div class="c-ab" onclick="event.stopPropagation();openWA('Garden Moema')"><i class="fab fa-whatsapp"></i></div>
-            </div>
-            <span class="c-type-badge bt-sale">Venda</span>
-            <div class="photo-count"><i class="fas fa-camera"></i> 6 fotos</div>
-          </div>
-          <div class="c-body">
-            <div class="c-price">R$ 1.890.000</div>
-            <div class="c-title">Apartamento Garden Premium</div>
-            <div class="c-loc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Moema, São Paulo</div>
-            <div class="c-div"></div>
-            <div class="c-specs"><div class="sp"><i class="fas fa-vector-square"></i> 180m²</div><div class="sp"><i class="fas fa-bed"></i> 3 suítes</div><div class="sp"><i class="fas fa-car"></i> 2 vagas</div></div>
-            <div class="c-cta">
-              <button class="c-btn-detail" onclick="event.stopPropagation();openModal('v2')"><i class="fas fa-search-plus" style="margin-right:5px"></i>Ver detalhes</button>
-              <button class="c-btn-wa" onclick="event.stopPropagation();openWA('Garden Moema')"><i class="fab fa-whatsapp"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- CARD V3 -->
-        <div class="im-card rv rv-2" onclick="openModal('v3')">
-          <div class="c-img-wrap">
-            <img src="" alt="Loft Itaim" onerror="this.parentElement.classList.add('no-photo-shown')">
-            <div class="no-photo" style="height:220px"><i class="fas fa-landmark"></i></div>
-            <div class="c-ov"></div>
-            <div class="c-acts">
-              <div class="c-ab" onclick="event.stopPropagation();openModal('v3')"><i class="fas fa-expand"></i></div>
-              <div class="c-ab" onclick="event.stopPropagation();openWA('Loft Itaim')"><i class="fab fa-whatsapp"></i></div>
-            </div>
-            <span class="c-type-badge bt-sale">Venda</span>
-            <div class="photo-count"><i class="fas fa-camera"></i> 5 fotos</div>
-          </div>
-          <div class="c-body">
-            <div class="c-price">R$ 2.100.000</div>
-            <div class="c-title">Loft Contemporâneo com Terraço</div>
-            <div class="c-loc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Itaim Bibi, São Paulo</div>
-            <div class="c-div"></div>
-            <div class="c-specs"><div class="sp"><i class="fas fa-vector-square"></i> 210m²</div><div class="sp"><i class="fas fa-bed"></i> 2 suítes</div><div class="sp"><i class="fas fa-car"></i> 2 vagas</div></div>
-            <div class="c-cta">
-              <button class="c-btn-detail" onclick="event.stopPropagation();openModal('v3')"><i class="fas fa-search-plus" style="margin-right:5px"></i>Ver detalhes</button>
-              <button class="c-btn-wa" onclick="event.stopPropagation();openWA('Loft Itaim')"><i class="fab fa-whatsapp"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- CARD V4 -->
-        <div class="im-card rv rv-3" onclick="openModal('v4')">
-          <div class="c-img-wrap">
-            <img src="" alt="Casa Alphaville" onerror="this.parentElement.classList.add('no-photo-shown')">
-            <div class="no-photo" style="height:220px"><i class="fas fa-home"></i></div>
-            <div class="c-ov"></div>
-            <div class="c-acts">
-              <div class="c-ab" onclick="event.stopPropagation();openModal('v4')"><i class="fas fa-expand"></i></div>
-              <div class="c-ab" onclick="event.stopPropagation();openWA('Casa Alphaville')"><i class="fab fa-whatsapp"></i></div>
-            </div>
-            <span class="c-type-badge bt-sale">Venda</span>
-            <span class="bt-new">Exclusivo</span>
-            <div class="photo-count"><i class="fas fa-camera"></i> 10 fotos</div>
-          </div>
-          <div class="c-body">
-            <div class="c-price">R$ 4.500.000</div>
-            <div class="c-title">Casa de Alto Padrão em Condomínio</div>
-            <div class="c-loc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Alphaville, SP</div>
-            <div class="c-div"></div>
-            <div class="c-specs"><div class="sp"><i class="fas fa-vector-square"></i> 520m²</div><div class="sp"><i class="fas fa-bed"></i> 5 suítes</div><div class="sp"><i class="fas fa-car"></i> 4 vagas</div></div>
-            <div class="c-cta">
-              <button class="c-btn-detail" onclick="event.stopPropagation();openModal('v4')"><i class="fas fa-search-plus" style="margin-right:5px"></i>Ver detalhes</button>
-              <button class="c-btn-wa" onclick="event.stopPropagation();openWA('Casa Alphaville')"><i class="fab fa-whatsapp"></i></button>
-            </div>
-          </div>
-        </div>
-
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tc-name">MXToolbox Whois</div>
+        <div class="tc-url">mxtoolbox.com → SuperTool → Whois</div>
+        <p>Digite o domínio e encontre os nameservers (nserver). Esses nservers mostram onde o DNS está configurado.</p>
       </div>
-    </div><!-- /pane-venda -->
-
-    <!-- PANE ALUGUEL -->
-    <div class="im-pane" id="pane-aluguel">
-      <div class="im-grid">
-
-        <!-- CARD A1 — DESTAQUE -->
-        <div class="im-card featured rv" onclick="openModal('a1')">
-          <div class="c-img-wrap">
-            <img src="" alt="Casa Alphaville Aluguel" onerror="this.parentElement.classList.add('no-photo-shown')">
-            <div class="no-photo" style="height:300px"><i class="fas fa-swimming-pool"></i></div>
-            <div class="c-ov"></div>
-            <div class="c-acts">
-              <div class="c-ab" onclick="event.stopPropagation();openModal('a1')"><i class="fas fa-expand"></i></div>
-              <div class="c-ab" onclick="event.stopPropagation();openWA('Casa Aluguel Alphaville')"><i class="fab fa-whatsapp"></i></div>
-            </div>
-            <span class="c-type-badge bt-rent">Aluguel</span>
-            <span class="bt-new">Disponível</span>
-            <div class="photo-count"><i class="fas fa-camera"></i> 9 fotos</div>
-          </div>
-          <div class="c-body">
-            <div class="c-price">R$ 18.000<small style="font-size:.76rem;color:var(--gr)">/mês</small></div>
-            <div class="c-title">Casa em Condomínio Fechado com Piscina</div>
-            <div class="c-loc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Alphaville, SP</div>
-            <div class="c-div"></div>
-            <div class="c-specs">
-              <div class="sp"><i class="fas fa-vector-square"></i> 420m²</div>
-              <div class="sp"><i class="fas fa-bed"></i> 5 suítes</div>
-              <div class="sp"><i class="fas fa-bath"></i> 6 ban.</div>
-              <div class="sp"><i class="fas fa-car"></i> 4 vagas</div>
-            </div>
-            <div class="c-cta">
-              <button class="c-btn-detail" onclick="event.stopPropagation();openModal('a1')"><i class="fas fa-search-plus" style="margin-right:5px"></i>Ver detalhes</button>
-              <button class="c-btn-wa" onclick="event.stopPropagation();openWA('Casa Alphaville Aluguel')"><i class="fab fa-whatsapp"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- CARD A2 -->
-        <div class="im-card rv rv-1" onclick="openModal('a2')">
-          <div class="c-img-wrap">
-            <img src="" alt="Apto Pinheiros" onerror="this.parentElement.classList.add('no-photo-shown')">
-            <div class="no-photo" style="height:220px"><i class="fas fa-building"></i></div>
-            <div class="c-ov"></div>
-            <div class="c-acts">
-              <div class="c-ab" onclick="event.stopPropagation();openModal('a2')"><i class="fas fa-expand"></i></div>
-              <div class="c-ab" onclick="event.stopPropagation();openWA('Apto Pinheiros')"><i class="fab fa-whatsapp"></i></div>
-            </div>
-            <span class="c-type-badge bt-rent">Aluguel</span>
-            <div class="photo-count"><i class="fas fa-camera"></i> 7 fotos</div>
-          </div>
-          <div class="c-body">
-            <div class="c-price">R$ 8.500<small style="font-size:.76rem;color:var(--gr)">/mês</small></div>
-            <div class="c-title">Apartamento Moderno Mobiliado</div>
-            <div class="c-loc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Pinheiros, São Paulo</div>
-            <div class="c-div"></div>
-            <div class="c-specs"><div class="sp"><i class="fas fa-vector-square"></i> 120m²</div><div class="sp"><i class="fas fa-bed"></i> 2 suítes</div><div class="sp"><i class="fas fa-car"></i> 2 vagas</div></div>
-            <div class="c-cta">
-              <button class="c-btn-detail" onclick="event.stopPropagation();openModal('a2')"><i class="fas fa-search-plus" style="margin-right:5px"></i>Ver detalhes</button>
-              <button class="c-btn-wa" onclick="event.stopPropagation();openWA('Apto Pinheiros')"><i class="fab fa-whatsapp"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- CARD A3 -->
-        <div class="im-card rv rv-2" onclick="openModal('a3')">
-          <div class="c-img-wrap">
-            <img src="" alt="Flat Vila Olímpia" onerror="this.parentElement.classList.add('no-photo-shown')">
-            <div class="no-photo" style="height:220px"><i class="fas fa-city"></i></div>
-            <div class="c-ov"></div>
-            <div class="c-acts">
-              <div class="c-ab" onclick="event.stopPropagation();openModal('a3')"><i class="fas fa-expand"></i></div>
-              <div class="c-ab" onclick="event.stopPropagation();openWA('Flat Vila Olímpia')"><i class="fab fa-whatsapp"></i></div>
-            </div>
-            <span class="c-type-badge bt-rent">Aluguel</span>
-            <span class="bt-new">Novo</span>
-            <div class="photo-count"><i class="fas fa-camera"></i> 5 fotos</div>
-          </div>
-          <div class="c-body">
-            <div class="c-price">R$ 12.000<small style="font-size:.76rem;color:var(--gr)">/mês</small></div>
-            <div class="c-title">Flat de Luxo com Serviços Inclusos</div>
-            <div class="c-loc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Vila Olímpia, São Paulo</div>
-            <div class="c-div"></div>
-            <div class="c-specs"><div class="sp"><i class="fas fa-vector-square"></i> 160m²</div><div class="sp"><i class="fas fa-bed"></i> 3 suítes</div><div class="sp"><i class="fas fa-car"></i> 2 vagas</div></div>
-            <div class="c-cta">
-              <button class="c-btn-detail" onclick="event.stopPropagation();openModal('a3')"><i class="fas fa-search-plus" style="margin-right:5px"></i>Ver detalhes</button>
-              <button class="c-btn-wa" onclick="event.stopPropagation();openWA('Flat Vila Olímpia')"><i class="fab fa-whatsapp"></i></button>
-            </div>
-          </div>
-        </div>
-
+      <div class="tool-card">
+        <div class="tc-name">Whois Registro.br</div>
+        <div class="tc-url">registro.br/cgi-bin/whois</div>
+        <p>Para domínios .com.br, o Registro.br exibe todos os dados do titular e dos nameservers de forma detalhada.</p>
       </div>
-    </div><!-- /pane-aluguel -->
-
-    <div style="text-align:center;margin-top:40px" class="rv"><a href="#contato" class="btn-p"><span>Solicitar imóvel específico</span></a></div>
-  </div>
-</section>
-
-<!-- ══════════════ MODAL ══════════════ -->
-<div class="modal-bg" id="modalBg" onclick="handleBgClick(event)">
-  <div class="modal" id="modalBox">
-    <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
-
-    <!-- GALLERY -->
-    <div class="gallery">
-      <div class="gallery-slides" id="galSlides"></div>
-      <button class="gal-btn gal-prev" onclick="galMove(-1)"><i class="fas fa-chevron-left"></i></button>
-      <button class="gal-btn gal-next" onclick="galMove(1)"><i class="fas fa-chevron-right"></i></button>
-      <div class="gal-dots" id="galDots"></div>
-      <div class="gal-count" id="galCount">1 / 1</div>
-      <div class="gal-type" id="galType"></div>
     </div>
-    <div class="gal-thumbs" id="galThumbs"></div>
+  </section>
 
-    <!-- BODY -->
-    <div class="modal-body">
-      <div class="modal-left">
-        <div class="modal-eyebrow">
-          <span class="m-badge" id="mBadge"></span>
-          <span class="m-status" id="mStatus"></span>
+  <!-- ═══════════════════════════════════════
+       2 + 3. ENCONTRAR O DNS DO CLIENTE
+  ════════════════════════════════════════ -->
+  <section id="whois">
+    <div class="section-badge" style="background:rgba(20,184,166,0.1);color:var(--teal)">🔍 Seção 2 & 3</div>
+    <h2>Como encontrar onde o DNS do cliente está</h2>
+
+    <p>Antes de qualquer configuração, precisamos saber <strong>em qual painel o cliente gerencia o DNS</strong>. O caminho é sempre o mesmo: domínio → Whois → Nameservers → Painel.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Acesse o MXToolbox</strong>
+          <p>Vá para <code>mxtoolbox.com</code> → clique em <strong>SuperTool</strong> (ou diretamente em MX Lookup). Na barra de pesquisa, selecione <strong>Whois</strong> no dropdown.</p>
         </div>
-        <div class="modal-price" id="mPrice"></div>
-        <div class="modal-title" id="mTitle"></div>
-        <div class="modal-location" id="mLoc"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i><span></span></div>
-
-        <!-- SPECS -->
-        <div class="modal-specs" id="mSpecs"></div>
-
-        <!-- DESCRIÇÃO -->
-        <div class="modal-section-title" style="margin-top:24px">Sobre o imóvel</div>
-        <div class="modal-desc" id="mDesc"></div>
-
-        <!-- FEATURES -->
-        <div class="modal-section-title">Diferenciais</div>
-        <div class="modal-features" id="mFeats"></div>
       </div>
-
-      <div class="modal-right">
-        <!-- AGENTE -->
-        <div class="modal-agent">
-          <div class="agent-header">
-            <div class="agent-avatar">
-              <img src="" alt="Marcos Janini" onerror="this.style.display='none';this.parentElement.textContent='MJ'">
-              MJ
-            </div>
-            <div>
-              <div class="agent-name">Marcos Janini</div>
-              <div class="agent-role">Corretor Premium</div>
-              <div class="agent-creci">CRECI 12345-F</div>
-            </div>
-          </div>
-          <div class="agent-btns">
-            <a href="https://wa.me/5511999999999" class="abtn abtn-wa" target="_blank"><i class="fab fa-whatsapp"></i> Falar no WhatsApp</a>
-            <a href="tel:+5511999999999" class="abtn abtn-tel"><i class="fas fa-phone-alt"></i> (11) 99999-9999</a>
-          </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Digite o domínio do cliente</strong>
+          <p>Exemplo: <code>devfelipelima.com.br</code> — pressione Enter e aguarde o resultado.</p>
         </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Localize os Nameservers (nserver)</strong>
+          <p>No resultado você verá algo como:</p>
+          <pre><code><span class="cm"># Resultado do Whois — devfelipelima.com.br</span>
+<span class="kw">nserver:</span>       <span class="val">ns1.amazonaws.com</span>
+<span class="kw">nserver:</span>       <span class="val">ns2.amazonaws.com</span>
+<span class="cm"># → DNS está no Amazon Route 53</span>
 
-        <!-- PROPOSTA -->
-        <div class="modal-form">
-          <div class="mform-title"><i class="fas fa-file-signature" style="margin-right:6px"></i>Enviar Proposta</div>
-          <div id="mFormContent">
-            <div class="mfg"><label>Seu nome</label><input type="text" id="mNome" placeholder="Nome completo"></div>
-            <div class="mfg"><label>Telefone / WhatsApp</label><input type="tel" id="mTel" placeholder="(11) 99999-9999"></div>
-            <div class="mfg"><label>E-mail</label><input type="email" id="mEmail" placeholder="seu@email.com"></div>
-            <div class="mfg"><label>Tipo de proposta</label>
-              <select id="mTipo">
-                <option value="">Selecione...</option>
-                <option>Proposta de compra</option>
-                <option>Proposta de locação</option>
-                <option>Quero agendar uma visita</option>
-                <option>Solicitar mais informações</option>
-              </select>
-            </div>
-            <div class="mfg"><label>Mensagem</label><textarea id="mMsg" placeholder="Sua proposta ou dúvida..."></textarea></div>
-            <button class="mf-btn" onclick="sendProposta()"><i class="fas fa-paper-plane"></i> Enviar Proposta</button>
-          </div>
-          <div class="mf-ok" id="mFormOk">
-            <i class="fas fa-check-circle"></i>
-            <h4>Proposta enviada!</h4>
-            <p>Marcos entrará em contato em breve.</p>
-          </div>
+<span class="cm"># Outro exemplo comum:</span>
+<span class="kw">nserver:</span>       <span class="val">ns1-01.azure-dns.com</span>
+<span class="kw">nserver:</span>       <span class="val">ns2-01.azure-dns.net</span>
+<span class="cm"># → DNS está no Microsoft Azure DNS</span>
+
+<span class="cm"># Outro exemplo:</span>
+<span class="kw">nserver:</span>       <span class="val">mia1.niagahoster.com</span>
+<span class="cm"># → DNS está em hospedagem própria (cPanel/WHM)</span></code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <strong>Identifique o painel e oriente o cliente</strong>
+          <p>Com base no nserver, saiba exatamente onde dizer ao cliente para logar e adicionar os registros.</p>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- SERVIÇOS -->
-<section id="servicos">
-  <div class="container">
-    <div style="max-width:520px" class="rv">
-      <div class="s-eye"><div class="s-eye-l"></div><span>O que ofereço</span></div>
-      <h2 class="s-title">Serviços <em class="hl">completos</em><br>do início ao fim</h2>
+    <div class="cheat-wrap">
+      <div class="cheat-title">🗺️ Mapa: Nameserver → Painel de DNS</div>
+      <table class="cheat">
+        <tr>
+          <th>Nameserver contém</th>
+          <th>Painel DNS</th>
+          <th>URL de acesso</th>
+        </tr>
+        <tr><td>amazonaws.com</td><td>Amazon Route 53</td><td>console.aws.amazon.com/route53</td></tr>
+        <tr><td>azure-dns.com / .net</td><td>Microsoft Azure DNS</td><td>portal.azure.com</td></tr>
+        <tr><td>cloudflare.com</td><td>Cloudflare</td><td>dash.cloudflare.com</td></tr>
+        <tr><td>googledomains.com / google.com</td><td>Google Domains / Cloud DNS</td><td>domains.google.com</td></tr>
+        <tr><td>registro.br</td><td>Registro.br (painel próprio)</td><td>registro.br/login</td></tr>
+        <tr><td>kinghost.com.br</td><td>KingHost</td><td>painel.kinghost.com.br</td></tr>
+        <tr><td>locaweb.com.br</td><td>Locaweb</td><td>painel.locaweb.com.br</td></tr>
+        <tr><td>hostgator.com.br</td><td>HostGator Brasil</td><td>painel + cPanel</td></tr>
+        <tr><td>uol.com.br</td><td>UOL Host</td><td>painel.uolhost.com.br</td></tr>
+      </table>
     </div>
-    <div class="sv-grid rv rv-1">
-      <div class="sv-item"><div class="sv-n">01</div><div class="sv-ic"><i class="fas fa-search"></i></div><h3 class="sv-t">Busca Personalizada</h3><p class="sv-d">Identifico imóveis que correspondem exatamente ao seu perfil, estilo de vida e investimento pretendido.</p></div>
-      <div class="sv-item"><div class="sv-n">02</div><div class="sv-ic"><i class="fas fa-chart-line"></i></div><h3 class="sv-t">Avaliação de Mercado</h3><p class="sv-d">Análise criteriosa do valor real do imóvel com base nos índices atualizados do mercado imobiliário.</p></div>
-      <div class="sv-item"><div class="sv-n">03</div><div class="sv-ic"><i class="fas fa-file-contract"></i></div><h3 class="sv-t">Assessoria Jurídica</h3><p class="sv-d">Suporte completo na documentação, contratos e legalidade da transação com total segurança jurídica.</p></div>
-      <div class="sv-item"><div class="sv-n">04</div><div class="sv-ic"><i class="fas fa-landmark"></i></div><h3 class="sv-t">Financiamento</h3><p class="sv-d">Negociação das melhores condições de crédito com os principais bancos e financeiras do mercado.</p></div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- DEPOIMENTOS -->
-<section id="depoimentos">
-  <div class="container">
-    <div class="s-eye rv"><div class="s-eye-l"></div><span>Depoimentos</span></div>
-    <h2 class="s-title rv rv-1">O que dizem<br>meus <em class="hl">clientes</em></h2>
-  </div>
-  <div class="dp-track">
-    <div class="dp-slider">
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">O Marcos foi extraordinário em todo o processo. Encontrou exatamente o que procurávamos e cuidou de cada detalhe com profissionalismo impecável.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">AR</div><div><div class="dp-name">Ana Rodrigues</div><div class="dp-role">Compradora · Jardins</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">Em menos de 30 dias meu apartamento foi vendido pelo valor que eu queria. A estratégia do Marcos é simplesmente excepcional.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">CM</div><div><div class="dp-name">Carlos Mendes</div><div class="dp-role">Vendedor · Moema</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">Serviço premium do começo ao fim. O Marcos não vende imóvel, ele realiza sonhos. Recomendo de olhos fechados.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">FS</div><div><div class="dp-name">Fernanda Santos</div><div class="dp-role">Investidora · Alphaville</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">A tranquilidade que o Marcos me transmitiu durante o financiamento foi fundamental. Um profissional raro no mercado.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">RL</div><div><div class="dp-name">Roberto Lima</div><div class="dp-role">Comprador · Itaim Bibi</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">Segunda transação com o Marcos e ainda melhor que a primeira. Honestidade, agilidade e resultado garantido.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">PC</div><div><div class="dp-name">Patrícia Costa</div><div class="dp-role">Cliente fiel · Vila Olímpia</div></div></div></div>
-      <!-- duplicados loop -->
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">O Marcos foi extraordinário em todo o processo. Encontrou exatamente o que procurávamos e cuidou de cada detalhe com profissionalismo impecável.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">AR</div><div><div class="dp-name">Ana Rodrigues</div><div class="dp-role">Compradora · Jardins</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">Em menos de 30 dias meu apartamento foi vendido pelo valor que eu queria. A estratégia do Marcos é simplesmente excepcional.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">CM</div><div><div class="dp-name">Carlos Mendes</div><div class="dp-role">Vendedor · Moema</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">Serviço premium do começo ao fim. O Marcos não vende imóvel, ele realiza sonhos. Recomendo de olhos fechados.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">FS</div><div><div class="dp-name">Fernanda Santos</div><div class="dp-role">Investidora · Alphaville</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">A tranquilidade que o Marcos me transmitiu durante o financiamento foi fundamental. Um profissional raro no mercado.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">RL</div><div><div class="dp-name">Roberto Lima</div><div class="dp-role">Comprador · Itaim Bibi</div></div></div></div>
-      <div class="dp-card"><div class="dp-stars">★★★★★</div><div class="dp-q">"</div><p class="dp-txt">Segunda transação com o Marcos e ainda melhor que a primeira. Honestidade, agilidade e resultado garantido.</p><div class="dp-div"></div><div class="dp-auth"><div class="dp-av">PC</div><div><div class="dp-name">Patrícia Costa</div><div class="dp-role">Cliente fiel · Vila Olímpia</div></div></div></div>
-    </div>
-  </div>
-</section>
+  <!-- ═══════════════════════════════════════
+       PAINEL DNS — CAMPOS EXPLICADOS
+  ════════════════════════════════════════ -->
+  <section id="painel">
+    <div class="section-badge" style="background:rgba(139,92,246,0.1);color:var(--purple2)">⚙️ Seção 4</div>
+    <h2>Campos do Painel DNS — o que é cada um</h2>
+    <p>Em todos os painéis de DNS, você vai encontrar basicamente os mesmos campos. Entender cada um é essencial para não errar na hora de cadastrar.</p>
 
-<!-- CONTATO -->
-<section id="contato">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:48px" class="rv">
-      <div class="s-eye" style="justify-content:center"><div class="s-eye-l"></div><span>Contato</span><div class="s-eye-l"></div></div>
-      <h2 class="s-title">Vamos encontrar o seu<br><em class="hl">imóvel ideal</em></h2>
+    <div class="cheat-wrap">
+      <div class="cheat-title">📋 Referência de Campos DNS</div>
+      <table class="cheat">
+        <tr><th>Campo</th><th>Também chamado de</th><th>O que colocar</th></tr>
+        <tr>
+          <td>Nome / Host / Subdomínio</td>
+          <td>Name, Label, Subdomain</td>
+          <td>A parte antes do domínio. Use <code>@</code> para a raiz, ou <code>seletor._domainkey</code> para subdomínios. Em alguns painéis você digita só o prefixo (sem o domínio); em outros o FQDN completo.</td>
+        </tr>
+        <tr>
+          <td>Tipo</td>
+          <td>Type, Record Type</td>
+          <td>TXT, MX, CNAME, A, AAAA… Selecione exatamente o tipo informado.</td>
+        </tr>
+        <tr>
+          <td>TTL</td>
+          <td>Time to Live</td>
+          <td>Tempo em segundos que o cache dura. Use <strong>3600</strong> (1 hora) como padrão. Para mudanças urgentes, reduza para 300 antes.</td>
+        </tr>
+        <tr>
+          <td>Valor / Registro / Conteúdo</td>
+          <td>Value, Data, Content, Target, Points to</td>
+          <td>O conteúdo real do registro. Para TXT é a string entre aspas; para CNAME é o destino; para MX é o hostname do servidor.</td>
+        </tr>
+        <tr>
+          <td>Prioridade</td>
+          <td>Priority, Preference</td>
+          <td>Só aparece para MX. Número inteiro; menor = prioridade maior.</td>
+        </tr>
+      </table>
     </div>
-    <div class="ct-grid">
-      <div class="rv">
-        <p class="s-sub">Estou pronto para te ajudar a realizar o melhor negócio da sua vida. Entre em contato pelo canal de sua preferência.</p>
-        <div class="channels">
-          <a href="https://wa.me/5511999999999" class="channel" target="_blank"><div class="ch-ic"><i class="fab fa-whatsapp"></i></div><div class="ch-t"><label>WhatsApp</label><span>(11) 99999-9999</span></div><i class="fas fa-arrow-right" style="margin-left:auto;color:var(--gold);font-size:.72rem"></i></a>
-          <a href="tel:+5511999999999" class="channel"><div class="ch-ic"><i class="fas fa-phone-alt"></i></div><div class="ch-t"><label>Telefone</label><span>(11) 99999-9999</span></div><i class="fas fa-arrow-right" style="margin-left:auto;color:var(--gold);font-size:.72rem"></i></a>
-          <a href="mailto:marcos@janini.com.br" class="channel"><div class="ch-ic"><i class="fas fa-envelope"></i></div><div class="ch-t"><label>E-mail</label><span>marcos@janini.com.br</span></div><i class="fas fa-arrow-right" style="margin-left:auto;color:var(--gold);font-size:.72rem"></i></a>
-          <a href="https://instagram.com/marcosjanini" class="channel" target="_blank"><div class="ch-ic"><i class="fab fa-instagram"></i></div><div class="ch-t"><label>Instagram</label><span>@marcosjanini</span></div><i class="fas fa-arrow-right" style="margin-left:auto;color:var(--gold);font-size:.72rem"></i></a>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body">
+        <strong>Atenção: ponto final (FQDN)</strong>
+        <p>Alguns painéis (ex: cPanel, BIND) exigem ponto final no valor: <code>mail.devfelipelima.com.br<strong>.</strong></code> — sem o ponto, ele adiciona o domínio automaticamente e o registro fica errado. Painéis modernos (Route 53, Cloudflare, Azure) geralmente não precisam do ponto.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════════════
+       SPF
+  ════════════════════════════════════════ -->
+  <section id="spf">
+    <div class="section-badge" style="background:rgba(16,185,129,0.1);color:var(--green2)">🛡️ SPF</div>
+    <h2>O que é SPF</h2>
+
+    <p><strong>Sender Policy Framework</strong> — define quais servidores têm permissão para enviar e-mails em nome do seu domínio. Funciona como uma "lista de convidados": se o servidor não estiver na lista, o e-mail pode ser rejeitado ou marcado como spam.</p>
+
+    <h3>Como funciona</h3>
+    <div class="flow-row">
+      <div class="flow-box"><div class="fb-title">E-mail enviado</div><p>pelo servidor m3.messagecenter</p></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box"><div class="fb-title">Servidor receptor</div><p>consulta SPF do domínio remetente</p></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box"><div class="fb-title">Verifica TXT</div><p>include:m3.messagecenter.com.br</p></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box"><div class="fb-title">✅ PASS</div><p>Entrega autorizada</p></div>
+    </div>
+
+    <h3>Registro SPF que passamos ao cliente</h3>
+    <span class="pre-label">Registro TXT — devfelipelima.com.br</span>
+    <pre><code><span class="kw">v=spf1</span> <span class="val">include:m3.messagecenter.com.br</span> <span class="op">~all</span>
+
+<span class="cm"># Se o cliente já tiver um SPF existente, NÃO crie um segundo registro.</span>
+<span class="cm"># Adicione o include dentro do registro já existente:</span>
+<span class="kw">v=spf1</span> <span class="val">include:gmail.com</span> <span class="val">include:m3.messagecenter.com.br</span> <span class="op">~all</span></code></pre>
+
+    <div class="callout danger">
+      <div class="callout-icon">🚫</div>
+      <div class="callout-body">
+        <strong>Nunca crie dois registros SPF no mesmo domínio!</strong>
+        <p>Um domínio deve ter <strong>somente um</strong> registro SPF (TXT começando com <code>v=spf1</code>). Dois registros causam falha de autenticação imediata (PermerError).</p>
+      </div>
+    </div>
+
+    <h3>Cheatsheet SPF — Mecanismos e Qualificadores</h3>
+
+    <div class="cheat-wrap">
+      <div class="cheat-title">🔧 Qualificadores (final do registro)</div>
+      <table class="cheat">
+        <tr><th>Símbolo</th><th>Nome</th><th>Efeito quando não bate</th><th>Quando usar</th></tr>
+        <tr>
+          <td>+all</td>
+          <td>Pass all</td>
+          <td>Aprova qualquer servidor <span class="badge badge-red">INSEGURO</span></td>
+          <td>Nunca — qualquer um pode enviar pelo seu domínio</td>
+        </tr>
+        <tr>
+          <td>~all</td>
+          <td>SoftFail</td>
+          <td>Aceita mas marca como suspeito <span class="badge badge-yellow">MODERADO</span></td>
+          <td>Fase de implementação / monitoramento</td>
+        </tr>
+        <tr>
+          <td>-all</td>
+          <td>HardFail</td>
+          <td>Rejeita servidores não autorizados <span class="badge badge-green">RECOMENDADO</span></td>
+          <td>Produção estável — quando todos os envios estão mapeados</td>
+        </tr>
+        <tr>
+          <td>?all</td>
+          <td>Neutral</td>
+          <td>Sem política definida <span class="badge badge-blue">INFORMATIVO</span></td>
+          <td>Raríssimo — praticamente sem efeito</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="cheat-wrap">
+      <div class="cheat-title">🔧 Mecanismos do SPF</div>
+      <table class="cheat">
+        <tr><th>Mecanismo</th><th>O que faz</th><th>Exemplo</th></tr>
+        <tr><td>include:</td><td>Inclui a política SPF de outro domínio (adiciona os IPs dele)</td><td><code>include:m3.messagecenter.com.br</code></td></tr>
+        <tr><td>ip4:</td><td>Autoriza um IP ou bloco IPv4 específico</td><td><code>ip4:200.10.20.30</code> ou <code>ip4:200.10.0.0/24</code></td></tr>
+        <tr><td>ip6:</td><td>Autoriza um endereço ou bloco IPv6</td><td><code>ip6:2001:db8::1</code></td></tr>
+        <tr><td>a</td><td>Autoriza o IP do registro A do domínio</td><td><code>a:devfelipelima.com.br</code></td></tr>
+        <tr><td>mx</td><td>Autoriza os IPs dos servidores MX do domínio</td><td><code>mx</code></td></tr>
+        <tr><td>redirect=</td><td>Usa a política SPF de outro domínio (substitui o atual)</td><td><code>redirect=_spf.example.com</code></td></tr>
+      </table>
+    </div>
+
+    <h3>Limite de DNS Lookups — Regra dos 10</h3>
+    <p>O SPF permite no máximo <strong>10 consultas DNS</strong> (includes, mx, a, etc.). Se ultrapassar, o resultado é <strong>PermerError</strong> — falha permanente e autenticação quebrada.</p>
+
+    <div class="spf-meter">
+      <div class="spf-meter-label">
+        <span>Consultas utilizadas</span>
+        <span style="color:var(--green2)">3/10 — Válido ✅</span>
+      </div>
+      <div class="spf-bar-track">
+        <div class="spf-bar-fill" style="width:30%;background:var(--green)"></div>
+      </div>
+    </div>
+    <div class="spf-meter">
+      <div class="spf-meter-label">
+        <span>Consultas utilizadas</span>
+        <span style="color:var(--red2)">11/10 — INVÁLIDO ❌</span>
+      </div>
+      <div class="spf-bar-track">
+        <div class="spf-bar-fill" style="width:100%;background:var(--red)"></div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">🛠️</div>
+      <div class="callout-body">
+        <strong>Como verificar o SPF do cliente</strong>
+        <p>Acesse <code>easydmarc.com/tools/spf-lookup</code> → digite o domínio → o resultado mostra o número de lookups. Se aparecer <strong>3/10</strong> = saudável. Se aparecer <strong>11/10</strong> ou mais = precisa otimizar (remover includes desnecessários ou usar "flattening").</p>
+      </div>
+    </div>
+
+    <h3>Possíveis erros / invalidações do SPF</h3>
+    <div class="cheat-wrap">
+      <div class="cheat-title">🚨 Problemas Comuns</div>
+      <table class="cheat">
+        <tr><th>Erro</th><th>Causa</th><th>Solução</th></tr>
+        <tr><td>PermError</td><td>Mais de 10 lookups DNS, ou sintaxe errada</td><td>Remover includes desnecessários / corrigir sintaxe</td></tr>
+        <tr><td>TempError</td><td>Servidor DNS do domínio inacessível no momento</td><td>Aguardar e verificar se o DNS está respondendo</td></tr>
+        <tr><td>HardFail (-all) + falta de include</td><td>Servidor de envio não listado no SPF</td><td>Adicionar o include correto antes do -all</td></tr>
+        <tr><td>Dois registros TXT v=spf1</td><td>Cadastro duplicado por engano</td><td>Mesclar em um único registro TXT</td></tr>
+        <tr><td>SPF em subdomínio errado</td><td>Configurado em mail.dominio ao invés de dominio</td><td>Verificar se o TXT está na raiz do domínio (@)</td></tr>
+        <tr><td>SoftFail com DMARC reject</td><td>DMARC rejeita mas SPF está com ~all</td><td>Mudar SPF para -all ou ajustar política DMARC</td></tr>
+      </table>
+    </div>
+
+    <h3>Como cadastrar no painel DNS</h3>
+    <div class="dns-wrap">
+      <div class="dns-header">📋 SPF — devfelipelima.com.br</div>
+      <table class="dns-table">
+        <tr><th>Campo</th><th>Valor a preencher</th></tr>
+        <tr><td>Nome / Host</td><td class="mono">@ (raiz do domínio)</td></tr>
+        <tr><td>Tipo</td><td class="mono">TXT</td></tr>
+        <tr><td>TTL</td><td class="mono">3600</td></tr>
+        <tr><td>Valor / Conteúdo</td><td class="mono">v=spf1 include:m3.messagecenter.com.br ~all</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       DKIM
+  ════════════════════════════════════════ -->
+  <section id="dkim">
+    <div class="section-badge" style="background:rgba(139,92,246,0.1);color:var(--purple2)">🔑 DKIM</div>
+    <h2>O que é DKIM</h2>
+
+    <p><strong>DomainKeys Identified Mail</strong> — adiciona uma <strong>assinatura criptográfica</strong> em cada e-mail enviado. O servidor receptor consulta a chave pública no DNS e verifica se a mensagem não foi alterada em trânsito. É como um selo de autenticidade no envelope.</p>
+
+    <h3>Cheatsheet: Seletor e Chave</h3>
+    <div class="cheat-wrap">
+      <div class="cheat-title">🔑 Anatomia do DKIM</div>
+      <table class="cheat">
+        <tr><th>Conceito</th><th>O que é</th><th>Exemplo (devfelipelima)</th></tr>
+        <tr>
+          <td>Seletor</td>
+          <td>Nome único que identifica o par de chaves. Permite ter múltiplos DKIMs no mesmo domínio. Geralmente começa com <code>mc</code> + parte do domínio.</td>
+          <td><code>mcDevfelipelima</code></td>
+        </tr>
+        <tr>
+          <td>Chave Privada</td>
+          <td>Fica no servidor de envio (mcenter). Assina cada e-mail. NUNCA é exposta.</td>
+          <td>Gerenciada pelo app.mcenter.com.br</td>
+        </tr>
+        <tr>
+          <td>Chave Pública</td>
+          <td>É o valor que o cliente cadastra no DNS como TXT. Qualquer servidor pode usar para verificar a assinatura.</td>
+          <td>String <code>p=MIGfMA0GCS...</code></td>
+        </tr>
+        <tr>
+          <td>Subdomínio DNS</td>
+          <td>Sempre no formato: <code>seletor._domainkey.dominio</code></td>
+          <td><code>mcDevfelipelima._domainkey.devfelipelima.com.br</code></td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>Como gerar o DKIM no mcenter</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Acesse app.mcenter.com.br</strong>
+          <p>Faça login e vá em <strong>Parâmetros → DKIM → Novo</strong></p>
         </div>
       </div>
-      <div class="rv rv-2">
-        <div id="formContent">
-          <div class="fr"><div class="fg"><label>Nome</label><input type="text" id="nome" placeholder="Seu nome"></div><div class="fg"><label>Telefone</label><input type="tel" id="tel" placeholder="(11) 99999-9999"></div></div>
-          <div class="fg"><label>E-mail</label><input type="email" id="email" placeholder="seu@email.com"></div>
-          <div class="fg"><label>Interesse</label><select id="interesse"><option value="">Selecione...</option><option>Comprar um imóvel</option><option>Vender meu imóvel</option><option>Alugar um imóvel</option><option>Avaliar meu imóvel</option><option>Investir em imóveis</option></select></div>
-          <div class="fg"><label>Mensagem</label><textarea id="msg" placeholder="Conte o que você procura..."></textarea></div>
-          <button class="f-btn" onclick="sendForm()"><i class="fas fa-paper-plane"></i> Enviar mensagem</button>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Preencha o domínio e o seletor</strong>
+          <p>Domínio: <code>devfelipelima.com.br</code> | Seletor: <code>mcDevfelipelima</code> (pode ser qualquer nome — use algo fácil de identificar)</p>
         </div>
-        <div class="f-ok" id="fOk"><i class="fas fa-check-circle"></i><h3>Mensagem enviada!</h3><p>Marcos Janini entrará em contato em breve.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Copie o registro TXT gerado</strong>
+          <p>O sistema gera a chave pública que deve ser passada ao cliente para cadastrar no DNS.</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="ft-grid">
-      <div class="ft-brand">
-        <div class="ft-logo">MARCOS <span>JANINI</span></div>
-        <p>Especialista em imóveis de alto padrão com mais de 15 anos de experiência. Seu sonho, minha missão.</p>
-        <div class="ft-soc"><a href="#" class="soc"><i class="fab fa-instagram"></i></a><a href="#" class="soc"><i class="fab fa-linkedin-in"></i></a><a href="#" class="soc"><i class="fab fa-whatsapp"></i></a><a href="#" class="soc"><i class="fab fa-youtube"></i></a></div>
+    <h3>Exemplo de registro gerado</h3>
+    <span class="pre-label">Registro TXT DKIM gerado pelo mcenter</span>
+    <pre><code><span class="cm"># Nome/Host do registro:</span>
+<span class="kw">mcDevfelipelima._domainkey</span>.<span class="val">devfelipelima.com.br</span>
+
+<span class="cm"># Valor do registro TXT:</span>
+<span class="str">v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC5...</span>
+<span class="cm"># (chave truncada — copie a chave completa gerada pelo mcenter)</span></code></pre>
+
+    <div class="dns-wrap">
+      <div class="dns-header">📋 DKIM — devfelipelima.com.br</div>
+      <table class="dns-table">
+        <tr><th>Campo</th><th>Valor a preencher</th></tr>
+        <tr><td>Nome / Host</td><td class="mono">mcDevfelipelima._domainkey</td></tr>
+        <tr><td>Tipo</td><td class="mono">TXT</td></tr>
+        <tr><td>TTL</td><td class="mono">3600</td></tr>
+        <tr><td>Valor / Conteúdo</td><td class="mono">v=DKIM1; k=rsa; p=MIGfMA0GCSqGSI...</td></tr>
+      </table>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body">
+        <strong>Atenção ao cadastrar o Host</strong>
+        <p>Alguns painéis já adicionam o domínio automaticamente. Nesses casos, coloque apenas <code>mcDevfelipelima._domainkey</code> (sem o <code>.devfelipelima.com.br</code>). Se o painel exigir o FQDN completo, coloque <code>mcDevfelipelima._domainkey.devfelipelima.com.br</code>.</p>
       </div>
-      <div class="ft-col"><h4>Navegação</h4><ul class="ft-links"><li><a href="#sobre">Sobre mim</a></li><li><a href="#imoveis">Imóveis</a></li><li><a href="#servicos">Serviços</a></li><li><a href="#depoimentos">Depoimentos</a></li><li><a href="#contato">Contato</a></li></ul></div>
-      <div class="ft-col"><h4>Especialidades</h4><ul class="ft-links"><li><a href="#">Alto Padrão</a></li><li><a href="#">Coberturas</a></li><li><a href="#">Condomínios</a></li><li><a href="#">Investimentos</a></li><li><a href="#">Locação Premium</a></li></ul></div>
     </div>
-    <div class="ft-btm">
-      <p>© 2025 Marcos Janini. Todos os direitos reservados.</p>
-      <div style="display:flex;align-items:center;gap:10px"><div class="creci-b">CRECI 12345-F</div><span style="font-size:.68rem;color:var(--gr)">São Paulo · Brasil</span></div>
-    </div>
-  </div>
-</footer>
 
-<a href="https://wa.me/5511999999999" class="wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <h3>Como validar o DKIM</h3>
+    <p>No <strong>MXToolbox</strong>: selecione <strong>DKIM Lookup</strong> → informe o domínio e o seletor (<code>mcDevfelipelima</code>) → resultado deve mostrar <span class="badge badge-green">✅ VALID</span>.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       DMARC
+  ════════════════════════════════════════ -->
+  <section id="dmarc">
+    <div class="section-badge" style="background:rgba(239,68,68,0.1);color:var(--red2)">📋 DMARC</div>
+    <h2>O que é DMARC</h2>
+
+    <p><strong>Domain-based Message Authentication, Reporting and Conformance</strong> — é a política que diz ao servidor receptor o que fazer quando um e-mail <strong>falha</strong> no SPF e/ou DKIM. Além disso, gera relatórios de quem está enviando no nome do seu domínio.</p>
+
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div class="callout-body">
+        <strong>Pré-requisito</strong>
+        <p>DMARC só funciona bem se <strong>SPF e DKIM já estiverem configurados</strong>. Sem eles, o DMARC não tem como verificar o alinhamento.</p>
+      </div>
+    </div>
+
+    <h3>Cheatsheet DMARC — Tags e Valores</h3>
+    <div class="cheat-wrap">
+      <div class="cheat-title">🔧 Tags do registro DMARC</div>
+      <table class="cheat">
+        <tr><th>Tag</th><th>O que faz</th><th>Valores possíveis</th></tr>
+        <tr>
+          <td>v=DMARC1</td>
+          <td>Versão — sempre presente e sempre DMARC1</td>
+          <td>DMARC1 (fixo)</td>
+        </tr>
+        <tr>
+          <td>p=</td>
+          <td><strong>Política principal</strong> — o que fazer com e-mails que falham</td>
+          <td><code>none</code> | <code>quarantine</code> | <code>reject</code></td>
+        </tr>
+        <tr>
+          <td>sp=</td>
+          <td>Política para subdomínios (se diferente da principal)</td>
+          <td><code>none</code> | <code>quarantine</code> | <code>reject</code></td>
+        </tr>
+        <tr>
+          <td>rua=</td>
+          <td>E-mail para receber relatórios agregados (diários)</td>
+          <td><code>mailto:dmarc@devfelipelima.com.br</code></td>
+        </tr>
+        <tr>
+          <td>ruf=</td>
+          <td>E-mail para relatórios forenses (por falha individual)</td>
+          <td><code>mailto:dmarc@devfelipelima.com.br</code></td>
+        </tr>
+        <tr>
+          <td>pct=</td>
+          <td>Porcentagem de e-mails afetados pela política</td>
+          <td>0-100 (padrão: 100)</td>
+        </tr>
+        <tr>
+          <td>adkim=</td>
+          <td>Alinhamento DKIM</td>
+          <td><code>r</code> relaxed (padrão) | <code>s</code> strict</td>
+        </tr>
+        <tr>
+          <td>aspf=</td>
+          <td>Alinhamento SPF</td>
+          <td><code>r</code> relaxed (padrão) | <code>s</code> strict</td>
+        </tr>
+        <tr>
+          <td>fo=</td>
+          <td>Condições para envio de relatório forense</td>
+          <td><code>0</code> ambos falham | <code>1</code> qualquer um falha | <code>d</code> DKIM falha | <code>s</code> SPF falha</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="cheat-wrap">
+      <div class="cheat-title">📊 Evolução recomendada da política DMARC</div>
+      <table class="cheat">
+        <tr><th>Etapa</th><th>Registro</th><th>Quando usar</th></tr>
+        <tr>
+          <td><span class="badge badge-yellow">INÍCIO</span> p=none</td>
+          <td><code>v=DMARC1; p=none; rua=mailto:dmarc@devfelipelima.com.br</code></td>
+          <td>Primeiros 2-4 semanas — monitoramento, sem bloqueio</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">MEIO</span> p=quarantine</td>
+          <td><code>v=DMARC1; p=quarantine; pct=50; rua=mailto:dmarc@devfelipelima.com.br</code></td>
+          <td>Após análise dos relatórios, aplicar em 50% e aumentar gradualmente</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-green">FINAL</span> p=reject</td>
+          <td><code>v=DMARC1; p=reject; rua=mailto:dmarc@devfelipelima.com.br</code></td>
+          <td>Produção estável — máxima proteção, rejeita 100% das falhas</td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>Registro completo — devfelipelima.com.br</h3>
+    <span class="pre-label">Registro TXT DMARC — fase inicial</span>
+    <pre><code><span class="cm"># Nome/Host:</span>  <span class="kw">_dmarc</span>.<span class="val">devfelipelima.com.br</span>
+<span class="cm"># Tipo:</span>       TXT
+<span class="cm"># Valor:</span>
+<span class="str">v=DMARC1; p=none; rua=mailto:dmarc@devfelipelima.com.br; ruf=mailto:dmarc@devfelipelima.com.br; fo=1</span></code></pre>
+
+    <div class="dns-wrap">
+      <div class="dns-header">📋 DMARC — devfelipelima.com.br</div>
+      <table class="dns-table">
+        <tr><th>Campo</th><th>Valor a preencher</th></tr>
+        <tr><td>Nome / Host</td><td class="mono">_dmarc</td></tr>
+        <tr><td>Tipo</td><td class="mono">TXT</td></tr>
+        <tr><td>TTL</td><td class="mono">3600</td></tr>
+        <tr><td>Valor / Conteúdo</td><td class="mono">v=DMARC1; p=none; rua=mailto:dmarc@devfelipelima.com.br</td></tr>
+      </table>
+    </div>
+
+    <h3>Como validar o DMARC</h3>
+    <p>No <strong>MXToolbox</strong>: selecione <strong>DMARC Lookup</strong> → informe <code>devfelipelima.com.br</code>. Resultado deve mostrar a política configurada. Se aparecer <span class="badge badge-red">No DMARC Record Found</span>, o registro ainda não propagou ou está com o host errado (lembre: deve ser <code>_dmarc</code>).</p>
+
+    <div class="callout tip">
+      <div class="callout-icon">📨</div>
+      <div class="callout-body">
+        <strong>Leia os relatórios!</strong>
+        <p>Com <code>rua</code> configurado, o cliente receberá e-mails diários de grandes provedores (Gmail, Microsoft) mostrando quantos e-mails passaram/falharam e de quais IPs. Use <code>easydmarc.com</code> ou <code>dmarcanalyzer.com</code> para interpretar os XMLs de forma visual.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       CNAME
+  ════════════════════════════════════════ -->
+  <section id="cname">
+    <div class="section-badge" style="background:rgba(20,184,166,0.1);color:var(--teal)">🔗 CNAME (Postmaster)</div>
+    <h2>O que é CNAME — Google Postmaster Tools</h2>
+
+    <p>O registro <strong>CNAME (Canonical Name)</strong> mapeia um nome para outro nome de domínio — é um apelido. No contexto do <strong>Google Postmaster Tools</strong>, utilizamos dois registros CNAME para <strong>verificar a propriedade do domínio</strong> e habilitar o monitoramento de reputação junto ao Gmail.</p>
+
+    <h3>Por que o Google Postmaster é importante?</h3>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tc-name">📊 Reputação do Domínio</div>
+        <div class="tc-url">postmaster.google.com</div>
+        <p>Monitora a reputação do domínio e do IP junto ao Gmail. Alto spam rate → e-mails na lixeira ou bloqueados.</p>
+      </div>
+      <div class="tool-card">
+        <div class="tc-name">📬 Taxa de Entrega</div>
+        <div class="tc-url">postmaster.google.com</div>
+        <p>Mostra o índice de spam, autenticação SPF/DKIM/DMARC e erros de entrega de forma visual.</p>
+      </div>
+    </div>
+
+    <h3>Como gerar as chaves CNAME</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Acesse postmaster.google.com</strong>
+          <p>Login com a conta <code>envio@enviodeboleto.com.br</code></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Adicione o domínio do cliente</strong>
+          <p>Clique em <strong>+ Adicionar domínio</strong> → informe <code>devfelipelima.com.br</code> → o sistema gera automaticamente dois registros CNAME.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Copie as duas chaves geradas</strong>
+          <p>Exemplo do que é gerado:</p>
+          <pre><code><span class="cm"># CNAME 1:</span>
+<span class="kw">Label/Host:</span>  <span class="val">h312312j</span>.devfelipelima.com.br
+<span class="kw">Destino:</span>     <span class="str">141212315jdff.dv.googlehosted.com</span>
+
+<span class="cm"># CNAME 2 (se solicitado):</span>
+<span class="kw">Label/Host:</span>  <span class="val">a9b8c7d6</span>.devfelipelima.com.br
+<span class="kw">Destino:</span>     <span class="str">987654321abcd.dv.googlehosted.com</span></code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <strong>Passe as chaves ao cliente para cadastrar no DNS</strong>
+          <p>O cliente cadastra os dois registros CNAME no painel DNS dele.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dns-wrap">
+      <div class="dns-header">📋 CNAME Postmaster — devfelipelima.com.br</div>
+      <table class="dns-table">
+        <tr><th>Campo</th><th>Registro 1</th><th>Registro 2</th></tr>
+        <tr><td>Nome / Host</td><td class="mono">h312312j</td><td class="mono">a9b8c7d6</td></tr>
+        <tr><td>Tipo</td><td class="mono">CNAME</td><td class="mono">CNAME</td></tr>
+        <tr><td>TTL</td><td class="mono">3600</td><td class="mono">3600</td></tr>
+        <tr><td>Destino / Valor</td><td class="mono">141212315jdff.dv.googlehosted.com</td><td class="mono">987654321abcd.dv.googlehosted.com</td></tr>
+      </table>
+    </div>
+
+    <h3>Como validar o CNAME</h3>
+    <p>No <strong>MXToolbox</strong>: selecione <strong>CNAME Lookup</strong> → informe o host completo: <code>h312312j.devfelipelima.com.br</code> → deve retornar o destino <code>141212315jdff.dv.googlehosted.com</code>. Se retornar, a validação no Postmaster será confirmada automaticamente em até 24h.</p>
+
+    <div class="callout warn">
+      <div class="callout-icon">⏳</div>
+      <div class="callout-body">
+        <strong>Propagação de DNS</strong>
+        <p>Registros DNS levam de <strong>30 minutos a 48 horas</strong> para propagar globalmente. Use <code>dnschecker.org</code> para acompanhar a propagação por região antes de validar.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       TXT YAHOO
+  ════════════════════════════════════════ -->
+  <section id="yahoo">
+    <div class="section-badge" style="background:rgba(245,158,11,0.1);color:var(--yellow2)">📧 TXT Yahoo</div>
+    <h2>Verificação de Domínio — Yahoo Senders</h2>
+
+    <p>Para manter boa entregabilidade no Yahoo e AOL Mail, é necessário verificar o domínio remetente no <strong>Yahoo Postmaster / Senders Hub</strong>. A verificação é feita adicionando um registro TXT com uma chave única gerada pelo Yahoo.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Acesse senders.yahooinc.com</strong>
+          <p>Faça login ou crie conta no Yahoo Senders Hub</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Adicione o domínio do cliente</strong>
+          <p>Informe <code>devfelipelima.com.br</code> → o sistema gera uma chave de verificação única.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Copie o registro TXT gerado</strong>
+          <pre><code><span class="cm"># Exemplo de chave gerada pelo Yahoo:</span>
+<span class="str">yahoo-domain-verification=Abc123XyZ456DefGhI789JklMno</span></code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <strong>Informe ao cliente para cadastrar como TXT na raiz do domínio</strong>
+          <p>Host: <code>@</code> | Tipo: <code>TXT</code> | TTL: <code>3600</code></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dns-wrap">
+      <div class="dns-header">📋 TXT Yahoo — devfelipelima.com.br</div>
+      <table class="dns-table">
+        <tr><th>Campo</th><th>Valor a preencher</th></tr>
+        <tr><td>Nome / Host</td><td class="mono">@ (raiz do domínio)</td></tr>
+        <tr><td>Tipo</td><td class="mono">TXT</td></tr>
+        <tr><td>TTL</td><td class="mono">3600</td></tr>
+        <tr><td>Valor / Conteúdo</td><td class="mono">yahoo-domain-verification=Abc123XyZ456...</td></tr>
+      </table>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <strong>Múltiplos registros TXT na raiz</strong>
+        <p>Diferente do SPF, você <strong>pode ter múltiplos registros TXT</strong> na raiz do domínio (desde que não sejam dois SPFs). O TXT do Yahoo, Google, e outros podem coexistir sem problemas.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════════════
+       AWS ROUTE 53
+  ════════════════════════════════════════ -->
+  <section id="aws">
+    <div class="section-badge" style="background:rgba(245,158,11,0.1);color:var(--yellow2)">☁️ Amazon Route 53</div>
+    <h2>Configurando no Amazon Route 53</h2>
+
+    <p>Se o Whois mostrar <code>ns1.amazonaws.com</code> nos nservers, o DNS está no <strong>Amazon Route 53</strong>. Peça ao cliente para acessar o console AWS.</p>
+
+    <div class="panel-example">
+      <div class="panel-topbar">
+        <div class="dot" style="background:#ef4444"></div>
+        <div class="dot" style="background:#f59e0b"></div>
+        <div class="dot" style="background:#10b981"></div>
+        &nbsp; console.aws.amazon.com — Route 53 → Hosted Zones → devfelipelima.com.br → Create Record
+      </div>
+      <div style="padding:20px">
+        <div class="dns-wrap" style="margin:0">
+          <div class="dns-header">🛠️ Route 53 — Criar Registro SPF (exemplo)</div>
+          <table class="dns-table">
+            <tr><th>Campo Route 53</th><th>O que preencher</th><th>Exemplo SPF</th></tr>
+            <tr><td>Record name</td><td>Deixe vazio para raiz, ou coloque o subdomínio</td><td class="mono">(vazio)</td></tr>
+            <tr><td>Record type</td><td>Selecione no dropdown</td><td class="mono">TXT</td></tr>
+            <tr><td>TTL (seconds)</td><td>Tempo de cache em segundos</td><td class="mono">3600</td></tr>
+            <tr><td>Value</td><td>Cole o valor entre aspas duplas</td><td class="mono">"v=spf1 include:m3.messagecenter.com.br ~all"</td></tr>
+          </table>
+        </div>
+
+        <div class="callout warn" style="margin-top:16px">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body">
+            <strong>Route 53 exige aspas no TXT</strong>
+            <p>No campo Value do Route 53, valores TXT devem estar entre aspas duplas: <code>"v=spf1 include:..."</code>. Se o valor for muito longo (DKIM), divida em strings de 255 chars: <code>"parte1" "parte2"</code></p>
+          </div>
+        </div>
+
+        <div class="dns-wrap" style="margin-top:16px">
+          <div class="dns-header">🛠️ Route 53 — Todos os registros de autenticação</div>
+          <table class="dns-table">
+            <tr><th>Record name</th><th>Type</th><th>TTL</th><th>Value</th></tr>
+            <tr>
+              <td class="mono">(vazio)</td>
+              <td class="mono" style="color:var(--green2)">TXT</td>
+              <td>3600</td>
+              <td class="mono" style="font-size:11px">"v=spf1 include:m3.messagecenter.com.br ~all"</td>
+            </tr>
+            <tr>
+              <td class="mono" style="font-size:11px">mcDevfelipelima._domainkey</td>
+              <td class="mono" style="color:var(--purple2)">TXT</td>
+              <td>3600</td>
+              <td class="mono" style="font-size:11px">"v=DKIM1; k=rsa; p=MIGfMA0..."</td>
+            </tr>
+            <tr>
+              <td class="mono">_dmarc</td>
+              <td class="mono" style="color:var(--red2)">TXT</td>
+              <td>3600</td>
+              <td class="mono" style="font-size:11px">"v=DMARC1; p=none; rua=mailto:dmarc@devfelipelima.com.br"</td>
+            </tr>
+            <tr>
+              <td class="mono">h312312j</td>
+              <td class="mono" style="color:var(--teal)">CNAME</td>
+              <td>3600</td>
+              <td class="mono" style="font-size:11px">141212315jdff.dv.googlehosted.com</td>
+            </tr>
+            <tr>
+              <td class="mono">(vazio)</td>
+              <td class="mono" style="color:var(--yellow2)">TXT</td>
+              <td>3600</td>
+              <td class="mono" style="font-size:11px">"yahoo-domain-verification=Abc123..."</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">🔗</div>
+      <div class="callout-body">
+        <strong>Caminho no console AWS</strong>
+        <p>Route 53 → <strong>Hosted zones</strong> → clique no domínio do cliente → <strong>Create record</strong> → preencha os campos → <strong>Create records</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       AZURE DNS
+  ════════════════════════════════════════ -->
+  <section id="azure">
+    <div class="section-badge" style="background:rgba(59,130,246,0.1);color:var(--accent2)">🪟 Microsoft Azure DNS</div>
+    <h2>Configurando no Microsoft Azure DNS</h2>
+
+    <p>Se o Whois mostrar <code>ns1-01.azure-dns.com</code> nos nservers, o DNS está no <strong>Azure DNS</strong>. Peça ao cliente para acessar o portal Azure.</p>
+
+    <div class="panel-example">
+      <div class="panel-topbar">
+        <div class="dot" style="background:#ef4444"></div>
+        <div class="dot" style="background:#f59e0b"></div>
+        <div class="dot" style="background:#10b981"></div>
+        &nbsp; portal.azure.com — DNS zones → devfelipelima.com.br → + Record set
+      </div>
+      <div style="padding:20px">
+        <div class="callout info" style="margin-bottom:16px">
+          <div class="callout-icon">🔗</div>
+          <div class="callout-body">
+            <strong>Caminho no Portal Azure</strong>
+            <p>Portal Azure → <strong>DNS zones</strong> → selecione a zona <code>devfelipelima.com.br</code> → clique em <strong>+ Record set</strong> no menu superior</p>
+          </div>
+        </div>
+
+        <div class="dns-wrap">
+          <div class="dns-header">🛠️ Azure DNS — Campos específicos</div>
+          <table class="dns-table">
+            <tr><th>Campo Azure</th><th>Equivale a</th><th>Exemplo DKIM</th></tr>
+            <tr><td>Name</td><td>Host / Subdomínio</td><td class="mono">mcDevfelipelima._domainkey</td></tr>
+            <tr><td>Type</td><td>Tipo do registro</td><td class="mono">TXT</td></tr>
+            <tr><td>TTL</td><td>Time to Live</td><td class="mono">3600</td></tr>
+            <tr><td>TTL unit</td><td>Unidade do TTL</td><td class="mono">Seconds</td></tr>
+            <tr><td>Value</td><td>Conteúdo do registro</td><td class="mono">v=DKIM1; k=rsa; p=MIGfMA0...</td></tr>
+          </table>
+        </div>
+
+        <div class="callout warn" style="margin-top:16px">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body">
+            <strong>Azure e o campo Name para raiz</strong>
+            <p>No Azure, para cadastrar na raiz do domínio (SPF, DMARC, Yahoo TXT), use <code>@</code> no campo Name. Para <code>_dmarc</code>, coloque literalmente <code>_dmarc</code>.</p>
+          </div>
+        </div>
+
+        <div class="dns-wrap" style="margin-top:16px">
+          <div class="dns-header">🛠️ Azure — Todos os registros de autenticação</div>
+          <table class="dns-table">
+            <tr><th>Name</th><th>Type</th><th>TTL</th><th>Value</th></tr>
+            <tr>
+              <td class="mono">@</td>
+              <td class="mono" style="color:var(--green2)">TXT</td>
+              <td>3600</td>
+              <td class="mono" style="font-size:11px">v=spf1 include:m3.messagecenter.com.br ~all</td>
+            </tr>
+            <tr>
+              <td class="mono" style="font-size:11px">mcDevfelipelima._domainkey</td>
+              <td class="mono" style="color:var(--purple2)">TXT</td>
+              <td>3600</td>
+              <td class="mono" style="font-size:11px">v=DKIM1; k=rsa; p=MIGfMA0...</td>
+            </tr>
+            <tr>
+              <td class="mono">_dmarc</td>
+              <td class="mono" style="color:var(--red2)">TXT</td>
+              <td>3600</td>
+              <td class="mono" style="font-size:11px">v=DMARC1; p=none; rua=mailto:dmarc@devfelipelima.com.br</td>
+            </tr>
+            <tr>
+              <td class="mono">h312312j</td>
+              <td class="mono" style="color:var(--teal)">CNAME</td>
+              <td>3600</td>
+              <td class="mono" style="font-size:11px">141212315jdff.dv.googlehosted.com</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════════════
+       RESUMO COMPLETO
+  ════════════════════════════════════════ -->
+  <section id="resumo">
+    <div class="section-badge" style="background:rgba(59,130,246,0.1);color:var(--accent2)">📌 Resumo</div>
+    <h2>Resumo Completo — Checklist e Referência Rápida</h2>
+
+    <div class="cheat-wrap">
+      <div class="cheat-title">✅ Checklist de Configuração — domínio: devfelipelima.com.br</div>
+      <table class="cheat">
+        <tr><th>Registro</th><th>Host/Nome</th><th>Tipo</th><th>Ferramenta de validação</th></tr>
+        <tr>
+          <td><span class="badge badge-green">SPF</span></td>
+          <td><code>@</code> (raiz)</td>
+          <td><code>TXT</code></td>
+          <td>easydmarc.com/tools/spf-lookup | mxtoolbox.com → SPF</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-purple">DKIM</span></td>
+          <td><code>mcDevfelipelima._domainkey</code></td>
+          <td><code>TXT</code></td>
+          <td>mxtoolbox.com → DKIM (informar domínio + seletor)</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-red">DMARC</span></td>
+          <td><code>_dmarc</code></td>
+          <td><code>TXT</code></td>
+          <td>mxtoolbox.com → DMARC | easydmarc.com</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">CNAME Postmaster</span></td>
+          <td><code>h312312j</code> (gerado pelo Google)</td>
+          <td><code>CNAME</code></td>
+          <td>mxtoolbox.com → CNAME (host completo)</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-yellow">TXT Yahoo</span></td>
+          <td><code>@</code> (raiz)</td>
+          <td><code>TXT</code></td>
+          <td>senders.yahooinc.com (status no painel)</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">MX</span></td>
+          <td><code>@</code> (raiz)</td>
+          <td><code>MX</code></td>
+          <td>mxtoolbox.com → MX Lookup</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="cheat-wrap" style="margin-top:20px">
+      <div class="cheat-title">🛠️ Ferramentas utilizadas pelo CS</div>
+      <table class="cheat">
+        <tr><th>Ferramenta</th><th>URL</th><th>Uso</th></tr>
+        <tr><td>MXToolbox SuperTool</td><td>mxtoolbox.com</td><td>MX, SPF, DKIM, DMARC, CNAME, Whois — tudo em um lugar</td></tr>
+        <tr><td>EasyDMARC SPF Checker</td><td>easydmarc.com/tools/spf-lookup</td><td>Verificar contagem de lookups SPF (máx 10)</td></tr>
+        <tr><td>Google Postmaster Tools</td><td>postmaster.google.com</td><td>Gerar CNAME, monitorar reputação de domínio/IP</td></tr>
+        <tr><td>Yahoo Senders Hub</td><td>senders.yahooinc.com</td><td>Gerar TXT de verificação Yahoo</td></tr>
+        <tr><td>DNS Checker</td><td>dnschecker.org</td><td>Ver propagação de DNS em tempo real por região</td></tr>
+        <tr><td>Registro.br Whois</td><td>registro.br/cgi-bin/whois</td><td>Whois detalhado para domínios .com.br</td></tr>
+        <tr><td>mcenter</td><td>app.mcenter.com.br</td><td>Gerar par de chaves DKIM (privada + pública)</td></tr>
+      </table>
+    </div>
+
+    <div class="callout tip" style="margin-top:24px">
+      <div class="callout-icon">🚀</div>
+      <div class="callout-body">
+        <strong>Ordem recomendada de configuração</strong>
+        <p><strong>1.</strong> Descobrir o painel DNS (Whois) → <strong>2.</strong> Configurar SPF → <strong>3.</strong> Gerar e configurar DKIM → <strong>4.</strong> Configurar DMARC (p=none) → <strong>5.</strong> Configurar CNAME Postmaster → <strong>6.</strong> Configurar TXT Yahoo → <strong>7.</strong> Validar tudo no MXToolbox → <strong>8.</strong> Após estabilização, evoluir DMARC para p=reject</p>
+      </div>
+    </div>
+  </section>
+
+</main>
 
 <script>
-// ══════════════════════════════════════════
-//  DATABASE DE IMÓVEIS
-//  → Para adicionar fotos reais, substitua
-//    as strings vazias '' pelas URLs das imagens
-//    Ex: 'https://seusite.com/foto1.jpg'
-//    ou use caminhos locais: './fotos/imovel1.jpg'
-// ══════════════════════════════════════════
-const IMOVEIS = {
-  v1: {
-    type:'venda', badge:'Venda', status:'Lançamento',
-    price:'R$ 3.200.000', title:'Cobertura Alto Padrão com Vista Panorâmica',
-    location:'Jardins, São Paulo – SP',
-    specs:[
-      {icon:'fas fa-vector-square', val:'320m²', lbl:'Área Total'},
-      {icon:'fas fa-bed', val:'4', lbl:'Suítes'},
-      {icon:'fas fa-bath', val:'5', lbl:'Banheiros'},
-      {icon:'fas fa-car', val:'4', lbl:'Vagas'},
-      {icon:'fas fa-layer-group', val:'15º', lbl:'Andar'}
-    ],
-    desc:`Cobertura duplex de altíssimo padrão com vista panorâmica 360° para a cidade. Acabamento impecável com materiais importados, pé-direito duplo na sala e varanda gourmet com churrasqueira. Localizada no coração dos Jardins, a poucos metros das melhores boutiques, restaurantes e serviços da cidade.`,
-    feats:['Varanda gourmet privativa','Piscina privativa','Home Theater','Sala de jogos','Adega climatizada','Automação residencial completa','Segurança 24h','2 andares privativos'],
-    // ↓ Adicione URLs reais das fotos aqui
-    photos:['','','','','']
-  },
-  v2: {
-    type:'venda', badge:'Venda', status:'Disponível',
-    price:'R$ 1.890.000', title:'Apartamento Garden Premium',
-    location:'Moema, São Paulo – SP',
-    specs:[
-      {icon:'fas fa-vector-square', val:'180m²', lbl:'Área Total'},
-      {icon:'fas fa-bed', val:'3', lbl:'Suítes'},
-      {icon:'fas fa-bath', val:'3', lbl:'Banheiros'},
-      {icon:'fas fa-car', val:'2', lbl:'Vagas'},
-      {icon:'fas fa-seedling', val:'80m²', lbl:'Jardim'}
-    ],
-    desc:`Apartamento garden exclusivo com jardim privativo de 80m² em condomínio de alto padrão em Moema. Planta inteligente com integração total entre sala, cozinha e área externa. Reformado com acabamentos de luxo, armários planejados em todos os cômodos e iluminação automatizada.`,
-    feats:['Jardim privativo de 80m²','Churrasqueira no jardim','Armários planejados em todos os cômodos','Cozinha com bancada em mármore','Piso aquecido','Condomínio com piscina e academia'],
-    photos:['','','','']
-  },
-  v3: {
-    type:'venda', badge:'Venda', status:'Disponível',
-    price:'R$ 2.100.000', title:'Loft Contemporâneo com Terraço',
-    location:'Itaim Bibi, São Paulo – SP',
-    specs:[
-      {icon:'fas fa-vector-square', val:'210m²', lbl:'Área Total'},
-      {icon:'fas fa-bed', val:'2', lbl:'Suítes'},
-      {icon:'fas fa-bath', val:'3', lbl:'Banheiros'},
-      {icon:'fas fa-car', val:'2', lbl:'Vagas'},
-      {icon:'fas fa-sun', val:'60m²', lbl:'Terraço'}
-    ],
-    desc:`Loft de design único no Itaim Bibi com terraço privativo de 60m² e vista livre. Planta aberta e integrada com pé-direito duplo, paredes de concreto aparente e janelas do piso ao teto. Perfeito para quem busca modernidade e exclusividade em um dos bairros mais valorizados de SP.`,
-    feats:['Terraço privativo 60m²','Pé-direito duplo (6m)','Janelas do piso ao teto','Concreto aparente designer','Cozinha estilo industrial','Próximo à Faria Lima'],
-    photos:['','','']
-  },
-  v4: {
-    type:'venda', badge:'Venda', status:'Exclusivo',
-    price:'R$ 4.500.000', title:'Casa de Alto Padrão em Condomínio',
-    location:'Alphaville, Barueri – SP',
-    specs:[
-      {icon:'fas fa-vector-square', val:'520m²', lbl:'Área Const.'},
-      {icon:'fas fa-bed', val:'5', lbl:'Suítes'},
-      {icon:'fas fa-bath', val:'7', lbl:'Banheiros'},
-      {icon:'fas fa-car', val:'4', lbl:'Vagas'},
-      {icon:'fas fa-tree', val:'800m²', lbl:'Terreno'}
-    ],
-    desc:`Casa de altíssimo padrão em condomínio fechado de máxima segurança em Alphaville. Terreno de 800m² com piscina aquecida, churrasqueira, quadra de tênis e jardim paisagístico. Interiores assinados com materiais de importação, automação completa e vista para área verde preservada.`,
-    feats:['Piscina aquecida com deck','Churrasqueira gourmet coberta','Quadra de tênis privativa','Sauna seca e úmida','Home office completo','Automação Crestron','Gerador de energia','Câmeras e alarme monitorado 24h'],
-    photos:['','','','','']
-  },
-  a1: {
-    type:'aluguel', badge:'Aluguel', status:'Disponível',
-    price:'R$ 18.000/mês', title:'Casa em Condomínio Fechado com Piscina',
-    location:'Alphaville, Barueri – SP',
-    specs:[
-      {icon:'fas fa-vector-square', val:'420m²', lbl:'Área Const.'},
-      {icon:'fas fa-bed', val:'5', lbl:'Suítes'},
-      {icon:'fas fa-bath', val:'6', lbl:'Banheiros'},
-      {icon:'fas fa-car', val:'4', lbl:'Vagas'},
-      {icon:'fas fa-swimming-pool', val:'Sim', lbl:'Piscina'}
-    ],
-    desc:`Espetacular casa em condomínio fechado de altíssimo padrão disponível para locação. Totalmente mobiliada e decorada, com piscina aquecida, área gourmet completa e jardim impecável. Aceita pets. Contrato mínimo de 12 meses. Documentação facilitada.`,
-    feats:['Totalmente mobiliada e decorada','Piscina aquecida','Área gourmet completa','Aceita pets','Condomínio com segurança 24h','Portaria tripla','Quadra poliesportiva','Salão de festas'],
-    photos:['','','','']
-  },
-  a2: {
-    type:'aluguel', badge:'Aluguel', status:'Disponível',
-    price:'R$ 8.500/mês', title:'Apartamento Moderno Mobiliado',
-    location:'Pinheiros, São Paulo – SP',
-    specs:[
-      {icon:'fas fa-vector-square', val:'120m²', lbl:'Área Total'},
-      {icon:'fas fa-bed', val:'2', lbl:'Suítes'},
-      {icon:'fas fa-bath', val:'2', lbl:'Banheiros'},
-      {icon:'fas fa-car', val:'2', lbl:'Vagas'},
-      {icon:'fas fa-couch', val:'Sim', lbl:'Mobiliado'}
-    ],
-    desc:`Apartamento completamente mobiliado em Pinheiros, um dos bairros mais badalados de São Paulo. Design contemporâneo com marcenaria planejada, eletrodomésticos de última geração e varanda com churrasqueira. A 5 minutos da Faria Lima e próximo ao metrô.`,
-    feats:['100% mobiliado','Varanda com churrasqueira','Smart TV em todos os ambientes','Ar-condicionado split em todos os cômodos','Lavanderia interna','Academia no condomínio','Próximo ao metrô'],
-    photos:['','','']
-  },
-  a3: {
-    type:'aluguel', badge:'Aluguel', status:'Novo',
-    price:'R$ 12.000/mês', title:'Flat de Luxo com Serviços Inclusos',
-    location:'Vila Olímpia, São Paulo – SP',
-    specs:[
-      {icon:'fas fa-vector-square', val:'160m²', lbl:'Área Total'},
-      {icon:'fas fa-bed', val:'3', lbl:'Suítes'},
-      {icon:'fas fa-bath', val:'3', lbl:'Banheiros'},
-      {icon:'fas fa-car', val:'2', lbl:'Vagas'},
-      {icon:'fas fa-concierge-bell', val:'Sim', lbl:'Serviços'}
-    ],
-    desc:`Flat de luxo em empreendimento de serviços na Vila Olímpia com serviços de hotel inclusos: limpeza diária, concierge 24h, lavanderia e room service. Ideal para executivos e casais que buscam praticidade sem abrir mão do conforto e sofisticação. Disponível para locação anual.`,
-    feats:['Serviços de hotel inclusos','Limpeza diária','Concierge 24 horas','Room service','Spa e piscina no roof','Restaurante no térreo','Vaga coberta e manobrista','Localização privilegiada Vila Olímpia'],
-    photos:['','','']
-  }
-};
+  // Highlight active nav item on scroll
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('nav a');
 
-// ── GALLERY STATE ──
-let galIdx = 0, galTotal = 0, activeModal = null;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => {
+          a.classList.remove('active');
+          if (a.getAttribute('href') === '#' + entry.target.id) {
+            a.classList.add('active');
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
 
-function buildGallery(photos, type, badge) {
-  const slides = document.getElementById('galSlides');
-  const dots = document.getElementById('galDots');
-  const thumbs = document.getElementById('galThumbs');
-  const count = document.getElementById('galCount');
-  const typeEl = document.getElementById('galType');
-
-  slides.innerHTML = ''; dots.innerHTML = ''; thumbs.innerHTML = '';
-  galIdx = 0; galTotal = photos.length || 1;
-
-  // Type badge
-  typeEl.className = 'gal-type ' + (type==='venda'?'bt-sale':'bt-rent');
-  typeEl.textContent = badge;
-
-  if (!photos.length) photos = [''];
-
-  photos.forEach((src, i) => {
-    // Slide
-    const slide = document.createElement('div');
-    slide.className = 'gallery-slide';
-    if (src) {
-      slide.innerHTML = `<img src="${src}" alt="Foto ${i+1}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="no-slide" style="display:none"><i class="fas fa-image"></i></div>`;
-    } else {
-      slide.innerHTML = `<div class="no-slide" style="display:flex"><i class="fas fa-image"></i></div>`;
-    }
-    slides.appendChild(slide);
-
-    // Dot
-    const dot = document.createElement('div');
-    dot.className = 'gal-dot' + (i===0?' act':'');
-    dot.onclick = () => galGo(i);
-    dots.appendChild(dot);
-
-    // Thumb
-    const thumb = document.createElement('div');
-    thumb.className = 'gal-thumb' + (i===0?' act':'');
-    thumb.onclick = () => galGo(i);
-    if (src) {
-      thumb.innerHTML = `<img src="${src}" alt="thumb ${i+1}" onerror="this.parentElement.innerHTML='<div class=\\'no-thumb\\'><i class=\\'fas fa-image\\'></i></div>'">`;
-    } else {
-      thumb.innerHTML = `<div class="no-thumb"><i class="fas fa-image"></i></div>`;
-    }
-    thumbs.appendChild(thumb);
-  });
-
-  updateGalCount();
-}
-
-function updateGalCount() {
-  document.getElementById('galCount').textContent = `${galIdx+1} / ${galTotal}`;
-  document.getElementById('galSlides').style.transform = `translateX(-${galIdx*100}%)`;
-  document.querySelectorAll('.gal-dot').forEach((d,i) => d.classList.toggle('act', i===galIdx));
-  document.querySelectorAll('.gal-thumb').forEach((t,i) => t.classList.toggle('act', i===galIdx));
-}
-
-function galMove(dir) { galGo(galIdx + dir); }
-function galGo(i) {
-  galIdx = ((i % galTotal) + galTotal) % galTotal;
-  updateGalCount();
-}
-
-// Swipe
-let touchX = 0;
-document.getElementById('galSlides').addEventListener('touchstart', e => touchX = e.touches[0].clientX);
-document.getElementById('galSlides').addEventListener('touchend', e => {
-  const dx = e.changedTouches[0].clientX - touchX;
-  if (Math.abs(dx) > 40) galMove(dx < 0 ? 1 : -1);
-});
-
-// ── MODAL ──
-function openModal(id) {
-  const d = IMOVEIS[id];
-  if (!d) return;
-  activeModal = id;
-
-  buildGallery(d.photos || [], d.type, d.badge);
-
-  // Badge
-  const badge = document.getElementById('mBadge');
-  badge.textContent = d.badge;
-  badge.className = 'm-badge ' + (d.type==='venda'?'bt-sale':'bt-rent');
-
-  document.getElementById('mStatus').textContent = d.status;
-  document.getElementById('mPrice').textContent = d.price;
-  document.getElementById('mTitle').textContent = d.title;
-  document.getElementById('mLoc').querySelector('span').textContent = d.location;
-  document.getElementById('mDesc').textContent = d.desc;
-
-  // Specs
-  const specs = document.getElementById('mSpecs');
-  specs.innerHTML = d.specs.map(s => `
-    <div class="mspec">
-      <i class="${s.icon}"></i>
-      <div class="mv">${s.val}</div>
-      <div class="ml">${s.lbl}</div>
-    </div>`).join('');
-
-  // Features
-  const feats = document.getElementById('mFeats');
-  feats.innerHTML = d.feats.map(f => `<div class="mfeat"><i class="fas fa-check-circle"></i>${f}</div>`).join('');
-
-  // Reset form
-  document.getElementById('mFormContent').style.display = 'block';
-  document.getElementById('mFormOk').style.display = 'none';
-  ['mNome','mTel','mEmail','mMsg'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('mTipo').value = '';
-
-  // Open
-  const bg = document.getElementById('modalBg');
-  bg.classList.add('open');
-  document.body.style.overflow = 'hidden';
-
-  // Scroll top
-  setTimeout(() => bg.scrollTop = 0, 10);
-}
-
-function closeModal() {
-  document.getElementById('modalBg').classList.remove('open');
-  document.body.style.overflow = '';
-  activeModal = null;
-}
-
-function handleBgClick(e) {
-  if (e.target === document.getElementById('modalBg')) closeModal();
-}
-
-document.addEventListener('keydown', e => { if (e.key==='Escape') closeModal(); });
-
-// ── SEND PROPOSTA ──
-function sendProposta() {
-  const n = document.getElementById('mNome').value;
-  const e = document.getElementById('mEmail').value;
-  const tel = document.getElementById('mTel').value;
-  if (!n || !e || !tel) { alert('Preencha nome, e-mail e telefone.'); return; }
-  const btn = document.querySelector('.mf-btn');
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-  btn.disabled = true;
-  setTimeout(() => {
-    document.getElementById('mFormContent').style.display = 'none';
-    document.getElementById('mFormOk').style.display = 'block';
-    btn.disabled = false;
-  }, 1500);
-}
-
-// ── WHATSAPP ──
-function openWA(nome) {
-  const msg = encodeURIComponent(`Olá Marcos! Tenho interesse no imóvel: ${nome}. Poderia me dar mais informações?`);
-  window.open(`https://wa.me/5511999999999?text=${msg}`, '_blank');
-}
-
-// ── TABS ──
-function switchTab(btn, pane) {
-  document.querySelectorAll('.im-tab').forEach(t => t.classList.remove('act'));
-  document.querySelectorAll('.im-pane').forEach(p => p.classList.remove('act'));
-  btn.classList.add('act');
-  document.getElementById('pane-' + pane).classList.add('act');
-}
-
-// ── MENU ──
-function toggleMenu() {
-  const h = document.getElementById('hamburger');
-  const m = document.getElementById('mobileMenu');
-  h.classList.toggle('open');
-  m.classList.toggle('open');
-  document.body.style.overflow = m.classList.contains('open') ? 'hidden' : '';
-}
-function closeMenu() {
-  document.getElementById('hamburger').classList.remove('open');
-  document.getElementById('mobileMenu').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-// ── LOADER ──
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    const l = document.getElementById('loader');
-    l.style.opacity = '0';
-    setTimeout(() => l.remove(), 500);
-  }, 2400);
-});
-
-// ── CURSOR ──
-const cur = document.getElementById('cur'), ring = document.getElementById('curR');
-if (cur) {
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
-  (function anim(){
-    if (!cur) return;
-    cur.style.left=mx+'px'; cur.style.top=my+'px';
-    rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
-    ring.style.left=rx+'px'; ring.style.top=ry+'px';
-    requestAnimationFrame(anim);
-  })();
-  document.querySelectorAll('a,button,.im-card,.channel,.soc,.im-tab,.c-ab').forEach(el => {
-    el.addEventListener('mouseenter', () => { cur.classList.add('hv'); ring.classList.add('hv'); });
-    el.addEventListener('mouseleave', () => { cur.classList.remove('hv'); ring.classList.remove('hv'); });
-  });
-}
-
-// ── NAV ──
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('sc', scrollY > 60);
-});
-
-// ── REVEAL ──
-const obs = new IntersectionObserver(es => {
-  es.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
-}, { threshold: 0.08 });
-document.querySelectorAll('.rv').forEach(el => obs.observe(el));
-
-// ── COUNTERS ──
-const cobs = new IntersectionObserver(es => {
-  es.forEach(e => {
-    if (!e.isIntersecting) return;
-    const el = e.target, target = +el.dataset.count;
-    let c=0, step=Math.max(1,target/60);
-    const t = setInterval(() => {
-      c = Math.min(c+step, target);
-      el.textContent = Math.floor(c) + (el.dataset.count=='98'?'%':'+');
-      if (c>=target) clearInterval(t);
-    }, 25);
-    cobs.unobserve(el);
-  });
-}, { threshold: 0.5 });
-document.querySelectorAll('[data-count]').forEach(c => cobs.observe(c));
-
-// ── PARALLAX ──
-window.addEventListener('scroll', () => {
-  const g = document.getElementById('hGrid');
-  if (g) g.style.transform = `translateY(${scrollY*.22}px)`;
-});
-
-// ── CONTACT FORM ──
-function sendForm() {
-  const n=document.getElementById('nome').value, e=document.getElementById('email').value;
-  if (!n||!e) { alert('Preencha nome e e-mail.'); return; }
-  const btn=document.querySelector('.f-btn');
-  btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Enviando...';
-  btn.disabled=true;
-  setTimeout(() => {
-    document.getElementById('formContent').style.display='none';
-    document.getElementById('fOk').style.display='block';
-  }, 1500);
-}
+  sections.forEach(s => observer.observe(s));
 </script>
+
 </body>
 </html>
