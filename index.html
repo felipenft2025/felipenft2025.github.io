@@ -3,781 +3,851 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Build ED 731 — Nimmersatt's Breeding Ground</title>
+<title>Hunt Optimizer — Tibia</title>
+<meta name="description" content="Ferramenta da comunidade para otimizar hunts no Tibia: filtre spawns, informe sua vocação e atributos, e veja elemento, runa, charms, itens, gemas e loot recomendados.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Grenze:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Grenze:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --hide:#1E1B14;
-  --hide-2:#272319;
-  --panel:#2F2A1E;
-  --edge:#453D2B;
-  --bone:#EDE6D2;
-  --bone-dim:#A79E88;
-  --terra:#8FB958;
-  --terra-deep:#5E8636;
-  --molten:#D8763A;
-  --ember:#8C4522;
-  --ff-display:"Grenze",Georgia,serif;
-  --ff-body:"IBM Plex Sans",system-ui,sans-serif;
-  --ff-data:"IBM Plex Mono",ui-monospace,monospace;
+  --hide:#1E1B14; --hide-2:#272319; --panel:#2F2A1E; --edge:#453D2B; --edge-2:#332C1F;
+  --bone:#EDE6D2; --dim:#A79E88; --mute:#6E6550;
+  --terra:#8FB958; --terra-deep:#5E8636; --molten:#D8763A; --ember:#8C4522;
+  --el-physical:#C9776B; --el-fire:#D8763A; --el-ice:#6FB8D9; --el-energy:#C9A6E8; --el-earth:#8FB958; --el-death:#7C6B96; --el-holy:#E8D48A;
+  --voc-knight:#C1704A; --voc-paladin:#D3A94B; --voc-sorcerer:#9A7ADB; --voc-druid:#8FB958;
+  --ff-d:"Grenze",Georgia,serif; --ff-b:"IBM Plex Sans",system-ui,sans-serif; --ff-m:"IBM Plex Mono",ui-monospace,monospace;
 }
-
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:1.5rem}
-body{
-  margin:0;
-  background:var(--hide);
-  background-image:
-    radial-gradient(ellipse 90% 60% at 15% -10%, rgba(143,185,88,.09), transparent 70%),
-    radial-gradient(ellipse 70% 50% at 95% 8%, rgba(216,118,58,.08), transparent 70%);
-  background-attachment:fixed;
-  color:var(--bone);
-  font-family:var(--ff-body);
-  font-size:16px;
-  line-height:1.62;
-  -webkit-font-smoothing:antialiased;
+html,body{height:100%}
+body{margin:0;background:var(--hide);color:var(--bone);font-family:var(--ff-b);font-size:14.5px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden}
+a{color:var(--terra)}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--molten);outline-offset:2px}
+h1,h2,h3,h4{margin:0}
+p{margin:0 0 .6rem;color:var(--dim)}
+.mono{font-family:var(--ff-m)}
+
+/* ================= SHELL ================= */
+.shell{display:flex;flex-direction:column;height:100vh}
+.topbar{
+  flex:none;display:flex;align-items:center;gap:.8rem;padding:0 1rem;height:52px;
+  border-bottom:1px solid var(--edge);background:var(--hide-2);z-index:30
 }
-
-a{color:var(--terra);text-decoration-color:rgba(143,185,88,.4);text-underline-offset:3px}
-a:hover{color:#B4D583}
-:focus-visible{outline:2px solid var(--molten);outline-offset:3px;border-radius:2px}
-
-.shell{display:grid;grid-template-columns:236px minmax(0,1fr);gap:0;max-width:1320px;margin:0 auto}
-
-/* ---------- rail ---------- */
-.rail{
-  position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;
-  padding:2.4rem 1.1rem 3rem 1.6rem;
-  border-right:1px solid var(--edge);
+.burger{
+  width:34px;height:34px;flex:none;border:1px solid var(--edge);border-radius:4px;background:var(--panel);
+  color:var(--bone);cursor:pointer;display:flex;align-items:center;justify-content:center
 }
-.rail-mark{
-  font-family:var(--ff-data);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--bone-dim);margin-bottom:1.6rem;line-height:1.5
-}
-.rail-mark b{display:block;color:var(--terra);font-weight:600}
-.rail a{
-  display:block;padding:.34rem 0 .34rem .95rem;margin-left:-.95rem;
-  border-left:2px solid transparent;
-  font-size:.815rem;line-height:1.35;color:var(--bone-dim);text-decoration:none;
-  transition:color .15s,border-color .15s;
-}
-.rail a:hover{color:var(--bone)}
-.rail a.on{color:var(--bone);border-left-color:var(--terra)}
-.rail a i{font-family:var(--ff-data);font-style:normal;font-size:.7rem;color:var(--terra-deep);margin-right:.5rem}
+.burger:hover{border-color:var(--terra)}
+.burger svg{width:16px;height:16px}
+.brand{font-family:var(--ff-d);font-weight:800;font-size:1.25rem;color:#FFF8E6;letter-spacing:.01em;white-space:nowrap}
+.brand span{color:var(--terra)}
+.topbar-sub{font-family:var(--ff-m);font-size:.68rem;color:var(--mute);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;display:none}
+@media(min-width:720px){.topbar-sub{display:block}}
+.topbar-fill{flex:1}
+.topbar-voc{display:flex;align-items:center;gap:.5rem;font-family:var(--ff-m);font-size:.72rem;color:var(--dim)}
+.voc-dot{width:9px;height:9px;border-radius:50%;flex:none}
 
-/* ---------- main ---------- */
-main{padding:2.4rem 2.6rem 7rem;min-width:0}
+.body{flex:1;display:flex;min-height:0;position:relative}
 
-.hero{border-bottom:1px solid var(--edge);padding-bottom:2.2rem;margin-bottom:1rem}
-.eyebrow{
-  font-family:var(--ff-data);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--molten);margin:0 0 .9rem
+/* ---- sidebar ---- */
+.sidebar{
+  width:322px;flex:none;background:var(--hide-2);border-right:1px solid var(--edge);
+  overflow-y:auto;transition:margin-left .22s ease;
 }
-h1{
-  font-family:var(--ff-display);font-weight:800;font-size:clamp(2.5rem,6vw,4.1rem);
-  line-height:.98;letter-spacing:-.01em;margin:0 0 1rem;color:#FFF8E6
+.shell.collapsed .sidebar{margin-left:-322px}
+.sb-section{padding:.95rem 1rem;border-bottom:1px solid var(--edge)}
+.sb-title{font-family:var(--ff-m);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:.65rem;display:flex;justify-content:space-between;align-items:center}
+
+/* vocation picker */
+.voc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem}
+.voc-btn{
+  border:1px solid var(--edge);background:var(--panel);border-radius:4px;padding:.5rem .2rem;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:.3rem;color:var(--dim);text-align:center
 }
-h1 span{display:block;color:var(--terra);font-weight:600;font-size:.44em;letter-spacing:.01em;margin-top:.5rem}
-.standfirst{font-size:1.06rem;color:var(--bone-dim);max-width:60ch;margin:0}
-.standfirst b{color:var(--bone);font-weight:500}
+.voc-btn b{font-size:.68rem;font-weight:600;font-family:var(--ff-b)}
+.voc-btn i{width:16px;height:16px;border-radius:50%;display:block}
+.voc-btn.on{border-color:var(--vc);background:color-mix(in srgb, var(--vc) 16%, var(--panel))}
+.voc-btn.on b{color:var(--bone)}
 
-.statline{display:flex;flex-wrap:wrap;gap:1.8rem;margin-top:1.8rem;font-family:var(--ff-data);font-size:.78rem}
-.statline div{border-left:2px solid var(--edge);padding-left:.7rem}
-.statline dt{color:var(--bone-dim);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.15rem}
-.statline dd{margin:0;color:var(--bone);font-weight:500}
-
-section{padding-top:3.4rem}
-h2{
-  font-family:var(--ff-display);font-weight:600;font-size:1.95rem;line-height:1.15;
-  margin:0 0 1.3rem;color:#FFF8E6;display:flex;gap:.85rem;align-items:baseline
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.field{margin-bottom:.55rem}
+.field label{display:block;font-family:var(--ff-m);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin-bottom:.25rem}
+.field input,.field select{
+  width:100%;background:var(--hide);border:1px solid var(--edge);border-radius:3px;color:var(--bone);
+  font-family:var(--ff-m);font-size:.82rem;padding:.4rem .5rem
 }
-h2 i{font-family:var(--ff-data);font-style:normal;font-size:.72rem;color:var(--terra-deep);letter-spacing:.1em;flex:none;padding-top:.2rem}
-h3{font-family:var(--ff-body);font-weight:600;font-size:.98rem;letter-spacing:.02em;margin:2.1rem 0 .8rem;color:var(--terra)}
-p{margin:0 0 1rem;max-width:74ch}
-ul,ol{max-width:74ch;padding-left:1.15rem;margin:0 0 1rem}
-li{margin-bottom:.42rem}
-strong{color:#FFF8E6;font-weight:600}
-code,.mono{font-family:var(--ff-data);font-size:.86em;background:var(--hide-2);border:1px solid var(--edge);padding:.1em .42em;border-radius:3px;color:var(--terra)}
+.field input:focus,.field select:focus{border-color:var(--terra);outline:none}
+.field small{display:block;font-size:.62rem;color:var(--mute);margin-top:.2rem;line-height:1.4}
+.field.full{grid-column:1/-1}
 
-/* ---------- tables ---------- */
-.scroller{overflow-x:auto;margin:0 0 1.4rem;border:1px solid var(--edge);border-radius:4px;background:var(--hide-2)}
-table{border-collapse:collapse;width:100%;font-size:.865rem;min-width:480px}
-th,td{padding:.62rem .85rem;text-align:left;border-bottom:1px solid rgba(69,61,43,.6);vertical-align:top}
-thead th{
-  font-family:var(--ff-data);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;
-  color:var(--bone-dim);font-weight:500;background:var(--panel);border-bottom:1px solid var(--edge);white-space:nowrap
+/* filters */
+.chiprow{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.6rem}
+.chip-btn{
+  font-family:var(--ff-m);font-size:.64rem;letter-spacing:.04em;padding:.3rem .62rem;border-radius:12px;
+  border:1px solid var(--edge);background:var(--panel);color:var(--dim);cursor:pointer
 }
-tbody tr:last-child td{border-bottom:0}
-tbody tr:hover{background:rgba(143,185,88,.045)}
-td.num,th.num{font-family:var(--ff-data);text-align:right;white-space:nowrap}
-tr.pick td{background:rgba(143,185,88,.09)}
-tr.pick td:first-child{box-shadow:inset 3px 0 0 var(--terra)}
-tr.veto td{color:var(--bone-dim)}
-.tag{font-family:var(--ff-data);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;padding:.14em .5em;border-radius:2px;white-space:nowrap}
-.tag.up{background:rgba(143,185,88,.16);color:var(--terra);border:1px solid rgba(143,185,88,.35)}
-.tag.down{background:rgba(216,118,58,.14);color:var(--molten);border:1px solid rgba(216,118,58,.32)}
-
-/* ---------- signature: resistance matrix ---------- */
-.matrix{border:1px solid var(--edge);border-radius:4px;background:var(--hide-2);padding:1.5rem 1.6rem;margin-bottom:1.4rem}
-.matrix-key{display:flex;flex-wrap:wrap;gap:1.3rem;font-family:var(--ff-data);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--bone-dim);margin-bottom:1.5rem}
-.matrix-key span{display:flex;align-items:center;gap:.45rem}
-.swatch{width:22px;height:8px;border-radius:1px;display:inline-block}
-.row{display:grid;grid-template-columns:88px minmax(0,1fr) 62px;gap:.9rem;align-items:center;padding:.42rem 0}
-.row + .row{border-top:1px solid rgba(69,61,43,.45)}
-.row-name{font-family:var(--ff-data);font-size:.76rem;letter-spacing:.06em;color:var(--bone-dim)}
-.row.hot .row-name{color:var(--terra);font-weight:600}
-.bars{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
-.bar{position:relative;height:26px;background:rgba(69,61,43,.4);border-radius:2px;overflow:hidden}
-.bar i{
-  position:absolute;inset:0 auto 0 0;width:var(--w);display:block;border-radius:2px;
-  transform-origin:left;transform:scaleX(var(--s,1));transition:transform .6s cubic-bezier(.2,.8,.3,1)
+.chip-btn.on{border-color:var(--terra);color:var(--terra);background:rgba(143,185,88,.1)}
+.search-input{
+  width:100%;background:var(--hide);border:1px solid var(--edge);border-radius:4px;color:var(--bone);
+  font-family:var(--ff-b);font-size:.82rem;padding:.5rem .65rem;margin-bottom:.65rem
 }
-.bar b{position:absolute;right:.45rem;top:50%;transform:translateY(-50%);font-family:var(--ff-data);font-size:.7rem;font-weight:500;color:var(--hide);mix-blend-mode:normal}
-.bar.weak i{background:var(--terra)}
-.bar.neu i{background:#6E6550}
-.bar.neu b{color:var(--bone)}
-.bar.res i{background:var(--ember)}
-.bar.res b{color:var(--bone)}
-.row-avg{font-family:var(--ff-data);font-size:.82rem;text-align:right;color:var(--bone-dim)}
-.row.hot .row-avg{color:var(--terra);font-weight:600}
-.matrix-heads{display:grid;grid-template-columns:88px minmax(0,1fr) 62px;gap:.9rem;margin-bottom:.5rem}
-.matrix-heads .bars span{font-family:var(--ff-data);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--bone-dim);text-align:center}
-.matrix-heads .row-avg{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}
-.verdict{margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--edge);font-size:.9rem;color:var(--bone-dim);max-width:none}
-.verdict b{color:var(--terra)}
+.search-input:focus{border-color:var(--terra);outline:none}
+.sort-row{display:flex;align-items:center;gap:.5rem;font-family:var(--ff-m);font-size:.64rem;color:var(--mute);margin-bottom:.7rem}
+.sort-row select{flex:1;background:var(--hide);border:1px solid var(--edge);color:var(--bone);border-radius:3px;padding:.3rem .4rem;font-family:var(--ff-m);font-size:.68rem}
 
-/* ---------- callouts ---------- */
-.note{border-left:2px solid var(--terra-deep);background:rgba(143,185,88,.05);padding:.95rem 1.2rem;margin:0 0 1.4rem;border-radius:0 3px 3px 0}
-.note p{margin:0;max-width:70ch;font-size:.92rem}
-.note p + p{margin-top:.6rem}
+/* hunt list */
+.hunt-list{display:flex;flex-direction:column;gap:.5rem}
+.hunt-card{
+  border:1px solid var(--edge);border-radius:5px;background:var(--panel);padding:.65rem .75rem;cursor:pointer;
+  text-align:left;width:100%;color:inherit;display:block
+}
+.hunt-card:hover{border-color:var(--dim)}
+.hunt-card.sel{border-color:var(--terra);background:rgba(143,185,88,.09)}
+.hunt-card h4{font-family:var(--ff-d);font-weight:600;font-size:1.02rem;color:#FFF8E6;margin-bottom:.2rem;line-height:1.2}
+.hunt-card .loc{font-family:var(--ff-m);font-size:.66rem;color:var(--mute);margin-bottom:.4rem}
+.hunt-meta{display:flex;flex-wrap:wrap;gap:.3rem;align-items:center}
+.tag{font-family:var(--ff-m);font-size:.6rem;letter-spacing:.05em;padding:.14em .5em;border-radius:2px;border:1px solid var(--edge);color:var(--dim)}
+.tag.fit{border-color:var(--terra-deep);color:var(--terra)}
+.empty-note{padding:1.2rem 0;text-align:center;color:var(--mute);font-size:.8rem}
+
+/* ---- backdrop for mobile sidebar ---- */
+.backdrop{position:fixed;inset:0;background:rgba(10,9,6,.6);z-index:20;display:none}
+.shell.mobile-open .backdrop{display:block}
+
+/* ================= MAIN ================= */
+.main{flex:1;overflow-y:auto;min-width:0;position:relative}
+.main-in{max-width:920px;margin:0 auto;padding:1.6rem 1.6rem 5rem}
+
+/* landing grid */
+.landing h1{font-family:var(--ff-d);font-weight:800;font-size:clamp(1.9rem,4.5vw,2.6rem);color:#FFF8E6;margin-bottom:.5rem}
+.landing p.lede{max-width:60ch;font-size:.95rem}
+.land-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.9rem;margin-top:1.6rem}
+.land-card{border:1px solid var(--edge);border-radius:6px;background:var(--hide-2);padding:1rem 1.1rem;cursor:pointer;text-align:left}
+.land-card:hover{border-color:var(--terra-deep)}
+.land-card h3{font-family:var(--ff-d);font-size:1.25rem;font-weight:600;color:#FFF8E6;margin-bottom:.3rem}
+.land-card .loc{font-family:var(--ff-m);font-size:.68rem;color:var(--mute);margin-bottom:.55rem}
+.land-card p{font-size:.8rem;margin-bottom:.6rem}
+
+/* detail header */
+.det-head{border-bottom:1px solid var(--edge);padding-bottom:1.2rem;margin-bottom:1.5rem}
+.back-btn{
+  font-family:var(--ff-m);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);
+  background:none;border:0;cursor:pointer;padding:0;margin-bottom:.9rem;display:flex;align-items:center;gap:.35rem
+}
+.back-btn:hover{color:var(--terra)}
+.det-head h1{font-family:var(--ff-d);font-weight:800;font-size:clamp(1.8rem,4vw,2.5rem);color:#FFF8E6;line-height:1.02}
+.det-head .loc{font-family:var(--ff-m);font-size:.75rem;color:var(--mute);margin:.35rem 0 .8rem}
+.det-meta{display:flex;flex-wrap:wrap;gap:.4rem}
+
+.voc-banner{
+  margin-top:1rem;border:1px solid var(--vc);border-left-width:3px;background:color-mix(in srgb, var(--vc) 10%, var(--hide-2));
+  border-radius:0 4px 4px 0;padding:.75rem 1rem;font-size:.86rem;color:var(--bone)
+}
+.voc-banner b{color:var(--vc)}
+
+section.blk{padding-top:2.1rem}
+h2.sect{font-family:var(--ff-d);font-weight:600;font-size:1.35rem;color:#FFF8E6;margin-bottom:.9rem;display:flex;align-items:baseline;gap:.6rem}
+h2.sect i{font-family:var(--ff-m);font-style:normal;font-size:.62rem;color:var(--terra-deep);letter-spacing:.08em}
+h3.sub{font-family:var(--ff-m);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:1.3rem 0 .55rem}
+
+/* creature cards */
+.cre-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem}
+.cre-card{border:1px solid var(--edge);border-radius:5px;background:var(--hide-2);padding:.8rem .9rem}
+.cre-card h4{font-family:var(--ff-d);font-size:1.1rem;font-weight:600;color:#FFF8E6;margin-bottom:.5rem}
+.kv{display:flex;justify-content:space-between;font-size:.76rem;padding:.18rem 0;border-bottom:1px solid rgba(69,61,43,.4)}
+.kv:last-of-type{border:0}
+.kv dt{color:var(--mute);margin:0}
+.kv dd{margin:0;font-family:var(--ff-m);color:var(--bone)}
+.threat-line{margin-top:.55rem;padding-top:.5rem;border-top:1px solid var(--edge);font-size:.72rem;color:var(--mute)}
+.threat-line b{color:var(--molten)}
+
+/* matrix */
+.matrix{border:1px solid var(--edge);border-radius:5px;background:var(--hide-2);padding:1.1rem 1.2rem}
+.mrow{display:grid;grid-template-columns:76px 1fr 42px;gap:.7rem;align-items:center;padding:.3rem 0;border-radius:3px}
+.mrow+.mrow{border-top:1px solid rgba(69,61,43,.4)}
+.mrow.voc{background:rgba(143,185,88,.06)}
+.mname{font-family:var(--ff-m);font-size:.7rem;color:var(--dim)}
+.mrow.voc .mname{color:var(--vc);font-weight:600}
+.mbar{position:relative;height:20px;background:rgba(69,61,43,.4);border-radius:2px;overflow:hidden}
+.mbar i{position:absolute;inset:0 auto 0 0;display:block;border-radius:2px}
+.mbar b{position:absolute;right:.4rem;top:50%;transform:translateY(-50%);font-family:var(--ff-m);font-size:.64rem;font-weight:500;color:var(--hide)}
+.mavg{font-family:var(--ff-m);font-size:.7rem;text-align:right;color:var(--dim)}
+
+/* callouts */
+.note{border-left:2px solid var(--terra-deep);background:rgba(143,185,88,.05);padding:.7rem .95rem;margin:.9rem 0;border-radius:0 3px 3px 0;font-size:.82rem;color:var(--dim)}
 .note.warn{border-left-color:var(--molten);background:rgba(216,118,58,.06)}
-.eq{
-  font-family:var(--ff-data);font-size:.95rem;background:var(--panel);border:1px solid var(--edge);
-  border-radius:4px;padding:.85rem 1.1rem;margin:0 0 1.2rem;color:#FFF8E6;display:inline-block
-}
+.note b{color:var(--bone)}
+.eq{font-family:var(--ff-m);font-size:.85rem;background:var(--panel);border:1px solid var(--edge);border-radius:4px;padding:.6rem .85rem;display:inline-block;color:#FFF8E6}
 .eq em{font-style:normal;color:var(--terra)}
 
-/* ---------- pick cards ---------- */
-.picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.9rem;margin-bottom:1.5rem}
-.pick-card{border:1px solid var(--edge);border-radius:4px;padding:1rem 1.1rem;background:var(--hide-2)}
-.pick-card.key{border-color:var(--terra-deep);background:rgba(143,185,88,.07)}
-.pick-card dt{font-family:var(--ff-data);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim);margin-bottom:.4rem}
-.pick-card dd{margin:0;font-family:var(--ff-display);font-size:1.32rem;font-weight:600;color:#FFF8E6;line-height:1.15}
-.pick-card.key dd{color:var(--terra)}
-.pick-card p{font-size:.79rem;color:var(--bone-dim);margin:.5rem 0 0;max-width:none;line-height:1.5}
+/* calculator */
+.calc{border:1px solid var(--terra-deep);border-radius:5px;background:rgba(143,185,88,.05);padding:1rem 1.1rem;margin-bottom:1.1rem}
+.calc .field-grid{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
+.blist{border:1px solid var(--edge);border-radius:4px;background:var(--hide-2);padding:.8rem .95rem;margin-bottom:.9rem}
+.brow{display:grid;grid-template-columns:118px 1fr 56px;gap:.6rem;align-items:center;padding:.28rem 0}
+.brow+.brow{border-top:1px solid rgba(69,61,43,.35)}
+.blab{font-size:.74rem;color:var(--bone)}
+.btrack{height:18px;background:rgba(69,61,43,.4);border-radius:2px;overflow:hidden}
+.btrack i{display:block;height:100%;background:var(--terra-deep);border-radius:2px}
+.brow.top .btrack i{background:var(--terra)}
+.bval{font-family:var(--ff-m);font-size:.7rem;text-align:right;color:var(--bone)}
 
-/* ---------- ordered plan ---------- */
-ol.plan{list-style:none;padding:0;counter-reset:step;max-width:78ch}
-ol.plan li{counter-increment:step;display:grid;grid-template-columns:34px 1fr;gap:1rem;padding:.75rem 0;border-top:1px solid rgba(69,61,43,.6);margin:0}
-ol.plan li:last-child{border-bottom:1px solid rgba(69,61,43,.6)}
-ol.plan li::before{content:counter(step,decimal-leading-zero);font-family:var(--ff-data);font-size:.74rem;color:var(--terra-deep);padding-top:.22rem}
+/* playbook lists */
+.play{border:1px solid var(--edge);border-radius:5px;background:var(--hide-2);padding:.9rem 1.05rem;margin-bottom:.9rem}
+.play ul{margin:0;padding-left:1.1rem}
+.play li{font-size:.84rem;color:var(--dim);margin-bottom:.4rem}
+.play li b{color:var(--bone)}
+.play .verified{display:inline-block;font-family:var(--ff-m);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--terra);border:1px solid var(--terra-deep);border-radius:2px;padding:.1em .5em;margin-bottom:.6rem}
 
-footer{margin-top:4.5rem;padding-top:1.6rem;border-top:1px solid var(--edge);font-size:.78rem;color:var(--bone-dim)}
-footer p{max-width:78ch}
+/* loot */
+.loot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.9rem}
+.loot-col{border:1px solid var(--edge);border-radius:5px;background:var(--hide-2);padding:.85rem .95rem}
+.loot-col h4{font-family:var(--ff-d);font-size:1.05rem;font-weight:600;color:#FFF8E6;margin-bottom:.55rem}
+.loot-key{display:flex;flex-wrap:wrap;gap:.7rem;font-family:var(--ff-m);font-size:.58rem;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);margin-bottom:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:.3rem}
+.rchip{font-size:.68rem;padding:.18em .5em;border-radius:3px;border:1px solid;line-height:1.4}
+.rchip.r1{color:var(--mute);border-color:rgba(110,101,80,.5)}
+.rchip.r2{color:var(--terra);border-color:rgba(143,185,88,.35)}
+.rchip.r3{color:var(--bone);border-color:rgba(237,230,210,.25)}
+.rchip.r4{color:var(--molten);border-color:rgba(216,118,58,.45)}
+.rchip.r5{color:var(--hide);background:var(--molten);border-color:var(--molten);font-weight:600}
+.pdot{color:var(--terra);font-weight:700;margin-right:.3rem}
 
-@media (max-width:900px){
-  .shell{grid-template-columns:1fr}
-  .rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--edge);padding:1.6rem 1.4rem;display:flex;flex-wrap:wrap;gap:.1rem 1.1rem;align-items:center}
-  .rail-mark{width:100%;margin-bottom:.9rem}
-  .rail a{border-left:0;border-bottom:2px solid transparent;margin-left:0;padding:.2rem 0}
-  .rail a.on{border-left-color:transparent;border-bottom-color:var(--terra)}
-  main{padding:1.8rem 1.4rem 4rem}
-  .row,.matrix-heads{grid-template-columns:70px minmax(0,1fr);gap:.6rem}
-  .row-avg{display:none}
-  .matrix-heads .row-avg{display:none}
-  .matrix{padding:1.1rem}
-}
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .bar i{transition:none;transform:scaleX(1)}
+/* about / images manifest */
+.manifest{border:1px dashed var(--edge);border-radius:5px;padding:.85rem 1rem;font-size:.78rem;color:var(--mute)}
+.manifest summary{cursor:pointer;color:var(--dim);font-family:var(--ff-m);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase}
+.manifest ul{margin:.7rem 0 0;padding-left:1.1rem;columns:2;column-gap:1.4rem}
+.manifest li{margin-bottom:.3rem;break-inside:avoid}
+
+footer.app-footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--edge);font-size:.72rem;color:var(--mute)}
+
+/* responsive */
+@media (max-width:860px){
+  .sidebar{position:fixed;top:52px;bottom:0;left:0;z-index:25;box-shadow:2px 0 18px rgba(0,0,0,.4);margin-left:-322px}
+  .shell.mobile-open .sidebar{margin-left:0}
+  .shell.collapsed .sidebar{margin-left:-322px}
+  .main-in{padding:1.2rem 1rem 4rem}
+  .mrow,.mhead{grid-template-columns:58px 1fr}
+  .mavg{display:none}
+  .field-grid{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
 <body>
-<div class="shell">
 
-<nav class="rail" aria-label="Seções do relatório">
-  <div class="rail-mark">Relatório de build<b>Elder Druid 731</b>Zao · Nimmersatt</div>
-  <a href="#resumo"><i>01</i>Resumo</a>
-  <a href="#criaturas"><i>02</i>Criaturas</a>
-  <a href="#runas"><i>03</i>Runas</a>
-  <a href="#charms"><i>04</i>Charms</a>
-  <a href="#rod"><i>05</i>Sanguine Rod</a>
-  <a href="#wheel"><i>06</i>Wheel of Destiny</a>
-  <a href="#set"><i>07</i>Set</a>
-  <a href="#magias"><i>08</i>Magias</a>
-  <a href="#plano"><i>09</i>Plano</a>
-  <a href="#mudancas"><i>10</i>Mudanças 2026</a>
-  <a href="#ressalvas"><i>11</i>Ressalvas</a>
-</nav>
+<div class="shell collapsed" id="shell">
 
-<main>
+  <header class="topbar">
+    <button class="burger" id="burgerBtn" aria-label="Alternar barra lateral" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="brand">Hunt<span>Optimizer</span></div>
+    <div class="topbar-sub">ferramenta da comunidade · protótipo</div>
+    <div class="topbar-fill"></div>
+    <div class="topbar-voc"><span class="voc-dot" id="topVocDot"></span><span id="topVocLabel">—</span></div>
+  </header>
 
-<header class="hero">
-  <p class="eyebrow">Zao subterrâneo · Dificuldade: difícil · Premium</p>
-  <h1>Nimmersatt's<br>Breeding Ground<span>Build de terra para Elder Druid</span></h1>
-  <p class="standfirst">Três dragões, uma única fraqueza compartilhada. Este relatório resolve as escolhas de <b>elemento, runa, charm, proficiência da rod, wheel e set</b> para o spawn — com as contas que decidem cada uma.</p>
-  <dl class="statline">
-    <div><dt>Personagem</dt><dd>Elder Druid 731</dd></div>
-    <div><dt>Magic level</dt><dd>116 +1 loyalty</dd></div>
-    <div><dt>Arma</dt><dd>Sanguine Rod</dd></div>
-    <div><dt>Regras</dt><dd>Patch 15.25 · jun/2026</dd></div>
-  </dl>
-</header>
+  <div class="body">
+    <div class="backdrop" id="backdrop"></div>
 
-<!-- 01 -->
-<section id="resumo">
-  <h2><i>01</i>Resumo — o que usar</h2>
+    <aside class="sidebar" id="sidebar">
 
-  <div class="picks">
-    <dl class="pick-card key"><dt>Elemento</dt><dd>Terra</dd><p>Único a 110% nas três criaturas.</p></dl>
-    <dl class="pick-card key"><dt>Runa</dt><dd>Stone Shower</dd><p>Mesmo base power das rivais, melhor resistência.</p></dl>
-    <dl class="pick-card key"><dt>Major charm</dt><dd>Overflux</dd><p>Stage 3, nas três criaturas.</p></dl>
-    <dl class="pick-card"><dt>Se faltar ponto</dt><dd>Poison</dd><p>75% do valor por 40% do custo.</p></dl>
-    <dl class="pick-card"><dt>Crítico</dt><dd>Low Blow</dd><p>Ganha do Savage Blow no seu perfil.</p></dl>
-    <dl class="pick-card"><dt>Minor charm</dt><dd>Vampiric Embrace</dd><p>Ou Gut, se o foco for lucro.</p></dl>
-  </div>
-
-  <div class="scroller">
-  <table>
-    <thead><tr><th>Decisão</th><th>Escolha</th><th>Por quê</th></tr></thead>
-    <tbody>
-      <tr class="pick"><td>Elemento principal</td><td><strong>Terra</strong></td><td>Único elemento a 110% nas três criaturas</td></tr>
-      <tr class="pick"><td>Runa</td><td><strong>Stone Shower</strong></td><td>Base power igual (50) ao das outras AoE, mas 110% em todos</td></tr>
-      <tr class="pick"><td>Major charm</td><td><strong>Overflux stage 3</strong></td><td>≈45% mais dano que o melhor charm elemental daqui</td></tr>
-      <tr><td>Segundo melhor</td><td>Low Blow stage 3</td><td>Sua build empilha crítico extra, não chance de crítico</td></tr>
-      <tr><td>Minor charm</td><td>Vampiric Embrace ou Gut</td><td>Cripple e Numb são inúteis: as três são imunes a paralisia</td></tr>
-      <tr><td>Magias</td><td>Terra Wave, Forked Thorns, Exevo Ulus Tera, Ultimate Terra Strike</td><td>Todo o kit de terra</td></tr>
-      <tr class="veto"><td>Evitar</td><td>Eternal Winter, Ice Wave, Avalanche, Great Fireball</td><td>Mega Dragon é 80% a gelo; todos são 60–80% a fogo</td></tr>
-    </tbody>
-  </table>
-  </div>
-</section>
-
-<!-- 02 -->
-<section id="criaturas">
-  <h2><i>02</i>As criaturas</h2>
-
-  <div class="scroller">
-  <table>
-    <thead><tr><th>&nbsp;</th><th class="num">Dragolisk</th><th class="num">Wardragon</th><th class="num">Mega Dragon</th></tr></thead>
-    <tbody>
-      <tr><td>HP</td><td class="num">6.180</td><td class="num">6.960</td><td class="num">7.920</td></tr>
-      <tr><td>Experiência</td><td class="num">5.050 <span style="color:var(--bone-dim)">(7.575)</span></td><td class="num">5.810 <span style="color:var(--bone-dim)">(8.715)</span></td><td class="num">6.790 <span style="color:var(--bone-dim)">(10.185)</span></td></tr>
-      <tr><td>Armadura</td><td class="num">86</td><td class="num">80</td><td class="num">76</td></tr>
-      <tr><td>Mitigação</td><td class="num">3,36%</td><td class="num">3,50%</td><td class="num">3,13%</td></tr>
-      <tr><td>Velocidade</td><td class="num">185</td><td class="num">165</td><td class="num">170</td></tr>
-      <tr><td>Charm points</td><td class="num">50</td><td class="num">50</td><td class="num">50</td></tr>
-      <tr><td>Abates p/ bestiário</td><td class="num">2.500</td><td class="num">2.500</td><td class="num">2.500</td></tr>
-      <tr><td>Combate</td><td class="num">Corpo a corpo + distância</td><td class="num">Corpo a corpo + distância</td><td class="num">Só distância</td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <p>As três são <strong>imunes a paralisia e invisibilidade</strong>, e passam por campos de fogo, energia e veneno. Nenhuma pode ter o respawn bloqueado.</p>
-
-  <h3>Matriz de resistências</h3>
-
-  <div class="matrix">
-    <div class="matrix-key">
-      <span><i class="swatch" style="background:var(--terra)"></i>Fraco &gt; 100%</span>
-      <span><i class="swatch" style="background:#6E6550"></i>Neutro 100%</span>
-      <span><i class="swatch" style="background:var(--ember)"></i>Forte &lt; 100%</span>
-    </div>
-
-    <div class="matrix-heads">
-      <span></span>
-      <div class="bars"><span>Dragolisk</span><span>Wardragon</span><span>Mega Dragon</span></div>
-      <span class="row-avg">Média</span>
-    </div>
-
-    <div class="row hot">
-      <div class="row-name">Terra</div>
-      <div class="bars">
-        <div class="bar weak"><i style="--w:96%"></i><b>110%</b></div>
-        <div class="bar weak"><i style="--w:96%"></i><b>110%</b></div>
-        <div class="bar weak"><i style="--w:96%"></i><b>110%</b></div>
+      <div class="sb-section">
+        <div class="sb-title">Seu personagem</div>
+        <div class="voc-grid" id="vocGrid"></div>
       </div>
-      <div class="row-avg">110,0</div>
-    </div>
 
-    <div class="row">
-      <div class="row-name">Sagrado</div>
-      <div class="bars">
-        <div class="bar weak"><i style="--w:100%"></i><b>115%</b></div>
-        <div class="bar weak"><i style="--w:92%"></i><b>105%</b></div>
-        <div class="bar weak"><i style="--w:96%"></i><b>110%</b></div>
+      <div class="sb-section" id="charFormWrap">
+        <div class="sb-title">Atributos <span style="font-weight:400;color:var(--mute)">(manuais)</span></div>
+        <div class="field-grid">
+          <div class="field"><label for="fLevel">Level</label><input id="fLevel" type="number" min="8" step="1"></div>
+          <div class="field"><label for="fML">Magic level</label><input id="fML" type="number" min="0" step="1"></div>
+          <div class="field"><label for="fHP">HP máximo</label><input id="fHP" type="number" min="0" step="50"></div>
+          <div class="field"><label for="fMana">Mana máxima</label><input id="fMana" type="number" min="0" step="50"></div>
+          <div class="field"><label for="fCritC">Crítico — chance %</label><input id="fCritC" type="number" min="0" max="100" step="0.5"></div>
+          <div class="field"><label for="fCritE">Crítico — dano extra %</label><input id="fCritE" type="number" min="0" step="1"></div>
+          <div class="field"><label for="fCharm">Charm points</label><input id="fCharm" type="number" min="0" step="100"></div>
+          <div class="field"><label for="fLoyalty">Loyalty</label>
+            <select id="fLoyalty">
+              <option value="0">0% (sem título)</option>
+              <option value="1">1%</option><option value="2">2%</option><option value="3">3%</option>
+              <option value="4">4%</option><option value="5">5% (máximo)</option>
+            </select>
+          </div>
+          <div class="field"><label for="fHit">Dano médio/acerto</label><input id="fHit" type="number" min="1" step="25"></div>
+        </div>
+        <small>Valores de exemplo por vocação — sobrescreva com os do seu personagem. Chance/dano crítico: Cyclopedia → Combat Stats.</small>
       </div>
-      <div class="row-avg">110,0</div>
-    </div>
 
-    <div class="row">
-      <div class="row-name">Energia</div>
-      <div class="bars">
-        <div class="bar neu"><i style="--w:87%"></i><b>100%</b></div>
-        <div class="bar weak"><i style="--w:92%"></i><b>105%</b></div>
-        <div class="bar weak"><i style="--w:96%"></i><b>110%</b></div>
+      <div class="sb-section">
+        <div class="sb-title">Filtrar hunts</div>
+        <input class="search-input" id="fSearch" type="text" placeholder="Buscar por nome, local ou tag…">
+        <div class="chiprow" id="lvlChips"></div>
+        <div class="chiprow" id="diffChips"></div>
+        <div class="sort-row">
+          <span>Ordenar</span>
+          <select id="fSort">
+            <option value="fit">Melhor encaixe p/ vocação</option>
+            <option value="level">Nível</option>
+            <option value="name">Nome</option>
+          </select>
+        </div>
       </div>
-      <div class="row-avg">105,0</div>
-    </div>
 
-    <div class="row">
-      <div class="row-name">Gelo</div>
-      <div class="bars">
-        <div class="bar weak"><i style="--w:92%"></i><b>105%</b></div>
-        <div class="bar weak"><i style="--w:96%"></i><b>110%</b></div>
-        <div class="bar res"><i style="--w:70%"></i><b>80%</b></div>
+      <div class="sb-section" style="border-bottom:0">
+        <div class="sb-title">Hunts <span id="huntCount" style="font-weight:400"></span></div>
+        <div class="hunt-list" id="huntList"></div>
       </div>
-      <div class="row-avg">98,3</div>
-    </div>
 
-    <div class="row">
-      <div class="row-name">Físico</div>
-      <div class="bars">
-        <div class="bar res"><i style="--w:74%"></i><b>85%</b></div>
-        <div class="bar neu"><i style="--w:87%"></i><b>100%</b></div>
-        <div class="bar neu"><i style="--w:87%"></i><b>100%</b></div>
-      </div>
-      <div class="row-avg">95,0</div>
-    </div>
+    </aside>
 
-    <div class="row">
-      <div class="row-name">Morte</div>
-      <div class="bars">
-        <div class="bar weak"><i style="--w:96%"></i><b>110%</b></div>
-        <div class="bar res"><i style="--w:74%"></i><b>85%</b></div>
-        <div class="bar res"><i style="--w:70%"></i><b>80%</b></div>
-      </div>
-      <div class="row-avg">91,7</div>
-    </div>
-
-    <div class="row">
-      <div class="row-name">Fogo</div>
-      <div class="bars">
-        <div class="bar res"><i style="--w:52%"></i><b>60%</b></div>
-        <div class="bar res"><i style="--w:52%"></i><b>60%</b></div>
-        <div class="bar res"><i style="--w:70%"></i><b>80%</b></div>
-      </div>
-      <div class="row-avg">66,7</div>
-    </div>
-
-    <p class="verdict"><b>Terra é a única linha inteira.</b> Sagrado empata na média, mas druid não tem dano sagrado. Gelo parece competitivo até o Mega Dragon aparecer com 80% — e ele é justamente o de maior HP e maior experiência. Fogo é o pior elemento possível aqui.</p>
+    <main class="main" id="main"></main>
   </div>
-
-  <div class="note warn">
-    <p><strong>De onde vem o dano que você toma:</strong> o Mega Dragon é o único com habilidades listadas — Fire Strike, <strong>Grand Fire Wave</strong>, Death Strike, Ice Strike e Ice Ball. Priorize <strong>proteção a fogo</strong> no set.</p>
-  </div>
-</section>
-
-<!-- 03 -->
-<section id="runas">
-  <h2><i>03</i>Runas elementais</h2>
-
-  <p>O Vocation Adjustments de junho/2026 <strong>igualou o base power</strong> de Avalanche, Great Fireball, Thunderstorm e Stone Shower em <strong>50</strong> — a Stone Shower subiu de 45. A área das quatro caiu 1 sqm e o dano subiu. Na prática, a escolha de runa hoje é decidida inteiramente pela resistência do alvo.</p>
-
-  <div class="scroller">
-  <table>
-    <thead><tr><th>Runa</th><th>Elemento</th><th class="num">Dragolisk</th><th class="num">Wardragon</th><th class="num">Mega Dragon</th><th class="num">Dano relativo</th></tr></thead>
-    <tbody>
-      <tr class="pick"><td><strong>Stone Shower</strong></td><td>Terra</td><td class="num">110%</td><td class="num">110%</td><td class="num">110%</td><td class="num"><strong>100%</strong></td></tr>
-      <tr><td>Thunderstorm</td><td>Energia</td><td class="num">100%</td><td class="num">105%</td><td class="num">110%</td><td class="num">95,5%</td></tr>
-      <tr><td>Avalanche</td><td>Gelo</td><td class="num">105%</td><td class="num">110%</td><td class="num">80%</td><td class="num">89,4%</td></tr>
-      <tr class="veto"><td>Great Fireball</td><td>Fogo</td><td class="num">60%</td><td class="num">60%</td><td class="num">80%</td><td class="num">60,6%</td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <p>Stone Shower entrega ~4,5% a mais que Thunderstorm, ~12% a mais que Avalanche e ~65% a mais que Great Fireball na média do spawn. <strong>Troque a hotkey de Avalanche por Stone Shower.</strong></p>
-
-  <div class="note">
-    <p>A <strong>Explosion Rune</strong> teve a área aumentada de 5 para 9 sqm com o dano mantido. Serve para puxar packs, mas é dano físico (85–100%) e de base baixa — não é dano principal.</p>
-  </div>
-</section>
-
-<!-- 04 -->
-<section id="charms">
-  <h2><i>04</i>Charms — a análise completa</h2>
-
-  <h3>Como cada um funciona (stage 1 / 2 / 3)</h3>
-  <div class="scroller">
-  <table>
-    <thead><tr><th>Charm</th><th>Efeito</th><th class="num">Custo</th></tr></thead>
-    <tbody>
-      <tr class="pick"><td><strong>Overflux</strong></td><td>5% / 10% / <strong>11%</strong> de chance de causar dano igual a <strong>2,5% da sua mana máxima</strong>, limitado a <strong>8% do HP máximo da criatura</strong>. Exibido como físico, mas é <strong>neutro — ignora resistências</strong>.</td><td class="num">600 / 900 / 3.000</td></tr>
-      <tr><td>Overpower</td><td>Igual, mas 5% do seu <strong>HP</strong> máximo, mesmo teto de 8%</td><td class="num">600 / 900 / 3.000</td></tr>
-      <tr><td>Low Blow</td><td>+4% / +8% / <strong>+9%</strong> de <strong>chance</strong> de crítico — exige arma com crítico</td><td class="num">800 / 1.200 / 4.000</td></tr>
-      <tr><td>Savage Blow</td><td>+20% / +40% / <strong>+44%</strong> de <strong>dano crítico extra</strong></td><td class="num">800 / 1.200 / 4.000</td></tr>
-      <tr><td>Poison <span class="tag up">terra</span></td><td>5% / 10% / <strong>11%</strong> de chance de causar <strong>5% do HP máximo</strong> em dano de terra</td><td class="num">240 / 360 / <strong>1.200</strong></td></tr>
-      <tr><td>Carnage</td><td>Ao matar, 10% / 20% / <strong>22%</strong> de chance de causar <strong>15% do HP máximo</strong> da criatura em dano físico ao redor dela. Teto: 6× o seu level.</td><td class="num">600 / 900 / 3.000</td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <p>Você atribui <strong>1 Major + 1 Minor por criatura</strong>, e com Premium pode ter <strong>6 Major atribuídos ao mesmo tempo</strong> — como aqui são só três criaturas, dá para colocar o melhor charm em cada uma.</p>
-
-  <div class="note">
-    <p><strong>Mudança de 2026 que importa:</strong> charms agora só disparam no <strong>alvo inicial de um autoattack</strong>, para acabar com o double-proc de AoE. <strong>Magias e runas continuam iguais</strong> — sua Stone Shower e sua Terra Wave seguem ativando charm em cada criatura atingida que tenha charm atribuído.</p>
-  </div>
-
-  <h3>Charm elemental: quanto Poison entrega</h3>
-  <div class="scroller">
-  <table>
-    <thead><tr><th>Criatura</th><th class="num">5% do HP</th><th class="num">× 1,10 (fraqueza)</th><th class="num">Valor esperado por ataque</th></tr></thead>
-    <tbody>
-      <tr><td>Dragolisk</td><td class="num">309</td><td class="num"><strong>340</strong></td><td class="num">37,4</td></tr>
-      <tr><td>Wardragon</td><td class="num">348</td><td class="num"><strong>383</strong></td><td class="num">42,1</td></tr>
-      <tr><td>Mega Dragon</td><td class="num">396</td><td class="num"><strong>436</strong></td><td class="num">47,9</td></tr>
-    </tbody>
-  </table>
-  </div>
-  <p>Entre os elementais aqui: Poison &gt; Divine Wrath &gt; Zap &gt; Freeze &gt; Wound &gt; Curse &gt; Enflame. <strong>Poison é ao mesmo tempo o mais forte e o mais barato</strong> (1.200 pontos) — combinação rara.</p>
-
-  <h3>Overflux: o vencedor</h3>
-  <p>Overflux vale <span class="mono">min(2,5% da sua mana, 8% do HP da criatura)</span>. Os tetos são <strong>494</strong> (Dragolisk), <strong>557</strong> (Wardragon) e <strong>634</strong> (Mega Dragon). Para estourá-los você precisa de 19.776, 22.272 e 25.344 de mana, respectivamente.</p>
-
-  <div class="scroller">
-  <table>
-    <thead><tr><th class="num">Sua mana máx.</th><th class="num">2,5% = proc</th><th class="num">Dragolisk</th><th class="num">Wardragon</th><th class="num">Mega Dragon</th></tr></thead>
-    <tbody>
-      <tr><td class="num">18.000</td><td class="num">450</td><td class="num">450</td><td class="num">450</td><td class="num">450</td></tr>
-      <tr><td class="num">20.000</td><td class="num">500</td><td class="num"><strong>494</strong> <span class="tag up">teto</span></td><td class="num">500</td><td class="num">500</td></tr>
-      <tr><td class="num">22.000</td><td class="num">550</td><td class="num"><strong>494</strong></td><td class="num">550</td><td class="num">550</td></tr>
-      <tr class="pick"><td class="num">24.000</td><td class="num">600</td><td class="num"><strong>494</strong></td><td class="num"><strong>557</strong> <span class="tag up">teto</span></td><td class="num">600</td></tr>
-      <tr><td class="num">26.000+</td><td class="num">650+</td><td class="num"><strong>494</strong></td><td class="num"><strong>557</strong></td><td class="num"><strong>634</strong> <span class="tag up">teto</span></td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <p>No teto, a razão é 8% ÷ 5,5% = <strong>1,45×</strong>. Overflux causa <strong>45% mais dano que Poison</strong>, o melhor elemental disponível. O empate exigiria uma mana de apenas 2,2× o HP do monstro (13,6k / 15,3k / 17,4k) — você está muito acima disso. E <strong>Overpower nunca ganha para você</strong>: só valeria se seu HP fosse o dobro da sua mana, o que não acontece em druid.</p>
-
-  <h3>Low Blow contra Savage Blow</h3>
-  <p>Os dois multiplicam <strong>todo</strong> o seu dano, magias e runas incluídas — a própria proficiência da Sanguine Rod fala em "critical extra damage para Earth spells <em>e runes</em>". Ambos exigem que você esteja empunhando uma arma com crítico, ou seja, a rod com <strong>Powerful Strike</strong>.</p>
-
-  <p>Seu multiplicador é <span class="mono">1 + C × E</span>, onde <strong>C</strong> é a chance de crítico e <strong>E</strong> o dano crítico extra. Low Blow rende <span class="mono">0,09 × E</span>; Savage Blow rende <span class="mono">0,44 × C</span>. Logo:</p>
-
-  <p class="eq">Ponto de empate &nbsp;→&nbsp; <em>E = 4,89 × C</em></p>
-
-  <p>Se o seu dano crítico extra (%) for maior que ~4,9× sua chance de crítico (%), Low Blow ganha. Somando suas fontes:</p>
-
-  <div class="scroller">
-  <table>
-    <thead><tr><th>Fonte</th><th class="num">Chance (C)</th><th class="num">Extra (E)</th></tr></thead>
-    <tbody>
-      <tr><td>Powerful Strike (imbuement)</td><td class="num">+5%</td><td class="num">+40%</td></tr>
-      <tr><td>Sanguine Rod (nativo)</td><td class="num">—</td><td class="num">+5%</td></tr>
-      <tr><td>Proficiência nv. 2 (terra)</td><td class="num">—</td><td class="num">+10%</td></tr>
-      <tr><td>Proficiência nv. 6</td><td class="num">—</td><td class="num">+10%</td></tr>
-      <tr><td>Proficiência nv. 7</td><td class="num">+2%</td><td class="num">—</td></tr>
-      <tr><td>Wheel, gems e equipamento</td><td class="num">~+3%</td><td class="num">~+10%</td></tr>
-      <tr class="pick"><td><strong>Total aproximado</strong></td><td class="num"><strong>~10%</strong></td><td class="num"><strong>~75%</strong></td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <p>Com C ≈ 10% e E ≈ 75%: <strong>Low Blow rende +6,3%</strong> de dano total contra <strong>+4,1% do Savage Blow</strong>. A build de druid empilha crítico <em>extra</em> pela rod e pela proficiência, e quase nenhuma <em>chance</em> — Savage Blow só passaria a valer acima de ~15% de chance de crítico, cenário de paladino ou knight.</p>
-
-  <h3>O confronto final: Overflux contra Low Blow</h3>
-  <p>Overflux é dano fixo por proc; Low Blow é percentual do seu dano. O empate depende de quanto você bate por acerto individual.</p>
-
-  <div class="scroller">
-  <table>
-    <thead><tr><th>Criatura</th><th class="num">Overflux por ataque</th><th class="num">Dano por acerto de empate</th></tr></thead>
-    <tbody>
-      <tr><td>Dragolisk</td><td class="num">54,3</td><td class="num"><strong>~862</strong></td></tr>
-      <tr><td>Wardragon</td><td class="num">61,3</td><td class="num"><strong>~973</strong></td></tr>
-      <tr><td>Mega Dragon <span style="color:var(--bone-dim)">(24k mana)</span></td><td class="num">66,0</td><td class="num"><strong>~1.048</strong></td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <p>Se você bate <strong>menos de ~900–1.000 por acerto individual</strong> naquela criatura, Overflux ganha. Uma Stone Shower ou Terra Wave de um ED 731/ML 117 fica na casa dos 400–800 por alvo depois da fraqueza a terra — bem abaixo do ponto de empate.</p>
-
-  <h3>Ranking final</h3>
-  <div class="scroller">
-  <table>
-    <thead><tr><th class="num">#</th><th>Charm</th><th>Ganho por ataque</th><th class="num">Custo até stage 3</th></tr></thead>
-    <tbody>
-      <tr class="pick"><td class="num">1</td><td><strong>Overflux</strong></td><td>54–66 de dano fixo</td><td class="num">4.500</td></tr>
-      <tr><td class="num">2</td><td>Low Blow</td><td>~6,3% do dano total (≈31–50)</td><td class="num">6.000</td></tr>
-      <tr><td class="num">3</td><td>Poison</td><td>37–48 de dano fixo</td><td class="num">1.800</td></tr>
-      <tr><td class="num">4</td><td>Savage Blow</td><td>~4,1% do dano total</td><td class="num">6.000</td></tr>
-      <tr><td class="num">5</td><td>Carnage</td><td>261 em área por kill</td><td class="num">4.500</td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <div class="note">
-    <p><strong>Se ainda não tem 4.500 pontos:</strong> comece por Poison stage 3, que custa 1.800. Ele entrega ~75% do valor do Overflux por 40% do custo e continua útil em qualquer spawn fraco a terra.</p>
-    <p><strong>Carnage merece um teste</strong> se você mata em packs grandes: ele bate 15% do HP da criatura morta em todas ao redor, o que num pack de quatro passa de 1.000 de dano por kill. Se testar, coloque no Mega Dragon — maior HP, maior explosão.</p>
-  </div>
-
-  <h3>Minor charms</h3>
-  <p>Você tem 100 echoes da promotion mais 50 / 100 / 200 por stage de Major desbloqueado — só levar Overflux ao stage 3 já rende 350. Cada Minor até o stage 3 custa 475.</p>
-  <div class="scroller">
-  <table>
-    <thead><tr><th>Minor</th><th>Vale aqui?</th></tr></thead>
-    <tbody>
-      <tr class="pick"><td><strong>Vampiric Embrace</strong> <span style="color:var(--bone-dim)">+1,6 / 2,4 / 3,2% life leech</span></td><td>Sim — a rod já traz 6% de life leech nativo, então o bônus é aproveitado</td></tr>
-      <tr class="pick"><td><strong>Gut</strong> <span style="color:var(--bone-dim)">+6 / 9 / 12% produtos</span></td><td>Sim, para lucro — Dragolisk Eye, Poison Gland, Wardragon Claw e Tooth, Mega Dragon Heart, Molten Dragon Essence</td></tr>
-      <tr><td>Void's Call</td><td>Opcional, se a mana apertar</td></tr>
-      <tr><td>Adrenaline Burst</td><td>Serve para reposicionar</td></tr>
-      <tr class="veto"><td>Cripple e Numb</td><td><span class="tag down">não</span> As três são imunes a paralisia</td></tr>
-      <tr class="veto"><td>Void Inversion</td><td><span class="tag down">não</span> Não há mana drain aqui</td></tr>
-    </tbody>
-  </table>
-  </div>
-  <p>Sugestão: Vampiric Embrace no Mega Dragon e no Wardragon, que são os que mais machucam, e Gut no Dragolisk. Ou Gut nos três, se o objetivo for profit.</p>
-</section>
-
-<!-- 05 -->
-<section id="rod">
-  <h2><i>05</i>Sanguine Rod — proficiência</h2>
-
-  <p>A rod dispara <strong>terra</strong> a cada turno, alcance 6, média de 112 de dano. Base: ML +4, Ice ML +1, Earth ML +1, crítico extra +5%, life leech +6%, mana leech +1%, proteção a morte +7%. Dois slots de imbuement, classificação 4, tier máximo 10.</p>
-
-  <div class="scroller">
-  <table>
-    <thead><tr><th class="num">Nível</th><th>Opções</th><th>Escolha</th><th>Motivo</th></tr></thead>
-    <tbody>
-      <tr><td class="num">1</td><td>+1 Magic Level</td><td><em>fixo</em></td><td>—</td></tr>
-      <tr class="pick"><td class="num">2</td><td>+10% crit extra <strong>terra</strong> · +10% crit extra gelo · +2% mana leech</td><td><strong>Crit extra terra</strong></td><td>Todo o seu dano será terra</td></tr>
-      <tr class="pick"><td class="num">3</td><td>+4% base <strong>Terra Wave</strong> · +12,5% crit extra Eternal Winter · +3% vs bosses</td><td><strong>Base damage Terra Wave</strong></td><td>Terra Wave é a AoE principal aqui</td></tr>
-      <tr class="pick"><td class="num">4</td><td>+4% do ML como dano extra nas spells · +3% base Eternal Winter</td><td><strong>+4% do ML</strong></td><td>Eternal Winter é gelo — inútil contra Mega Dragon</td></tr>
-      <tr class="pick"><td class="num">5</td><td>+2 <strong>Earth ML</strong> · +2 Ice ML · +3 Healing ML</td><td><strong>+2 Earth Magic Level</strong></td><td>Escala direto o dano de terra</td></tr>
-      <tr class="pick"><td class="num">6</td><td>+6% Heal Friend · +2% mana leech · +10% crit extra</td><td><strong>+10% crit extra</strong></td><td>Máximo dano; troque por mana leech se estiver queimando pot</td></tr>
-      <tr><td class="num">7</td><td>+2% chance de crítico</td><td><em>fixo</em></td><td>—</td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <div class="note">
-    <p><strong>Efeito colateral que decide a seção 04:</strong> essa árvore te dá ~+20% de crítico extra e apenas +2% de chance. É exatamente por isso que Low Blow ganha do Savage Blow no seu caso.</p>
-    <p><strong>Se for fazer boss</strong> (Bruton, Crultor, Despor, Greedok, Maliz, Vengar, Vilear — todos com 50.000 de HP na área), troque o nível 3 para <strong>+3% de dano contra bosses</strong>.</p>
-  </div>
-
-  <h3>Imbuements (2 slots)</h3>
-  <div class="scroller">
-  <table>
-    <thead><tr><th>Objetivo</th><th>Slot 1</th><th>Slot 2</th></tr></thead>
-    <tbody>
-      <tr class="pick"><td><strong>Dano máximo</strong></td><td>Powerful Epiphany <span style="color:var(--bone-dim)">(+4 ML)</span></td><td><strong>Powerful Strike</strong> <span style="color:var(--bone-dim)">(+5% chance, +40% extra)</span></td></tr>
-      <tr><td>Sustain</td><td>Powerful Epiphany</td><td>Powerful Void <span style="color:var(--bone-dim)">(+8% mana leech)</span></td></tr>
-    </tbody>
-  </table>
-  </div>
-  <p><strong>Powerful Strike é obrigatório</strong> se você for usar Low Blow ou Savage Blow — sem arma com crítico, esses charms não fazem absolutamente nada. Como as rods agora <strong>geram mana ao atacar</strong> em vez de consumir, a pressão por mana leech caiu bastante: vá de Strike.</p>
-
-  <h3>Forja</h3>
-  <p>A rod é classificação 4 e vai até o tier 10. O bônus de tier de arma é <strong>Onslaught</strong>, que dá chance de causar 60% de dano a mais. É de longe o upgrade de maior impacto que ainda sobra para você — vale investir nela antes de qualquer outra peça.</p>
-</section>
-
-<!-- 06 -->
-<section id="wheel">
-  <h2><i>06</i>Wheel of Destiny</h2>
-
-  <p>No level 731 você tem cerca de <strong>681 pontos</strong> de promoção. Os Revelation Perks do Elder Druid são Blessing of the Grove, Twin Bursts, Avatar of Nature e Gift of Life — 250 pontos no domínio liberam o stage 1, 500 o stage 2 e 1.000 o stage 3.</p>
-
-  <h3>Build recomendada</h3>
-  <ul>
-    <li><strong>Twin Bursts stage 2</strong> é o núcleo ofensivo. Libera <strong>Exevo Ulus Tera</strong>, um anel de terra ao seu redor que causa <strong>+40% de dano contra alvos acima de 60% de vida</strong> (+60% no stage 3). Aqui você só usa a versão Tera.</li>
-    <li><strong>Forked Thorns</strong>, magia nova do rebalance, acerta o alvo mais os 5 mais próximos com dano de terra — perfeita quando os dragões vêm espalhados. Os augments T1 são baratos e rendem muito.</li>
-    <li>Se sobrarem pontos, o próximo degrau é <strong>Blessing of the Grove T2</strong>: suas curas agora podem dar crítico, usando a mesma chance e o mesmo crítico extra da rod.</li>
-  </ul>
-
-  <div class="scroller">
-  <table>
-    <thead><tr><th>Tipo</th><th>Escolha</th><th>Nota</th></tr></thead>
-    <tbody>
-      <tr class="pick"><td>Greater gems</td><td><strong>Twin Bursts Mastery</strong>, depois Blessing of the Grove Mastery</td><td>Prioridade absoluta no Twin Bursts</td></tr>
-      <tr class="pick"><td>Lesser gems</td><td><strong>Mana</strong>, Hit Points, Mitigation, resistência a fogo</td><td>Mana é dupla vantagem — ver abaixo</td></tr>
-      <tr><td>Resistência</td><td>Fogo primeiro, depois gelo e morte</td><td>Grand Fire Wave do Mega Dragon</td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <div class="note">
-    <p><strong>Sinergia que quase ninguém aproveita:</strong> cada 1.000 de mana máxima vale <strong>+25 de dano por proc de Overflux</strong>. Investir em Mana na wheel deixa de ser só sustain e vira dano direto — até você estourar o teto de 25.344 de mana, que é o do Mega Dragon. Depois disso, mana volta a ser só sustain.</p>
-  </div>
-
-  <h3>O que o rebalance mudou na sua wheel</h3>
-  <div class="scroller">
-  <table>
-    <thead><tr><th>Perk</th><th>Mudança</th></tr></thead>
-    <tbody>
-      <tr><td>Aug Terra Wave</td><td>Tier II passou de 5% para <strong>10% de life leech</strong></td></tr>
-      <tr><td>Aug Strong Ice Wave</td><td>Tier I virou −2s de cooldown; tier II virou área aumentada <span style="color:var(--bone-dim)">(irrelevante aqui)</span></td></tr>
-      <tr><td>Healing Link</td><td>De 10% para <strong>25%</strong></td></tr>
-      <tr><td>Blessing of the Grove</td><td>Cura pode ser crítica; cura extra de 5 / 7,5 / 10% abaixo de 60% de vida, dobrada abaixo de 30%</td></tr>
-      <tr><td>Dedication Perk (mitigação)</td><td>De 0,03% para <strong>0,075%</strong> por ponto</td></tr>
-      <tr><td>Lesser gems de mitigação</td><td>De 5 / 5,5 / 6 / 7,5% para <strong>20 / 22 / 24 / 30%</strong></td></tr>
-    </tbody>
-  </table>
-  </div>
-</section>
-
-<!-- 07 -->
-<section id="set">
-  <h2><i>07</i>Set e equipamento</h2>
-
-  <p>Você já tem full set, então a questão é qual peça vai em qual slot para <em>este</em> spawn. O dano que você toma é físico corpo a corpo do Dragolisk e do Wardragon, mais <strong>fogo</strong>, gelo e morte do Mega Dragon.</p>
-
-  <div class="scroller">
-  <table>
-    <thead><tr><th>Slot</th><th>Recomendação</th><th>Alternativa</th></tr></thead>
-    <tbody>
-      <tr class="pick"><td>Arma</td><td><strong>Sanguine Rod</strong> — ou Grand Sanguine Rod</td><td>Moonsilver Sceptre só no level 1000</td></tr>
-      <tr><td>Helmet</td><td>Arboreal Crown <span style="color:var(--bone-dim)">(gelo/físico)</span>; se for mage-only, imbua Powerful Epiphany</td><td>Falcon Circlet</td></tr>
-      <tr><td>Armor</td><td>Peça com <strong>proteção a fogo</strong> — Mystical Dragon Robe ou Soulshroud</td><td>Stoic Iks Cuirass</td></tr>
-      <tr><td>Legs</td><td>Soulstrider <span style="color:var(--bone-dim)">(fogo)</span></td><td>Norcferatu Bloodstrider</td></tr>
-      <tr><td>Boots</td><td>Sanguine Galoshes <span style="color:var(--bone-dim)">(fogo + físico)</span></td><td>Alchemist's ou Stoic Iks</td></tr>
-      <tr><td>Spellbook</td><td>Umbral Master Spellbook <span style="color:var(--bone-dim)">(terra/fogo/gelo/energia)</span> ou Arboreal Tome</td><td>Eldritch Tome</td></tr>
-      <tr><td>Ring</td><td>Arboreal Ring <span style="color:var(--bone-dim)">(fogo/terra/energia/gelo)</span></td><td>—</td></tr>
-      <tr><td>Amulet</td><td>Enchanted Flamingo Amulet of Nature <span style="color:var(--bone-dim)">(fogo/físico)</span></td><td>Theurgic Amulet</td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <div class="note">
-    <p><strong>Ponto novo:</strong> com a remoção do Combat Mode, a defesa de todos os spellbooks subiu 60% e a defesa do equipamento pesa mais na fórmula de mitigação. Spellbook virou peça de sobrevivência de verdade — não escolha um só pelo magic level.</p>
-  </div>
-
-  <p>Imbuements gerais: proteção a <strong>fogo</strong> na armor, proteção a gelo ou morte no spellbook, magic level no helmet se ele for mage-only, e Swiftness nas boots.</p>
-</section>
-
-<!-- 08 -->
-<section id="magias">
-  <h2><i>08</i>Magias e rotação</h2>
-
-  <div class="scroller">
-  <table>
-    <thead><tr><th>Magia</th><th>Papel</th></tr></thead>
-    <tbody>
-      <tr class="pick"><td><strong>Terra Wave</strong></td><td>AoE principal, em cone</td></tr>
-      <tr class="pick"><td><strong>Forked Thorns</strong></td><td>Nova — alvo + os 5 mais próximos, dano de terra. Ideal para dragões espalhados</td></tr>
-      <tr class="pick"><td><strong>Exevo Ulus Tera</strong> <span style="color:var(--bone-dim)">(Twin Bursts)</span></td><td>Anel de terra ao redor; +40 a 60% contra alvos acima de 60% de vida — use no começo do pack</td></tr>
-      <tr><td>Ultimate Terra Strike</td><td>Base subiu de 150 para <strong>195</strong> e alcance de 3 para <strong>7</strong>; virou finalizador viável</td></tr>
-      <tr><td>Strong Terra Strike</td><td>Base 115, alcance 7</td></tr>
-      <tr><td>Wrath of Nature</td><td>Ficou mais confiável no rebalance</td></tr>
-      <tr><td>Stone Shower (runa)</td><td>Puxar packs e complementar a AoE</td></tr>
-      <tr><td>Autoattack da rod</td><td>Nunca solte o alvo — agora <strong>gera mana</strong> em vez de gastar</td></tr>
-      <tr class="veto"><td>Eternal Winter, Ice Wave, Strong Ice Wave, Forked Frost, Avalanche, Great Fireball</td><td><span class="tag down">evitar</span> Gelo perde 20% no alvo mais valioso; fogo perde 20 a 40% em tudo</td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <h3>Stance</h3>
-  <p>Stances são liberadas na promotion, são premium, ficam salvas entre sessões e podem ser desligadas. <strong>Solo: Rejuvenation</strong> (+10% nas curas em si mesmo). <strong>Em time: Lifegiver</strong> (+110% de cura em aliados, com +100% de cooldown em Heal Friend e Mass Healing) ou Shared Preservation.</p>
-
-  <h3>Ordem no pack</h3>
-  <ol>
-    <li>Puxe com <strong>Stone Shower</strong>.</li>
-    <li>Com 3 ou mais adjacentes, solte <strong>Exevo Ulus Tera</strong> — aproveita o bônus contra alvos acima de 60% de vida.</li>
-    <li><strong>Terra Wave</strong> na direção do maior aglomerado.</li>
-    <li><strong>Forked Thorns</strong> nos que ficaram fora do cone.</li>
-    <li><strong>Ultimate Terra Strike</strong> para finalizar o que sobrou.</li>
-    <li>Autoattack ativo o tempo todo entre as magias.</li>
-  </ol>
-</section>
-
-<!-- 09 -->
-<section id="plano">
-  <h2><i>09</i>Plano de execução</h2>
-  <ol class="plan">
-    <li><div><strong>Complete o bestiário das três criaturas.</strong> São 2.500 abates cada, 50 charm points cada. Sem o bestiário completo você não consegue atribuir charm.</div></li>
-    <li><div><strong>Desbloqueie Overflux até o stage 3</strong> — 4.500 charm points. É o maior ganho isolado deste relatório. Se faltar ponto, use Poison stage 3 (1.800) como ponte. Lembre que o <em>primeiro reset de charms é gratuito</em>; depois custa o level × 1.000 + 11.000 de gold.</div></li>
-    <li><div><strong>Atribua Overflux nas três criaturas.</strong> Considere o Charm Expansion (450 TC) para não ficar remanejando.</div></li>
-    <li><div><strong>Escolha o minor charm:</strong> Vampiric Embrace para sustain ou Gut para lucro.</div></li>
-    <li><div><strong>Imbua a rod</strong> com Powerful Epiphany e Powerful Strike.</div></li>
-    <li><div><strong>Distribua a proficiência da rod</strong> conforme a seção 05.</div></li>
-    <li><div><strong>Ajuste a wheel:</strong> Twin Bursts T2, Forks T1 e um greater gem de Twin Bursts Mastery. Lesser gems em Mana e resistência a fogo.</div></li>
-    <li><div><strong>Forje a rod</strong> buscando tier alto, atrás do Onslaught.</div></li>
-    <li><div><strong>Troque a hotkey de Avalanche para Stone Shower.</strong></div></li>
-  </ol>
-</section>
-
-<!-- 10 -->
-<section id="mudancas">
-  <h2><i>10</i>Mudanças de 2026 que afetam você</h2>
-  <div class="scroller">
-  <table>
-    <thead><tr><th>Mudança</th><th>Impacto</th></tr></thead>
-    <tbody>
-      <tr><td>Avalanche, GFB, Thunderstorm e Stone Shower com base power igual a 50</td><td>A escolha de runa virou 100% resistência → Stone Shower</td></tr>
-      <tr><td>Área das runas AoE reduzida em 1, dano aumentado</td><td>Precisa aglomerar melhor os dragões</td></tr>
-      <tr><td>Explosion Rune: área de 5 para 9 sqm</td><td>Útil para puxar</td></tr>
-      <tr><td>Rods geram mana ao atacar, alcance maior, limitações de Strike removidas</td><td>Autoattack sempre ligado; sustain muito melhor</td></tr>
-      <tr><td>Charms só disparam no alvo inicial de autoattack</td><td>Magias e runas não mudaram — sua AoE continua proccando por alvo</td></tr>
-      <tr><td>Combat Mode removido</td><td>+20% de attack value sempre ativo; spellbooks +60% de defesa</td></tr>
-      <tr><td>Mitigação dos monstros aumentada</td><td>Dragolisk 3,36% · Wardragon 3,50% · Mega Dragon 3,13%</td></tr>
-      <tr><td>Energy Ring consome 2 de mana por ponto de dano</td><td>Ficou ineficiente</td></tr>
-      <tr><td>Ultimate Healing Rune não pode mais ser usada em outros</td><td>Relevante em time</td></tr>
-      <tr><td>Novas poções: superior mana, costly superior e costly ultimate</td><td>Mais opções de sustain</td></tr>
-      <tr><td>XP de grupo: 2 vocações 30→35%, 3 vocações 60→70%</td><td>Duo e trio ficaram mais atrativos</td></tr>
-      <tr><td>Nature's Embrace: base de cura de 650 para <strong>2.000</strong></td><td>Sua cura de emergência ficou muito mais forte</td></tr>
-      <tr><td><strong>Barrier</strong>: dano fatal te deixa com 1 HP e converte o resto em dano de mana, multiplicado por 8</td><td>Sem mana suficiente, você morre — mantenha a mana alta</td></tr>
-    </tbody>
-  </table>
-  </div>
-</section>
-
-<!-- 11 -->
-<section id="ressalvas">
-  <h2><i>11</i>Ressalvas honestas</h2>
-  <ul>
-    <li><strong>Mana estimada.</strong> Os cálculos de Overflux usam 22 a 26 mil de mana como faixa típica de um ED 731. Confira a sua e use a tabela da seção 04 — abaixo de ~17.500, Poison volta a ser competitivo no Mega Dragon.</li>
-    <li><strong>Crítico estimado.</strong> O ponto de empate <span class="mono">E = 4,89 × C</span> é exato; os valores de C e E que usei são estimativa. Abra o painel de Combat Stats na Cyclopedia e refaça a conta com os seus números.</li>
-    <li><strong>Dano por acerto estimado.</strong> O ponto de empate de ~900 a 1.000 é exato; a afirmação de que você bate abaixo disso é inferência. Se estiver batendo mais de 1.000 por alvo por runa, reavalie.</li>
-    <li><strong>Carnage não foi testado em campo.</strong> O cálculo em pack de quatro é teórico. Vale um teste A/B de uma hora se você mata em packs grandes.</li>
-    <li><strong>Logística do spawn.</strong> A área não tem depot, protection zone, NPC, mailbox, templo nem transporte. Planeje supply e rota de fuga.</li>
-  </ul>
-</section>
-
-<footer>
-  <p><strong>Fontes:</strong> TibiaWiki BR (Nimmersatt's Breeding Ground, Dragolisk, Wardragon, Mega Dragon, Charms, Sanguine Rod) · TibiaWiki Fandom (Overflux, Overpower, Low Blow, Savage Blow, Stone Shower Rune, Updates 15.25.3a4a52) · TibiaRoute (Vocation Adjustments) · TibiaPal (Wheel of Destiny Builds, Vocation Equipment Reference, Charm Planner).</p>
-  <p style="margin-top:.8rem;color:#6E6550">Tibia é propriedade da CipSoft GmbH. Relatório não oficial, feito por um jogador para um jogador.</p>
-</footer>
-
-</main>
 </div>
 
 <script>
 (function(){
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+"use strict";
 
-  // Barras da matriz entram da esquerda quando aparecem na tela.
-  var bars = document.querySelectorAll('.bar i');
-  if(!reduce && 'IntersectionObserver' in window){
-    bars.forEach(function(b){ b.style.setProperty('--s','0'); });
-    var barObs = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          var i = Array.prototype.indexOf.call(bars, e.target);
-          setTimeout(function(){ e.target.style.setProperty('--s','1'); }, (i % 3) * 70);
-          barObs.unobserve(e.target);
-        }
-      });
-    },{threshold:.4});
-    bars.forEach(function(b){ barObs.observe(b); });
-  }
+/* ============================================================
+   DADOS — expanda aqui. Cada hunt referencia IDs de CREATURES.
+   Resistências em %; >100 = fraco (bom pra atacar), <100 = forte
+   (resiste). immuneTo lista elementos com 0% (bloqueado, nunca
+   escolher como "melhor elemento").
+   ============================================================ */
 
-  // Marca a seção atual na navegação lateral.
-  var links = {};
-  document.querySelectorAll('.rail a').forEach(function(a){
-    links[a.getAttribute('href').slice(1)] = a;
+var ELEMENTS_ORDER = ['physical','fire','ice','energy','earth','death','holy'];
+var EL = {
+  physical:{label:'Físico',  css:'var(--el-physical)'},
+  fire:    {label:'Fogo',    css:'var(--el-fire)'},
+  ice:     {label:'Gelo',    css:'var(--el-ice)'},
+  energy:  {label:'Energia', css:'var(--el-energy)'},
+  earth:   {label:'Terra',   css:'var(--el-earth)'},
+  death:   {label:'Morte',   css:'var(--el-death)'},
+  holy:    {label:'Sagrado', css:'var(--el-holy)'}
+};
+var RUNES = {
+  earth:'Stone Shower Rune', ice:'Avalanche Rune', fire:'Great Fireball Rune',
+  energy:'Thunderstorm Rune', physical:'Explosion Rune', death:'Sudden Death Rune (alvo único)',
+  holy:null
+};
+
+var VOCS = {
+  knight:  {name:'Knight',   css:'var(--voc-knight)',   elements:[['physical',1]],
+            weaponLabel:'Arma de melee (espada/machado/clava)', style:'Corpo a corpo',
+            defaults:{level:700, ml:15,  hp:38000, mana:3200,  critChance:10, critExtra:35, charmPoints:4000, hit:850}},
+  paladin: {name:'Paladin',  css:'var(--voc-paladin)',  elements:[['physical',1],['ice',2],['earth',2],['holy',2],['death',2],['energy',2]],
+            weaponLabel:'Bow/crossbow + munição', style:'Distância',
+            defaults:{level:700, ml:20,  hp:24000, mana:9000,  critChance:15, critExtra:45, charmPoints:4000, hit:700}},
+  sorcerer:{name:'Sorcerer', css:'var(--voc-sorcerer)', elements:[['fire',1],['energy',1],['death',2]],
+            weaponLabel:'Wand', style:'Magia',
+            defaults:{level:700, ml:115, hp:5200,  mana:21000, critChance:8,  critExtra:70, charmPoints:4000, hit:600}},
+  druid:   {name:'Druid',    css:'var(--voc-druid)',    elements:[['earth',1],['ice',1]],
+            weaponLabel:'Rod', style:'Magia',
+            defaults:{level:731, ml:117, hp:5500,  mana:24000, critChance:10, critExtra:75, charmPoints:6000, hit:650}}
+};
+
+var CREATURES = {
+  dragolisk:{ name:'Dragolisk', hp:6180, exp:5050, expB:7575, armor:86, mitig:3.36, speed:185,
+    style:'Corpo a corpo + distância', threats:['physical'],
+    resist:{physical:85, fire:60, ice:105, energy:100, earth:110, death:110, holy:115} },
+  wardragon:{ name:'Wardragon', hp:6960, exp:5810, expB:8715, armor:80, mitig:3.50, speed:165,
+    style:'Corpo a corpo + distância', threats:['physical'],
+    resist:{physical:100, fire:60, ice:110, energy:105, earth:110, death:85, holy:105} },
+  mega_dragon:{ name:'Mega Dragon', hp:7920, exp:6790, expB:10185, armor:76, mitig:3.13, speed:170,
+    style:'Só distância', threats:['fire','ice','death','physical'],
+    resist:{physical:100, fire:80, ice:80, energy:110, earth:110, death:80, holy:110} },
+  rage_squid:{ name:'Rage Squid', hp:17000, exp:16300, expB:24450, armor:78, mitig:3.45, speed:215,
+    style:'Corpo a corpo + distância (fogo)', threats:['fire','physical'], immuneTo:['fire'],
+    resist:{physical:100, fire:0, ice:115, energy:100, earth:100, death:100, holy:100} },
+  burning_book:{ name:'Burning Book', hp:18000, exp:13200, expB:19800, armor:82, mitig:2.16, speed:220,
+    style:'Corpo a corpo + distância (fogo), cura e hasteia a si mesmo', threats:['fire','physical'], immuneTo:['fire'],
+    resist:{physical:100, fire:0, ice:110, energy:100, earth:100, death:100, holy:100} },
+  renegade_knight:{ name:'Renegade Knight', hp:1450, exp:1200, expB:1800, armor:38, mitig:2.31, speed:135,
+    style:'Corpo a corpo, cura a si mesmo', threats:['physical'],
+    resist:{physical:85, fire:80, ice:100, energy:65, earth:80, death:110, holy:50} },
+  vicious_squire:{ name:'Vicious Squire', hp:1000, exp:900, expB:1350, armor:30, mitig:1.96, speed:130,
+    style:'Corpo a corpo + distância (arrow), cura a si mesmo', threats:['physical'],
+    resist:{physical:90, fire:70, ice:90, energy:60, earth:50, death:120, holy:50} }
+};
+
+/* r: 1 comum · 2 incomum · 3 semi-raro · 4 raro · 5 muito raro. p:1 = produto de criatura (charm Gut). */
+var LOOT = {
+  dragolisk:[{n:'Platinum Coin',r:1},{n:'Giant Shimmering Pearl',r:2},{n:'Red Gem',r:2},
+    {n:"Nimmersatt's Seal",r:2,p:1},{n:'Dragolisk Eye',r:2,p:1},{n:'Dragolisk Poison Gland',r:2,p:1},
+    {n:'Green Gem',r:3},{n:'Ultimate Health Potion',r:3},{n:"Dragon's Tail",r:3,p:1},
+    {n:'Ultimate Mana Potion',r:4},{n:'Dragon Shield',r:5}],
+  wardragon:[{n:'Platinum Coin',r:1},{n:'Gold Ingot',r:2},{n:'Dragon Tongue',r:2,p:1},
+    {n:"Nimmersatt's Seal",r:2,p:1},{n:'Wardragon Claw',r:2,p:1},{n:'Wardragon Tooth',r:2,p:1},
+    {n:'Black Pearl',r:3},{n:'Onyx Chips',r:3},{n:'Ultimate Health Potion',r:3},{n:'Ultimate Mana Potion',r:3},
+    {n:'Dragonbone Staff',r:4},{n:'White Gem',r:4}],
+  mega_dragon:[{n:'Platinum Coin',r:1},{n:'Dragon Blood',r:1,p:1},{n:"Nimmersatt's Seal",r:2,p:1},
+    {n:'Molten Dragon Essence',r:2,p:1},{n:'Violet Gem',r:3},{n:'Red Gem',r:3},{n:'Blue Gem',r:3},
+    {n:'Prismatic Quartz',r:3},{n:'Rainbow Quartz',r:3},{n:'Ultimate Health Potion',r:3},
+    {n:'Ultimate Mana Potion',r:3},{n:'Mega Dragon Heart',r:3,p:1},{n:'Dragon Slayer',r:5}],
+  rage_squid:[{n:'Platinum Coin',r:1},{n:'Ultimate Health Potion',r:1},{n:'Great Mana Potion',r:2},
+    {n:'Great Spirit Potion',r:2},{n:'Fire Mushroom',r:2},{n:'Glowing Rune',r:2},{n:'Small Amethyst',r:2},
+    {n:'Small Emerald',r:2},{n:'Small Ruby',r:2},{n:'Small Topaz',r:2},{n:'Demonic Essence',r:2},{n:'Fire Axe',r:2},
+    {n:'Demon Shield',r:3},{n:'Demonrage Sword',r:3},{n:'Giant Sword',r:3},{n:'Might Ring',r:3},{n:'Red Gem',r:3},
+    {n:'Devil Helmet',r:4},{n:'Purple Tome',r:4},{n:'Demon Trophy',r:5},{n:'Magic Plate Armor',r:5},{n:'Wand of Everblazing',r:5}],
+  burning_book:[{n:'Platinum Coin',r:1},{n:'Book Page',r:1},{n:'Flask of Demonic Blood',r:1},
+    {n:'Demonic Essence',r:2},{n:'Small Amethyst',r:2},{n:'Guardian Shield',r:2},{n:'Magma Coat',r:2},
+    {n:'Silken Bookmark',r:2},{n:'Soul Orb',r:2},{n:'Death Ring',r:3},{n:'Magma Monocle',r:3},{n:'Necrotic Rod',r:3},
+    {n:'Scimitar',r:3},{n:'Stealth Ring',r:4},{n:'Shadow Sceptre',r:5}],
+  renegade_knight:[{n:'Gold Coin',r:1},{n:'Platinum Coin',r:1},{n:'Great Health Potion',r:2},{n:'Meat',r:2},
+    {n:'Scroll of Heroic Deeds',r:2},{n:'Small Amethyst',r:3},{n:'Two Handed Sword',r:3},{n:'Small Notebook',r:3},
+    {n:'War Hammer',r:4},{n:'Fire Sword',r:4},{n:'Crown Armor',r:4},{n:'Crown Legs',r:4},{n:'Crown Helmet',r:4},
+    {n:'Piggy Bank',r:5},{n:'Crown Shield',r:5}],
+  vicious_squire:[{n:'Gold Coin',r:1},{n:'Great Health Potion',r:2},{n:'Crossbow',r:2},{n:'Bolt',r:2},{n:'Meat',r:2},
+    {n:'Small Diamond',r:3},{n:'Small Emerald',r:3},{n:'Halberd',r:3},{n:'War Hammer',r:4},{n:'Scarf',r:4},
+    {n:'Piggy Bank',r:5},{n:'Might Ring',r:5},{n:'Warrior Helmet',r:5},{n:'Knight Legs',r:5},{n:'Guardian Shield',r:5}]
+};
+
+var HUNTS = [
+  { id:'nimmersatt', name:"Nimmersatt's Breeding Ground", loc:'Zao · subterrâneo', lvl:700, diff:'Difícil', prem:true,
+    creatures:['dragolisk','wardragon','mega_dragon'], tags:['dragões','ranged','terra'],
+    blurb:'Três dragões fracos a terra. Mega Dragon só ataca a distância e concentra o dano de fogo/gelo/morte da área.' },
+  { id:'fire_library', name:'Fire Library', loc:'Secret Library · Fire Section', lvl:400, diff:'Difícil', prem:true,
+    creatures:['rage_squid','burning_book'], tags:['imune a fogo','biblioteca'],
+    blurb:'Ambos imunes a fogo e neutros a quase tudo — a única fraqueza real é gelo.' },
+  { id:'hero_fortress', name:'Edron Hero Fortress', loc:'Edron', lvl:50, diff:'Médio', prem:true,
+    creatures:['renegade_knight','vicious_squire'], tags:['humanoides','farm clássico'],
+    blurb:'HP baixo e loot consistente. Resistem à maioria dos elementos — inclusive físico — mas ainda assim é o farm clássico de EK/RP na região.' }
+];
+
+/* Conteúdo verificado manualmente (fica de exemplo do nível de detalhe desejado).
+   Ausente para uma combinação hunt+vocação → cai no guia genérico calculado. */
+var GEAR_NOTES = {
+  nimmersatt: { druid: [
+    'Arma: <b>Sanguine Rod</b> (ataque nativo de terra, alcance 6, 6% life leech).',
+    'Imbua a rod com <b>Powerful Epiphany</b> + <b>Powerful Strike</b> — Strike é obrigatório para Low Blow/Savage Blow funcionarem.',
+    'Armor com <b>proteção a fogo</b> é a prioridade de defesa (Grand Fire Wave do Mega Dragon).',
+    'Spellbook conta como peça de defesa desde a remoção do Combat Mode — não escolha só pelo magic level.'
+  ]},
+  fire_library: { druid: [
+    'Arma: rod de <b>gelo</b> — é a única fraqueza real do spawn (Fogo é imune).',
+    '<b>Proteção a fogo no set é obrigatória</b>: Rage Squid e Burning Book atacam com Fire Strike/Beam/Berserk e ambos são imunes ao próprio fogo, então não há como "trocar" o dano deles.',
+    'Burning Book hasteia e cura a si mesmo — priorize burst (Low Blow/Overflux) sobre dano sustentado para não perder tempo nele.'
+  ]},
+  hero_fortress: {} 
+};
+var GEMS_NOTES = {
+  nimmersatt: { druid: [
+    'Greater gem: <b>Twin Bursts Mastery</b> — libera Exevo Ulus Tera (+40/60% contra alvos acima de 60% de vida).',
+    'Lesser gems: <b>Mana</b> (aumenta o teto do Overflux) + <b>resistência a fogo</b>.',
+    'Revelation perk: <b>Twin Bursts T2</b> + <b>Forked Thorns T1</b>.'
+  ]}
+};
+
+/* ============================================================
+   ESTADO
+   ============================================================ */
+var state = {
+  vocation:'druid',
+  hunt:null,
+  search:'', lvlFilter:'all', diffFilter:'all', sort:'fit',
+  sidebarOpen:false
+};
+var attrs = {}; // lido ao vivo dos inputs
+
+function applyVocDefaults(vocKey){
+  var d = VOCS[vocKey].defaults;
+  setVal('fLevel', d.level); setVal('fML', d.ml); setVal('fHP', d.hp); setVal('fMana', d.mana);
+  setVal('fCritC', d.critChance); setVal('fCritE', d.critExtra); setVal('fCharm', d.charmPoints); setVal('fHit', d.hit);
+  readAttrs();
+}
+function setVal(id, v){ var el = document.getElementById(id); if(el) el.value = v; }
+function readAttrs(){
+  attrs = {
+    level: numOr('fLevel', 300), ml: numOr('fML', 0), hp: numOr('fHP', 1000), mana: numOr('fMana', 1000),
+    critChance: numOr('fCritC', 0), critExtra: numOr('fCritE', 0), charmPoints: numOr('fCharm', 0),
+    loyalty: numOr('fLoyalty', 0), hit: numOr('fHit', 300)
+  };
+}
+function numOr(id, fallback){
+  var el = document.getElementById(id);
+  if(!el) return fallback;
+  var v = parseFloat(el.value);
+  return isFinite(v) ? v : fallback;
+}
+
+/* ============================================================
+   MOTOR DE CÁLCULO
+   ============================================================ */
+function huntAvg(hunt, element){
+  var vals = hunt.creatures.map(function(cid){ return CREATURES[cid].resist[element]; });
+  return vals.reduce(function(a,b){return a+b;},0) / vals.length;
+}
+function bestElementFor(hunt, vocKey){
+  var voc = VOCS[vocKey], best = null;
+  voc.elements.forEach(function(pair){
+    var el = pair[0], tier = pair[1], avg = huntAvg(hunt, el);
+    if(!best || avg > best.avg) best = {el:el, avg:avg, tier:tier};
   });
-  if('IntersectionObserver' in window){
-    var navObs = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          for(var k in links){ links[k].classList.remove('on'); }
-          if(links[e.target.id]) links[e.target.id].classList.add('on');
-        }
-      });
-    },{rootMargin:'-10% 0px -75% 0px'});
-    document.querySelectorAll('section[id]').forEach(function(s){ navObs.observe(s); });
+  return best;
+}
+function fitScore(hunt, vocKey){
+  var voc = VOCS[vocKey], best = 0;
+  voc.elements.forEach(function(pair){
+    var avg = huntAvg(hunt, pair[0]);
+    var score = pair[1] === 1 ? avg : avg * 0.85;
+    if(score > best) best = score;
+  });
+  return best;
+}
+function aggregateThreats(hunt){
+  var set = {};
+  hunt.creatures.forEach(function(cid){ (CREATURES[cid].threats||[]).forEach(function(t){ set[t]=1; }); });
+  return Object.keys(set);
+}
+function charmBreakdown(creature, a){
+  var overflux  = 0.11 * Math.min(0.025*a.mana, 0.08*creature.hp);
+  var overpower = 0.11 * Math.min(0.05*a.hp,   0.08*creature.hp);
+  var bestEl = 'physical', bestVal = -1;
+  ELEMENTS_ORDER.forEach(function(e){ if(creature.resist[e] > bestVal){ bestVal = creature.resist[e]; bestEl = e; } });
+  var elemental = 0.11 * 0.05 * creature.hp * (bestVal/100);
+  var C = a.critChance/100, E = a.critExtra/100;
+  var base = a.hit / (1 + C*E);
+  var lowBlow = base * 0.09 * E;
+  var savageBlow = base * C * 0.44;
+  var carnageCap = Math.min(0.15*creature.hp, 6*a.level);
+  var carnage = 0.22 * carnageCap;
+  return [
+    {k:'Overflux', sub:'2,5% da mana, teto 8% HP', v:overflux},
+    {k:'Overpower', sub:'5% do seu HP, teto 8% HP', v:overpower},
+    {k:'Elemental — ' + EL[bestEl].label, sub:'5% HP × resistência', v:elemental},
+    {k:'Low Blow', sub:'+9% chance de crítico', v:lowBlow},
+    {k:'Savage Blow', sub:'+44% dano crítico extra', v:savageBlow},
+    {k:'Carnage (por kill, em área)', sub:'22% · 15% HP, teto 6×level', v:carnage}
+  ].sort(function(x,y){ return y.v - x.v; });
+}
+
+/* ============================================================
+   RENDER — sidebar (form fixo + lista dinâmica)
+   ============================================================ */
+function renderVocGrid(){
+  var wrap = document.getElementById('vocGrid');
+  wrap.innerHTML = Object.keys(VOCS).map(function(k){
+    var v = VOCS[k], on = state.vocation===k;
+    return '<button class="voc-btn'+(on?' on':'')+'" style="--vc:'+v.css+'" data-voc="'+k+'">'+
+           '<i style="background:'+v.css+'"></i><b>'+v.name+'</b></button>';
+  }).join('');
+  wrap.querySelectorAll('.voc-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      state.vocation = btn.getAttribute('data-voc');
+      applyVocDefaults(state.vocation);
+      renderVocGrid(); renderTopVoc(); renderHuntList(); renderMain();
+    });
+  });
+}
+function renderTopVoc(){
+  var v = VOCS[state.vocation];
+  document.getElementById('topVocDot').style.background = v.css;
+  document.getElementById('topVocLabel').textContent = v.name + ' · lvl ' + Math.round(attrs.level||0);
+}
+function renderChips(){
+  var lvlOpts = [['all','Todos'],['low','Até 100'],['mid','100–400'],['high','400+']];
+  var lvlWrap = document.getElementById('lvlChips');
+  lvlWrap.innerHTML = lvlOpts.map(function(o){
+    return '<button class="chip-btn'+(state.lvlFilter===o[0]?' on':'')+'" data-lvl="'+o[0]+'">'+o[1]+'</button>';
+  }).join('');
+  lvlWrap.querySelectorAll('.chip-btn').forEach(function(b){
+    b.addEventListener('click', function(){ state.lvlFilter = b.getAttribute('data-lvl'); renderChips(); renderHuntList(); });
+  });
+
+  var diffOpts = [['all','Todas'],['Fácil','Fácil'],['Médio','Médio'],['Difícil','Difícil']];
+  var diffWrap = document.getElementById('diffChips');
+  diffWrap.innerHTML = diffOpts.map(function(o){
+    return '<button class="chip-btn'+(state.diffFilter===o[0]?' on':'')+'" data-diff="'+o[0]+'">'+o[1]+'</button>';
+  }).join('');
+  diffWrap.querySelectorAll('.chip-btn').forEach(function(b){
+    b.addEventListener('click', function(){ state.diffFilter = b.getAttribute('data-diff'); renderChips(); renderHuntList(); });
+  });
+}
+function matchesFilters(hunt){
+  if(state.search){
+    var q = state.search.toLowerCase();
+    var hay = (hunt.name+' '+hunt.loc+' '+hunt.tags.join(' ')).toLowerCase();
+    if(hay.indexOf(q) === -1) return false;
   }
+  if(state.lvlFilter==='low'  && !(hunt.lvl <= 100)) return false;
+  if(state.lvlFilter==='mid'  && !(hunt.lvl > 100 && hunt.lvl <= 400)) return false;
+  if(state.lvlFilter==='high' && !(hunt.lvl > 400)) return false;
+  if(state.diffFilter!=='all' && hunt.diff !== state.diffFilter) return false;
+  return true;
+}
+function visibleHunts(){
+  var list = HUNTS.filter(matchesFilters);
+  if(state.sort==='fit') list.sort(function(a,b){ return fitScore(b,state.vocation) - fitScore(a,state.vocation); });
+  else if(state.sort==='level') list.sort(function(a,b){ return a.lvl - b.lvl; });
+  else list.sort(function(a,b){ return a.name.localeCompare(b.name); });
+  return list;
+}
+function renderHuntList(){
+  var list = visibleHunts();
+  document.getElementById('huntCount').textContent = '('+list.length+')';
+  var wrap = document.getElementById('huntList');
+  if(!list.length){ wrap.innerHTML = '<div class="empty-note">Nenhuma hunt bate com o filtro.</div>'; return; }
+  wrap.innerHTML = list.map(function(h){
+    var best = bestElementFor(h, state.vocation);
+    return '<button class="hunt-card'+(state.hunt===h.id?' sel':'')+'" data-hunt="'+h.id+'">'+
+      '<h4>'+h.name+'</h4><div class="loc">'+h.loc+' · lvl '+h.lvl+'+</div>'+
+      '<div class="hunt-meta">'+
+        '<span class="tag">'+h.diff+'</span>'+
+        '<span class="tag fit">'+EL[best.el].label+' '+Math.round(best.avg)+'%'+(best.tier===2?' (sec.)':'')+'</span>'+
+      '</div></button>';
+  }).join('');
+  wrap.querySelectorAll('.hunt-card').forEach(function(c){
+    c.addEventListener('click', function(){
+      state.hunt = c.getAttribute('data-hunt');
+      renderHuntList(); renderMain();
+      closeMobileSidebar();
+      document.getElementById('main').scrollTop = 0;
+    });
+  });
+}
+
+/* ============================================================
+   RENDER — main
+   ============================================================ */
+function renderMain(){
+  var main = document.getElementById('main');
+  if(!state.hunt){ main.innerHTML = landingHTML(); wireLanding(); return; }
+  var hunt = HUNTS.filter(function(h){return h.id===state.hunt;})[0];
+  if(!hunt){ state.hunt=null; renderMain(); return; }
+  main.innerHTML = detailHTML(hunt);
+  wireDetail(hunt);
+}
+
+function landingHTML(){
+  var cards = HUNTS.map(function(h){
+    var best = bestElementFor(h, state.vocation);
+    return '<button class="land-card" data-hunt="'+h.id+'">'+
+      '<h3>'+h.name+'</h3><div class="loc">'+h.loc+' · lvl '+h.lvl+'+ · '+h.diff+'</div>'+
+      '<p>'+h.blurb+'</p>'+
+      '<span class="tag fit">Para '+VOCS[state.vocation].name+': '+EL[best.el].label+' '+Math.round(best.avg)+'%</span>'+
+      '</button>';
+  }).join('');
+  return '<div class="main-in landing">'+
+    '<h1>Otimizador de Hunt</h1>'+
+    '<p class="lede">Escolha uma hunt na barra lateral ou nos cards abaixo. Tudo — elemento, runa, charms, itens, gemas e loot — se recalcula para a vocação e os atributos que você informar.</p>'+
+    '<div class="land-grid">'+cards+'</div>'+
+    aboutHTML()+
+    '</div>';
+}
+function wireLanding(){
+  document.querySelectorAll('.land-card').forEach(function(c){
+    c.addEventListener('click', function(){
+      state.hunt = c.getAttribute('data-hunt');
+      renderHuntList(); renderMain();
+    });
+  });
+}
+
+function aboutHTML(){
+  var allFiles = [];
+  Object.keys(CREATURES).forEach(function(id){ allFiles.push('assets/img/creatures/'+id+'.gif'); });
+  return '<section class="blk">'+
+    '<h2 class="sect"><i>i</i>Sobre os dados</h2>'+
+    '<p>Dados de criaturas, resistências e loot foram conferidos manualmente no TibiaWiki. Itens e gemas específicos só aparecem com selo <span class="tag fit" style="vertical-align:middle">verificado</span> — o restante é orientação calculada a partir da resistência do alvo, para não inventar nome de item. É um protótipo: mais hunts e mais itens verificados entram com o tempo.</p>'+
+    '<details class="manifest"><summary>Imagens necessárias ('+allFiles.length+' arquivos)</summary>'+
+      '<ul>'+allFiles.map(function(f){return '<li class="mono">'+f+'</li>';}).join('')+'</ul>'+
+    '</details>'+
+    '</section>';
+}
+
+function detailHTML(hunt){
+  var voc = VOCS[state.vocation];
+  var best = bestElementFor(hunt, state.vocation);
+  var threats = aggregateThreats(hunt);
+  var rune = RUNES[best.el];
+
+  var html = '';
+  html += '<div class="main-in">';
+  html += '<div class="det-head">'+
+    '<button class="back-btn" id="backBtn">&larr; Todas as hunts</button>'+
+    '<h1>'+hunt.name+'</h1>'+
+    '<div class="loc">'+hunt.loc+' · nível recomendado '+hunt.lvl+'+'+(hunt.prem?' · Premium':'')+'</div>'+
+    '<div class="det-meta"><span class="tag">'+hunt.diff+'</span>'+hunt.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join('')+'</div>'+
+    '<div class="voc-banner" style="--vc:'+voc.css+'">Para <b>'+voc.name+'</b>: melhor elemento aqui é <b>'+EL[best.el].label+'</b> ('+best.avg.toFixed(1)+'% em média'+(best.tier===2?', elemento secundário — dano abaixo do físico principal':'')+'). '+hunt.blurb+'</div>'+
+    '</div>';
+
+  /* criaturas */
+  html += '<section class="blk"><h2 class="sect"><i>01</i>Criaturas</h2><div class="cre-grid">';
+  hunt.creatures.forEach(function(cid){
+    var c = CREATURES[cid];
+    html += '<div class="cre-card"><h4>'+c.name+'</h4><dl>'+
+      kv('HP', c.hp.toLocaleString('pt-BR')) + kv('Exp (bônus)', c.exp.toLocaleString('pt-BR')+' ('+c.expB.toLocaleString('pt-BR')+')') +
+      kv('Armadura', c.armor) + kv('Mitigação', c.mitig+'%') + kv('Velocidade', c.speed) +
+      '</dl><div class="threat-line">'+c.style+(c.immuneTo? ' · <b>imune a '+c.immuneTo.map(function(e){return EL[e].label.toLowerCase();}).join(', ')+'</b>':'')+'</div></div>';
+  });
+  html += '</div></section>';
+
+  /* matriz */
+  html += '<section class="blk"><h2 class="sect"><i>02</i>Resistências</h2><div class="matrix">';
+  var vocElSet = {}; voc.elements.forEach(function(p){ vocElSet[p[0]]=true; });
+  var avgs = ELEMENTS_ORDER.map(function(e){ return {e:e, avg:huntAvg(hunt,e)}; });
+  var maxAvg = Math.max.apply(null, avgs.map(function(a){return a.avg;}));
+  avgs.forEach(function(a){
+    var pct = Math.max(4, a.avg/Math.max(maxAvg,115)*100);
+    var color = a.avg>100 ? 'var(--terra)' : (a.avg===100 ? 'var(--mute)' : 'var(--ember)');
+    html += '<div class="mrow'+(vocElSet[a.e]?' voc':'')+'"><div class="mname">'+EL[a.e].label+'</div>'+
+      '<div class="mbar"><i style="width:'+pct+'%;background:'+color+'"></i><b style="color:'+(a.avg===100?'var(--bone)':'var(--hide)')+'">'+a.avg.toFixed(0)+'%</b></div>'+
+      '<div class="mavg">'+(vocElSet[a.e]?'seu':'')+'</div></div>';
+  });
+  html += '</div>';
+  html += '<div class="note"><b>Runa recomendada:</b> ' + (rune ? rune : 'não existe runa de dano sagrado — use magia ou arma diretamente') + '.'+
+    (threats.length? ' <b>Ameaças de entrada:</b> priorize proteção a '+threats.map(function(t){return EL[t].label.toLowerCase();}).join(', ')+'.' : '')+
+    '</div>';
+  html += '</section>';
+
+  /* charms */
+  html += '<section class="blk"><h2 class="sect"><i>03</i>Charms e atributos</h2>';
+  html += '<div class="calc"><div class="field-grid">'+
+    calcField('cMana','Mana máxima',attrs.mana) + calcField('cHP','HP máximo',attrs.hp) +
+    calcField('cCritC','Crítico chance %',attrs.critChance) + calcField('cCritE','Crítico extra %',attrs.critExtra) +
+    calcField('cHit','Dano médio/acerto',attrs.hit) +
+    '</div><small>Puxado dos seus atributos ao lado — mude aqui ou na barra lateral, os dois ficam sincronizados.</small></div>';
+
+  hunt.creatures.forEach(function(cid){
+    var c = CREATURES[cid];
+    var rows = charmBreakdown(c, attrs);
+    var max = rows[0].v || 1;
+    html += '<h3 class="sub">'+c.name+' — ganho esperado por ataque</h3><div class="blist">';
+    rows.forEach(function(r, i){
+      html += '<div class="brow'+(i===0?' top':'')+'"><div class="blab">'+r.k+'<br><span style="color:var(--mute);font-size:.66rem">'+r.sub+'</span></div>'+
+        '<div class="btrack"><i style="width:'+(r.v/max*100).toFixed(1)+'%"></i></div><div class="bval">'+r.v.toFixed(1)+'</div></div>';
+    });
+    html += '</div>';
+  });
+
+  var eBest = attrs.critExtra, cBest = attrs.critChance;
+  var tieRatio = cBest>0 ? (eBest/cBest).toFixed(2) : '∞';
+  var lowWins = (0.09*(eBest/100)) > (cBest/100*0.44);
+  html += '<div class="note"><b>Low Blow vs. Savage Blow:</b> empate exato em <span class="mono">dano crítico extra = 4,89 × chance de crítico</span>. Com os seus números (razão atual '+tieRatio+'×), <b>'+(lowWins?'Low Blow':'Savage Blow')+'</b> ganha — ambos exigem uma arma com crítico (imbuement de Strike).</div>';
+  html += '</section>';
+
+  /* itens */
+  html += '<section class="blk"><h2 class="sect"><i>04</i>Melhores itens</h2>'+ playbookHTML(GEAR_NOTES, hunt, state.vocation, gearGeneric(hunt, voc, best, threats)) +'</section>';
+
+  /* gemas */
+  html += '<section class="blk"><h2 class="sect"><i>05</i>Melhores gemas / wheel</h2>'+ playbookHTML(GEMS_NOTES, hunt, state.vocation, gemsGeneric(hunt, voc, best, threats)) +'</section>';
+
+  /* loot */
+  html += '<section class="blk"><h2 class="sect"><i>06</i>Loot — o que cada bicho apanha</h2>';
+  html += '<div class="loot-key"><span><span class="pdot">●</span> produto de criatura (charm Gut)</span><span>r1 comum → r5 muito raro</span></div>';
+  html += '<div class="loot-grid">';
+  hunt.creatures.forEach(function(cid){
+    var items = LOOT[cid] || [];
+    html += '<div class="loot-col"><h4>'+CREATURES[cid].name+'</h4><div class="chips">'+
+      items.map(function(it){ return '<span class="rchip r'+it.r+'">'+(it.p?'<span class="pdot">●</span>':'')+it.n+'</span>'; }).join('')+
+      '</div></div>';
+  });
+  html += '</div></section>';
+
+  html += aboutHTML();
+  html += '<footer class="app-footer"><p>Tibia e todas as imagens do jogo são propriedade da CipSoft GmbH. Ferramenta não oficial, feita pela e para a comunidade.</p></footer>';
+  html += '</div>';
+  return html;
+}
+
+function kv(k,v){ return '<div class="kv"><dt>'+k+'</dt><dd>'+v+'</dd></div>'; }
+function calcField(id,label,val){
+  return '<div class="field"><label for="'+id+'">'+label+'</label><input id="'+id+'" type="number" step="any" value="'+val+'"></div>';
+}
+function playbookHTML(NOTES, hunt, vocKey, genericLines){
+  var specific = NOTES[hunt.id] && NOTES[hunt.id][vocKey];
+  var lines = specific || genericLines;
+  return '<div class="play">'+
+    (specific ? '<span class="verified">Verificado</span>' : '<span class="verified" style="color:var(--dim);border-color:var(--edge)">Guia calculado</span>')+
+    '<ul>'+lines.map(function(l){ return '<li>'+l+'</li>'; }).join('')+'</ul></div>';
+}
+function gearGeneric(hunt, voc, best, threats){
+  var lines = [];
+  lines.push('Arma: <b>'+voc.weaponLabel+'</b> de <b>'+EL[best.el].label.toLowerCase()+'</b>'+(best.tier===2?' — elemento secundário, dano de base menor que o principal da vocação':'')+'.');
+  if(threats.length) lines.push('Proteção a priorizar no set: <b>'+threats.map(function(t){return EL[t].label.toLowerCase();}).join(', ')+'</b> (é o que essas criaturas causam).');
+  if(voc===VOCS.knight) lines.push('Escudo com a maior defesa disponível no seu nível + imbuement de mitigação/vida.');
+  if(voc===VOCS.paladin) lines.push('Munição elemental costuma ter attack base menor que a física — use como complemento, não como dano principal.');
+  lines.push('Imbuement ofensivo: dano/crítico de '+EL[best.el].label.toLowerCase()+' onde a peça permitir.');
+  return lines;
+}
+function gemsGeneric(hunt, voc, best, threats){
+  var lines = [];
+  lines.push('Greater gem: mastery ofensiva ligada ao seu elemento principal ('+EL[best.el].label+').');
+  lines.push('Lesser gems: Mana ou HP — veja acima qual charm (Overflux/Overpower) rende mais com os seus números — e resistência a '+(threats[0]?EL[threats[0]].label.toLowerCase():'físico')+'.');
+  return lines;
+}
+
+/* ============================================================
+   WIRING de detalhe (inputs sincronizados + navegação)
+   ============================================================ */
+function wireDetail(hunt){
+  var backBtn = document.getElementById('backBtn');
+  if(backBtn) backBtn.addEventListener('click', function(){ state.hunt=null; renderHuntList(); renderMain(); });
+
+  var map = {cMana:'fMana', cHP:'fHP', cCritC:'fCritC', cCritE:'fCritE', cHit:'fHit'};
+  Object.keys(map).forEach(function(localId){
+    var el = document.getElementById(localId);
+    if(!el) return;
+    el.addEventListener('input', function(){
+      document.getElementById(map[localId]).value = el.value;
+      readAttrs();
+      renderMain();
+    });
+  });
+}
+
+/* ============================================================
+   SIDEBAR TOGGLE (desktop: slide, mobile: drawer + backdrop)
+   ============================================================ */
+function isMobile(){ return window.innerWidth <= 860; }
+function openSidebar(){
+  var shell = document.getElementById('shell');
+  if(isMobile()){ shell.classList.add('mobile-open'); shell.classList.remove('collapsed'); }
+  else { shell.classList.remove('collapsed'); }
+  document.getElementById('burgerBtn').setAttribute('aria-pressed','true');
+}
+function closeSidebarUI(){
+  var shell = document.getElementById('shell');
+  shell.classList.add('collapsed');
+  shell.classList.remove('mobile-open');
+  document.getElementById('burgerBtn').setAttribute('aria-pressed','false');
+}
+function closeMobileSidebar(){ if(isMobile()) closeSidebarUI(); }
+document.getElementById('burgerBtn').addEventListener('click', function(){
+  var shell = document.getElementById('shell');
+  var open = isMobile() ? shell.classList.contains('mobile-open') : !shell.classList.contains('collapsed');
+  if(open) closeSidebarUI(); else openSidebar();
+});
+document.getElementById('backdrop').addEventListener('click', closeSidebarUI);
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+function boot(){
+  applyVocDefaults(state.vocation);
+  renderVocGrid();
+  renderTopVoc();
+  renderChips();
+  renderHuntList();
+  renderMain();
+
+  document.getElementById('fSearch').addEventListener('input', function(e){ state.search = e.target.value; renderHuntList(); });
+  document.getElementById('fSort').addEventListener('change', function(e){ state.sort = e.target.value; renderHuntList(); });
+
+  ['fLevel','fML','fHP','fMana','fCritC','fCritE','fCharm','fHit'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', function(){ readAttrs(); renderTopVoc(); renderMain(); });
+  });
+  document.getElementById('fLoyalty').addEventListener('change', function(){ readAttrs(); });
+
+  if(!isMobile()) openSidebar();
+  window.addEventListener('resize', function(){
+    var shell = document.getElementById('shell');
+    if(!isMobile()){ shell.classList.remove('mobile-open'); }
+  });
+}
+boot();
+
 })();
 </script>
 </body>
