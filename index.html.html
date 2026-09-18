@@ -1,0 +1,1652 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- ═══ SEO · [[EDITAR: trocar o domínio antes de publicar]] ═══ -->
+<title>Ímpeto · Consultoria independente em consórcios | Planeje &amp; Conquiste</title>
+<meta name="description" content="Comparamos múltiplas administradoras de consórcio para encontrar a estratégia certa para o seu objetivo: aquisição de bens, investimento ou construção patrimonial. Simule e fale com a equipe.">
+<link rel="canonical" href="https://www.impetoconsorcios.com.br/">
+<meta name="theme-color" content="#0A1A3C">
+<meta name="robots" content="index, follow, max-image-preview:large">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Ímpeto Consórcios">
+<meta property="og:title" content="Ímpeto · Planeje &amp; Conquiste">
+<meta property="og:description" content="Consultoria independente em consórcios. Comparamos administradoras para montar a estratégia certa para o seu objetivo.">
+<meta property="og:url" content="https://www.impetoconsorcios.com.br/">
+<meta property="og:image" content="https://www.impetoconsorcios.com.br/assets/og-impeto.jpg"><!-- [[EDITAR: 1200×630]] -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ímpeto · Planeje &amp; Conquiste">
+<meta name="twitter:description" content="Consultoria independente em consórcios. Comparamos administradoras para montar a estratégia certa para o seu objetivo.">
+<meta name="twitter:image" content="https://www.impetoconsorcios.com.br/assets/og-impeto.jpg">
+
+<!-- [[EDITAR: favicons]] — salve assets/favicon.svg (vetor) e assets/favicon-512.png.
+     Enquanto não existirem, o data-URI abaixo mantém um ícone neutro no lugar. -->
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A1A3C'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' font-weight='700' fill='%23D4A94A' text-anchor='middle'%3E%C3%8D%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><!-- [[EDITAR: 180×180]] -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+
+<style>
+/* ══════════════════════════════════════════════════════════════════════
+   1 · TOKENS
+   ══════════════════════════════════════════════════════════════════ */
+:root{
+  --navy-900:#060F26;
+  --navy-800:#0A1A3C;
+  --navy-700:#12254F;
+  --navy-600:#183064;
+  --gold-300:#F2D184;
+  --gold-500:#D4A94A;
+  --gold-700:#A97B21;
+  --ivory:#F7F5F0;
+  --muted:#A8B2C8;
+
+  --grad-gold:linear-gradient(135deg,#F2D184 0%,#D4A94A 45%,#A97B21 100%);
+  --grad-gold-soft:linear-gradient(135deg,rgba(242,209,132,.16) 0%,rgba(169,123,33,.06) 100%);
+
+  --line:rgba(212,169,74,.22);
+  --line-strong:rgba(242,209,132,.45);
+  --hairline:rgba(168,178,200,.16);
+
+  --shadow-card:0 24px 48px -24px rgba(0,0,0,.6);
+  --shadow-lift:0 34px 68px -28px rgba(0,0,0,.78);
+  --radius:20px;
+  --radius-lg:26px;
+  --radius-sm:12px;
+  --radius-pill:999px;
+
+  --ease:cubic-bezier(.22,1,.36,1);
+  --t-fast:.22s var(--ease);
+  --t:.42s var(--ease);
+  --t-slow:.8s var(--ease);
+
+  --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s5:40px;
+  --s6:48px; --s8:64px; --s10:80px; --s12:96px; --s16:128px;
+
+  --maxw:1180px;
+  --gutter:clamp(20px,5vw,40px);
+  --section-y:clamp(72px,9vw,128px);
+
+  --ff-display:"Sora","Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ff-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   2 · BASE
+   ══════════════════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:92px}
+body{
+  margin:0;background:var(--navy-900);color:var(--ivory);
+  font-family:var(--ff-body);font-size:clamp(1rem,.97rem + .15vw,1.0625rem);
+  line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img,svg,video{max-width:100%;height:auto;display:block}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--gold-300);text-decoration:none}
+h1,h2,h3,h4{font-family:var(--ff-display);font-weight:600;letter-spacing:-.02em;line-height:1.1;margin:0}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+
+body::after{
+  content:"";position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+:focus-visible{outline:2px solid var(--gold-300);outline-offset:3px;border-radius:6px}
+::selection{background:var(--gold-500);color:var(--navy-900)}
+
+.skip{position:absolute;left:var(--s2);top:-100px;z-index:10000;background:var(--grad-gold);color:var(--navy-900);font-weight:600;padding:12px 20px;border-radius:var(--radius-pill);transition:top var(--t-fast)}
+.skip:focus{top:var(--s2)}
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
+.section{padding-block:var(--section-y);position:relative}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ══════════════════════════════════════════════════════════════════════
+   3 · TIPOGRAFIA
+   ══════════════════════════════════════════════════════════════════ */
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-300);display:inline-flex;align-items:center;gap:10px;margin-bottom:var(--s2)}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--grad-gold);flex:none}
+.h-sec{font-size:clamp(1.85rem,1.2rem + 2.6vw,3rem);max-width:19ch}
+.h-card{font-size:clamp(1.15rem,1.05rem + .4vw,1.375rem)}
+.lead{color:var(--muted);font-size:clamp(1.02rem,.98rem + .35vw,1.1875rem);max-width:62ch;margin-top:var(--s2)}
+.sec-head{margin-bottom:clamp(40px,6vw,72px)}
+.gold-text{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+
+/* ══════════════════════════════════════════════════════════════════════
+   4 · BOTÕES — paleta do projeto, sem verde
+   ══════════════════════════════════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:52px;padding:14px 28px;border-radius:var(--radius-pill);
+  font-family:var(--ff-display);font-weight:600;font-size:1rem;letter-spacing:-.01em;
+  border:1px solid transparent;cursor:pointer;text-align:center;position:relative;overflow:hidden;
+  transition:transform var(--t-fast),box-shadow var(--t),background var(--t),border-color var(--t),color var(--t),opacity var(--t-fast);
+}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0)}
+.btn[disabled]{opacity:.6;cursor:not-allowed;transform:none}
+.btn svg{flex:none}
+
+.btn-gold{background:var(--grad-gold);color:var(--navy-900);box-shadow:0 14px 30px -14px rgba(212,169,74,.55)}
+.btn-gold:hover{box-shadow:0 22px 44px -14px rgba(212,169,74,.7)}
+/* varredura de luz no hover — só no CTA principal */
+.btn-gold::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);
+  transform:translateX(-120%);transition:transform .7s var(--ease);
+}
+.btn-gold:hover::after{transform:translateX(120%)}
+
+.btn-ghost{background:transparent;color:var(--gold-300);border-color:var(--line-strong)}
+.btn-ghost:hover{background:rgba(212,169,74,.08);border-color:var(--gold-300)}
+
+.btn-soft{background:var(--navy-600);color:var(--ivory);border-color:var(--line)}
+.btn-soft:hover{background:var(--navy-700);border-color:var(--line-strong);color:var(--gold-300)}
+.btn-soft svg{color:var(--gold-300);transition:color var(--t)}
+
+.btn-sm{min-height:44px;padding:10px 20px;font-size:.9375rem}
+.btn-block{width:100%}
+
+/* ══════════════════════════════════════════════════════════════════════
+   5 · CARDS + luz que segue o cursor
+   ══════════════════════════════════════════════════════════════════ */
+.card{
+  background:var(--navy-700);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow-card);padding:clamp(24px,3.2vw,36px);position:relative;isolation:isolate;
+  transition:transform var(--t),border-color var(--t),box-shadow var(--t);
+}
+.card::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
+  opacity:0;transition:opacity .45s var(--ease);
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(242,209,132,.13),transparent 62%);
+}
+.card:hover::before,.card:focus-within::before{opacity:1}
+.card--hover:hover{transform:translateY(-6px);border-color:var(--line-strong);box-shadow:var(--shadow-lift)}
+
+/* moldura com brilho girando — reservada ao card do simulador */
+.glow{position:relative;border-radius:var(--radius-lg);padding:1px;overflow:hidden;background:var(--line)}
+.glow::before{
+  content:"";position:absolute;inset:-60%;z-index:0;
+  background:conic-gradient(from 0deg,transparent 0 62%,rgba(242,209,132,.9) 76%,rgba(212,169,74,.15) 84%,transparent 92% 100%);
+  animation:orbit 9s linear infinite;
+}
+@keyframes orbit{to{transform:rotate(360deg)}}
+.glow>.glow-in{position:relative;z-index:1;border-radius:calc(var(--radius-lg) - 1px);background:linear-gradient(165deg,var(--navy-700) 0%,#0D1B3F 100%)}
+
+/* ══════════════════════════════════════════════════════════════════════
+   6 · HEADER
+   ══════════════════════════════════════════════════════════════════ */
+.scroll-prog{position:fixed;top:0;left:0;right:0;height:2px;z-index:940;transform-origin:left;transform:scaleX(0);background:var(--grad-gold);opacity:.9}
+.hdr{position:fixed;inset:0 0 auto;z-index:900;background:transparent;border-bottom:1px solid transparent;transition:background var(--t),border-color var(--t),backdrop-filter var(--t)}
+.hdr.is-stuck{background:rgba(10,26,60,.76);-webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);border-bottom-color:var(--hairline)}
+.hdr-inner{display:flex;align-items:center;gap:var(--s3);min-height:80px}
+
+/* ---- SLOT DA LOGO ------------------------------------------------- */
+.brand{display:inline-flex;align-items:center;flex:none}
+.logo-slot{display:inline-flex;align-items:center;height:40px}
+.logo-slot img{height:100%;width:auto;object-fit:contain}
+.logo-ph{display:none}
+.logo-slot.is-empty{height:auto}
+.logo-slot.is-empty .logo-ph{
+  display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  width:200px;height:40px;border:1px dashed var(--line-strong);border-radius:10px;
+  background:var(--grad-gold-soft);color:var(--gold-300);
+  font-family:var(--ff-body);font-size:.625rem;font-weight:600;letter-spacing:.14em;line-height:1.2;text-align:center;
+}
+.logo-ph b{font-size:.6875rem;letter-spacing:.2em}
+.logo-ph i{font-style:normal;font-size:.5625rem;color:var(--muted);letter-spacing:.06em}
+.logo-slot--lg{height:56px}
+.logo-slot--lg.is-empty .logo-ph{width:240px;height:56px}
+
+.nav{display:flex;gap:var(--s4);margin-inline:auto}
+.nav a{color:var(--muted);font-size:.9375rem;font-weight:500;padding:6px 0;position:relative;transition:color var(--t-fast)}
+.nav a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;background:var(--grad-gold);transform:scaleX(0);transform-origin:left;transition:transform var(--t)}
+.nav a:hover,.nav a.is-active{color:var(--ivory)}
+.nav a:hover::after,.nav a.is-active::after{transform:scaleX(1)}
+
+.burger{display:none;width:46px;height:46px;border:1px solid var(--line);border-radius:12px;background:rgba(18,37,79,.6);align-items:center;justify-content:center;cursor:pointer;flex:none}
+.burger span{display:block;width:18px;height:1.5px;background:var(--gold-300);position:relative;transition:background var(--t-fast)}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0;width:18px;height:1.5px;background:var(--gold-300);transition:transform var(--t)}
+.burger span::before{top:-6px}
+.burger span::after{top:6px}
+.burger[aria-expanded="true"] span{background:transparent}
+.burger[aria-expanded="true"] span::before{transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] span::after{transform:translateY(-6px) rotate(-45deg)}
+
+.drawer{position:fixed;inset:0;z-index:950;background:var(--navy-900);display:flex;flex-direction:column;justify-content:center;gap:var(--s2);padding:var(--s10) var(--gutter) calc(var(--s10) + env(safe-area-inset-bottom));transform:translateY(-100%);visibility:hidden;transition:transform var(--t-slow),visibility var(--t-slow)}
+.drawer[hidden]{display:none}
+.drawer.is-open{transform:translateY(0);visibility:visible}
+.drawer a{font-family:var(--ff-display);font-size:clamp(1.5rem,7vw,2rem);font-weight:600;color:var(--ivory);padding:10px 0;border-bottom:1px solid var(--hairline);opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.drawer.is-open a{opacity:1;transform:none}
+.drawer.is-open a:nth-child(1){transition-delay:.08s}
+.drawer.is-open a:nth-child(2){transition-delay:.14s}
+.drawer.is-open a:nth-child(3){transition-delay:.2s}
+.drawer.is-open a:nth-child(4){transition-delay:.26s}
+.drawer .btn{margin-top:var(--s4);border-bottom:0;opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease) .32s,transform .5s var(--ease) .32s}
+.drawer.is-open .btn{opacity:1;transform:none}
+
+/* ══════════════════════════════════════════════════════════════════════
+   7 · HERO + AURORA
+   ══════════════════════════════════════════════════════════════════ */
+.hero{position:relative;min-height:92vh;min-height:92svh;display:flex;align-items:center;padding-block:calc(var(--s16) + 16px) var(--s10);background:linear-gradient(180deg,var(--navy-800) 0%,var(--navy-900) 100%);overflow:hidden}
+.aurora{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.aurora i{position:absolute;display:block;border-radius:50%;filter:blur(90px);opacity:.13;background:radial-gradient(circle,var(--gold-500) 0%,transparent 70%)}
+.aurora i:nth-child(1){width:560px;height:560px;top:-160px;right:-90px;animation:drift1 26s var(--ease) infinite alternate}
+.aurora i:nth-child(2){width:460px;height:460px;bottom:-180px;left:-130px;opacity:.09;animation:drift2 32s var(--ease) infinite alternate}
+.aurora i:nth-child(3){width:380px;height:380px;top:34%;left:38%;opacity:.06;background:radial-gradient(circle,#4E7BD6 0%,transparent 70%);animation:drift3 38s var(--ease) infinite alternate}
+@keyframes drift1{to{transform:translate3d(-70px,60px,0) scale(1.12)}}
+@keyframes drift2{to{transform:translate3d(90px,-50px,0) scale(1.08)}}
+@keyframes drift3{to{transform:translate3d(-120px,-80px,0) scale(1.2)}}
+
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.86fr);gap:clamp(40px,5vw,72px);align-items:center;position:relative;z-index:2}
+.hero h1{font-size:clamp(2.75rem,1.6rem + 5.2vw,4.75rem);font-weight:700;line-height:1.02;margin-bottom:var(--s3)}
+.hero h1 .amp{font-weight:500;color:var(--muted);font-size:.72em;vertical-align:.06em;padding-inline:.06em}
+.hero h1 .w{display:inline-block;opacity:0;transform:translateY(28px);animation:wordIn .9s var(--ease) forwards}
+.hero h1 .w:nth-child(1){animation-delay:.12s}
+.hero h1 .w:nth-child(2){animation-delay:.2s}
+.hero h1 .w:nth-child(3){animation-delay:.28s}
+@keyframes wordIn{to{opacity:1;transform:none}}
+.hero-sub{color:var(--muted);font-size:clamp(1.05rem,1rem + .45vw,1.25rem);max-width:52ch;line-height:1.6}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s5)}
+
+/* ---- SIMULADOR RÁPIDO --------------------------------------------- */
+.sim-mini{padding:clamp(22px,2.8vw,30px)}
+.sim-mini-head{display:flex;align-items:center;justify-content:space-between;gap:var(--s2);margin-bottom:var(--s3)}
+.sim-mini-head p{font-family:var(--ff-display);font-weight:600;font-size:1rem}
+.sim-mini-head span{font-size:.6875rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-300)}
+
+.segs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:rgba(6,15,38,.55);border:1px solid var(--hairline);border-radius:var(--radius-pill);margin-bottom:var(--s3)}
+.segs button{min-height:40px;border:0;border-radius:var(--radius-pill);background:transparent;color:var(--muted);font-size:.875rem;font-weight:600;cursor:pointer;transition:color var(--t-fast),background var(--t)}
+.segs button[aria-pressed="true"]{background:var(--grad-gold);color:var(--navy-900)}
+
+.slider-row{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s2);margin-bottom:10px}
+.slider-row label{font-size:.8125rem;color:var(--muted)}
+.slider-val{font-family:var(--ff-display);font-size:1.375rem;font-weight:700;letter-spacing:-.02em}
+input[type=range]{width:100%;height:28px;background:transparent;appearance:none;cursor:pointer;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:99px;background:linear-gradient(90deg,var(--gold-500) 0%,var(--gold-500) var(--fill,40%),rgba(168,178,200,.2) var(--fill,40%),rgba(168,178,200,.2) 100%)}
+input[type=range]::-moz-range-track{height:5px;border-radius:99px;background:rgba(168,178,200,.2)}
+input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:var(--gold-500)}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:22px;height:22px;margin-top:-8.5px;border-radius:50%;background:var(--grad-gold);border:2px solid var(--navy-800);box-shadow:0 4px 14px -4px rgba(212,169,74,.9);transition:transform var(--t-fast)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#D4A94A;border:2px solid var(--navy-800)}
+input[type=range]:hover::-webkit-slider-thumb{transform:scale(1.12)}
+
+.bars{display:grid;gap:14px;margin-top:var(--s3)}
+.bar-row small{display:flex;justify-content:space-between;align-items:baseline;font-size:.8125rem;color:var(--muted);margin-bottom:6px}
+.bar-row small b{font-family:var(--ff-display);font-size:1rem;color:var(--ivory)}
+.bar-row .track{height:10px;border-radius:99px;background:rgba(6,15,38,.6);overflow:hidden}
+.bar-row .track i{display:block;height:100%;border-radius:99px;width:var(--w,0%);transition:width .55s var(--ease)}
+.bar-row--c .track i{background:var(--grad-gold)}
+.bar-row--c small b{color:var(--gold-300);font-size:1.25rem}
+.bar-row--f .track i{background:linear-gradient(90deg,#3B4C77,#56658D)}
+.sim-foot{display:flex;flex-wrap:wrap;gap:8px var(--s3);margin-top:var(--s3);padding-top:var(--s3);border-top:1px solid var(--hairline);font-size:.8125rem;color:var(--muted)}
+.sim-foot b{color:var(--ivory);font-weight:600}
+.sim-note{font-size:.6875rem;color:#7E8BA6;margin-top:var(--s2);line-height:1.5}
+.sim-mini .btn{margin-top:var(--s3)}
+
+/* ---- PROVA SOCIAL + FAIXA DE ADMINISTRADORAS ---------------------- */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s2);margin-top:clamp(44px,6vw,72px);padding-top:var(--s5);border-top:1px solid var(--hairline);position:relative;z-index:2}
+.stat-num{font-family:var(--ff-display);font-size:clamp(1.6rem,1.1rem + 2vw,2.4rem);font-weight:700;letter-spacing:-.03em;line-height:1}
+.stat-lbl{color:var(--muted);font-size:.875rem;margin-top:8px;line-height:1.4}
+
+.marquee{position:relative;z-index:2;margin-top:var(--s6);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);padding-block:18px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marquee-title{position:absolute;left:0;top:-11px;background:var(--navy-900);padding-right:14px;font-size:.6875rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);z-index:3}
+.marquee-track{display:flex;gap:var(--s5);width:max-content;animation:slide 34s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(-50%)}}
+.marquee-track span{display:inline-flex;align-items:center;gap:10px;color:var(--muted);font-size:.875rem;font-weight:500;white-space:nowrap;opacity:.8}
+.marquee-track span::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--grad-gold);flex:none}
+
+/* ══════════════════════════════════════════════════════════════════════
+   8 · DIVISOR EM CURVA
+   ══════════════════════════════════════════════════════════════════ */
+.divider{display:block;width:100%;height:clamp(40px,6vw,80px);overflow:hidden;line-height:0}
+.divider svg{width:100%;height:100%}
+.divider path{fill:none;stroke:url(#curveGrad);stroke-width:1.5;opacity:.55;vector-effect:non-scaling-stroke}
+
+/* ══════════════════════════════════════════════════════════════════════
+   9 · OBJETIVOS
+   ══════════════════════════════════════════════════════════════════ */
+.goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--s3)}
+.goal{display:flex;flex-direction:column;gap:var(--s2)}
+.goal-ico{width:48px;height:48px;color:var(--gold-500);transition:transform var(--t)}
+.goal:hover .goal-ico{transform:translateY(-3px) scale(1.04)}
+.goal p{color:var(--muted);font-size:.9688rem}
+.goal-link{margin-top:auto;padding-top:var(--s2);display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.9375rem;color:var(--gold-300);background:none;border:0;cursor:pointer;align-self:flex-start;min-height:44px;transition:gap var(--t-fast)}
+.goal-link:hover{gap:14px}
+
+/* ══════════════════════════════════════════════════════════════════════
+   10 · INDEPENDÊNCIA + TABELA
+   ══════════════════════════════════════════════════════════════════ */
+.why{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(32px,5vw,72px);align-items:start}
+.why-list{margin-top:var(--s5);display:grid;gap:var(--s3)}
+.why-item{display:grid;grid-template-columns:auto 1fr;gap:var(--s2);align-items:start}
+.why-item svg{width:26px;height:26px;color:var(--gold-500);margin-top:2px}
+.why-item h3{font-size:1.0625rem;margin-bottom:4px}
+.why-item p{color:var(--muted);font-size:.9375rem}
+
+.compare{background:var(--navy-700);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-card);overflow:hidden;position:relative;isolation:isolate}
+.compare-head{padding:var(--s3) clamp(20px,3vw,28px);border-bottom:1px solid var(--line)}
+.compare-head h3{font-size:1.125rem}
+.compare-head p{color:var(--muted);font-size:.875rem;margin-top:6px}
+.compare table{width:100%;border-collapse:collapse;font-size:.9375rem}
+.compare th,.compare td{padding:14px clamp(14px,2vw,20px);text-align:left;vertical-align:top;border-bottom:1px solid var(--hairline)}
+.compare thead th{font-family:var(--ff-display);font-size:.8125rem;font-weight:600;letter-spacing:.04em;color:var(--muted);background:rgba(6,15,38,.35)}
+.compare thead th:nth-child(2){color:var(--gold-300)}
+.compare tbody th{font-weight:500;color:var(--muted);width:30%;font-size:.875rem}
+.compare tbody tr{transition:background var(--t-fast)}
+.compare tbody tr:hover{background:rgba(242,209,132,.05)}
+.compare td:first-of-type{color:var(--ivory);font-weight:500}
+.compare td:last-child{color:var(--muted)}
+.compare tr:last-child th,.compare tr:last-child td{border-bottom:0}
+
+/* ══════════════════════════════════════════════════════════════════════
+   11 · COMO FUNCIONA
+   ══════════════════════════════════════════════════════════════════ */
+.steps{position:relative;margin-top:var(--s6)}
+.steps-track{position:absolute;left:0;right:0;top:152px;height:1.5px;background:var(--hairline);overflow:hidden}
+.steps-track i{display:block;height:100%;background:var(--grad-gold);transform:scaleX(var(--p,0));transform-origin:left;transition:transform .15s linear}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s3);position:relative}
+.step{display:grid;grid-template-rows:152px auto;gap:var(--s3)}
+.step-bar{width:100%;max-width:64px;border-radius:4px 4px 0 0;background:var(--grad-gold);opacity:.24;height:var(--h);align-self:end;transition:opacity .6s var(--ease),filter .6s var(--ease)}
+.step.is-on .step-bar{opacity:1;filter:drop-shadow(0 8px 20px rgba(212,169,74,.35))}
+.step-n{font-family:var(--ff-display);font-size:.8125rem;font-weight:600;color:var(--gold-500);letter-spacing:.1em;margin-bottom:10px;display:block}
+.step h3{font-size:1.0625rem;margin-bottom:8px}
+.step p{color:var(--muted);font-size:.9375rem}
+
+/* ══════════════════════════════════════════════════════════════════════
+   12 · EQUIPE
+   ══════════════════════════════════════════════════════════════════ */
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--s3)}
+.member{display:flex;flex-direction:column}
+.member-photo{width:96px;height:96px;border-radius:50%;padding:3px;background:var(--grad-gold);flex:none;margin-bottom:var(--s3);transition:transform var(--t)}
+.member:hover .member-photo{transform:scale(1.04)}
+.member-photo img,.member-photo .initials{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;background:var(--navy-800)}
+.member-photo .initials{display:grid;place-items:center;font-family:var(--ff-display);font-weight:700;font-size:1.75rem;color:var(--gold-300)}
+.member h3{font-size:1.25rem}
+.member-role{color:var(--gold-300);font-size:.8125rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:8px}
+.member-bio{color:var(--muted);font-size:.9375rem;margin-top:var(--s2)}
+.member-tel{display:inline-flex;align-items:center;gap:10px;margin-top:var(--s3);font-family:var(--ff-display);font-size:1.0625rem;font-weight:600;color:var(--ivory)}
+.member-tel svg{width:18px;height:18px;color:var(--gold-500);flex:none}
+.member .btn{margin-top:var(--s3)}
+.team-note{margin-top:var(--s5);padding:var(--s3);border:1px dashed var(--line);border-radius:var(--radius-sm);background:var(--grad-gold-soft);color:var(--muted);font-size:.9375rem;text-align:center}
+
+/* ══════════════════════════════════════════════════════════════════════
+   13 · FORMULÁRIO
+   ══════════════════════════════════════════════════════════════════ */
+.sim{background:linear-gradient(180deg,var(--navy-900) 0%,var(--navy-800) 100%)}
+.sim-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(32px,5vw,72px);align-items:start}
+.sim-aside ul{display:grid;gap:var(--s2);margin-top:var(--s4)}
+.sim-aside li{display:grid;grid-template-columns:auto 1fr;gap:12px;color:var(--muted);font-size:.9375rem;align-items:start}
+.sim-aside li svg{width:20px;height:20px;color:var(--gold-500);margin-top:2px}
+
+.form-card{padding:clamp(24px,3.4vw,40px)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:var(--s2)}
+.field{display:flex;flex-direction:column;gap:8px}
+.field--full{grid-column:1/-1}
+.field label{font-size:.875rem;font-weight:500;color:var(--ivory)}
+.field label .opt{color:var(--muted);font-weight:400}
+.field input,.field select,.field textarea{width:100%;min-height:52px;padding:14px 16px;border-radius:var(--radius-sm);background:rgba(6,15,38,.55);border:1px solid var(--hairline);color:var(--ivory);font-size:1rem;appearance:none;transition:border-color var(--t-fast),background var(--t-fast),box-shadow var(--t-fast)}
+.field textarea{min-height:104px;resize:vertical;line-height:1.55}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F2D184' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:18px;padding-right:44px}
+.field input::placeholder,.field textarea::placeholder{color:#7E8BA6}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold-500);background:rgba(6,15,38,.8);box-shadow:0 0 0 3px rgba(212,169,74,.16)}
+.field [aria-invalid="true"]{border-color:#E5716B}
+.err{color:#F09B96;font-size:.8125rem;display:none}
+.err.is-on{display:block}
+
+.consent{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;margin-top:8px}
+.consent input{appearance:none;width:22px;height:22px;min-height:22px;border-radius:6px;border:1px solid var(--line-strong);background:rgba(6,15,38,.55);cursor:pointer;flex:none;margin:2px 0 0;padding:0;transition:background var(--t-fast)}
+.consent input:checked{border-color:transparent;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23060F26' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E"),var(--grad-gold);background-size:14px,cover;background-position:center;background-repeat:no-repeat}
+.consent label{font-size:.8125rem;color:var(--muted);line-height:1.5}
+.form-foot{margin-top:var(--s4);display:grid;gap:var(--s2)}
+.form-note{font-size:.8125rem;color:var(--muted);text-align:center}
+.form-status{display:none;border-radius:var(--radius-sm);padding:var(--s3);background:var(--grad-gold-soft);border:1px solid var(--line-strong)}
+.form-status.is-on{display:block;animation:popIn .5s var(--ease)}
+@keyframes popIn{from{opacity:0;transform:translateY(10px)}}
+.form-status strong{display:block;font-family:var(--ff-display);margin-bottom:6px;color:var(--gold-300)}
+.form-status p{font-size:.9375rem;color:var(--muted)}
+.form-status a{font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.spinner{width:18px;height:18px;border:2px solid rgba(6,15,38,.3);border-top-color:var(--navy-900);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ══════════════════════════════════════════════════════════════════════
+   14 · FAQ
+   ══════════════════════════════════════════════════════════════════ */
+.faq{max-width:840px;margin-inline:auto}
+.faq details{border-bottom:1px solid var(--hairline);padding:4px 0}
+.faq summary{list-style:none;cursor:pointer;display:flex;gap:var(--s2);align-items:flex-start;justify-content:space-between;padding:20px 0;font-family:var(--ff-display);font-weight:600;font-size:clamp(1rem,.97rem + .3vw,1.125rem);min-height:44px;transition:color var(--t-fast)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{color:var(--gold-300)}
+.faq summary .chev{width:22px;height:22px;flex:none;color:var(--gold-500);transition:transform var(--t);margin-top:2px}
+.faq details[open] summary .chev{transform:rotate(45deg)}
+.faq details[open] summary{color:var(--gold-300)}
+.faq .answer{padding:0 0 22px;color:var(--muted);max-width:68ch}
+
+/* ══════════════════════════════════════════════════════════════════════
+   15 · CTA FINAL + RODAPÉ
+   ══════════════════════════════════════════════════════════════════ */
+.cta-final{background:var(--grad-gold);color:var(--navy-900);padding-block:clamp(56px,7vw,88px);position:relative;overflow:hidden}
+.cta-final::before{content:"";position:absolute;inset:-40% -10%;background:radial-gradient(circle at 20% 40%,rgba(255,255,255,.35),transparent 45%);pointer-events:none}
+.cta-final h2{font-size:clamp(1.75rem,1.2rem + 2.4vw,2.75rem);color:var(--navy-900);max-width:20ch}
+.cta-final p{color:rgba(6,15,38,.78);margin-top:var(--s2);max-width:54ch;font-weight:500}
+.cta-inner{display:flex;flex-wrap:wrap;gap:var(--s4);align-items:center;justify-content:space-between;position:relative}
+.cta-final .btn{background:var(--navy-900);color:var(--ivory);box-shadow:0 18px 36px -18px rgba(6,15,38,.6)}
+.cta-final .btn:hover{background:var(--navy-800)}
+
+.footer{background:var(--navy-900);padding-block:var(--s10) var(--s6);border-top:1px solid var(--hairline)}
+.foot-grid{display:grid;grid-template-columns:minmax(0,1.3fr) repeat(2,minmax(0,1fr));gap:var(--s6) var(--s4)}
+.foot-grid h4{font-size:.8125rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-300);margin-bottom:var(--s2);font-family:var(--ff-body);font-weight:600}
+.foot-grid li{margin-bottom:10px;color:var(--muted);font-size:.9375rem}
+.foot-grid li a{color:var(--muted);transition:color var(--t-fast)}
+.foot-grid li a:hover{color:var(--gold-300)}
+.foot-tel{display:block;font-family:var(--ff-display);font-weight:600;color:var(--ivory)!important;font-size:1rem}
+.foot-tel small{display:block;font-family:var(--ff-body);font-weight:400;color:var(--muted);font-size:.75rem;margin-top:2px}
+.socials{display:flex;gap:12px;margin-top:var(--s3)}
+.socials a{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--gold-300);transition:background var(--t-fast),border-color var(--t-fast),transform var(--t-fast)}
+.socials a:hover{background:rgba(212,169,74,.1);border-color:var(--gold-300);transform:translateY(-2px)}
+.socials svg{width:19px;height:19px}
+.legal{margin-top:var(--s8);padding-top:var(--s4);border-top:1px solid var(--hairline);display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);justify-content:space-between;align-items:center}
+.legal p{font-size:.75rem;color:#7C87A0;max-width:76ch;line-height:1.6}
+
+/* ══════════════════════════════════════════════════════════════════════
+   16 · BOTÃO FLUTUANTE
+   ══════════════════════════════════════════════════════════════════ */
+.fab-zone{position:fixed;z-index:800;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:flex-end;gap:12px;opacity:0;transform:translateY(16px) scale(.9);pointer-events:none;transition:opacity var(--t),transform var(--t)}
+.fab-zone.is-on{opacity:1;transform:none;pointer-events:auto}
+.fab-zone.is-dim{opacity:.3}
+.fab-zone.is-dim:hover,.fab-zone.is-dim:focus-within{opacity:1}
+.fab-wrap{position:relative;width:60px;height:60px}
+.fab{width:60px;height:60px;border-radius:50%;border:0;background:var(--grad-gold);cursor:pointer;display:grid;place-items:center;box-shadow:0 16px 36px -10px rgba(212,169,74,.55),0 8px 20px -8px rgba(0,0,0,.6)}
+.fab svg{width:30px;height:30px;color:var(--navy-900)}
+.fab::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--gold-500);animation:pulse 6s var(--ease) infinite;pointer-events:none}
+@keyframes pulse{0%,88%{transform:scale(1);opacity:0}92%{transform:scale(1.35);opacity:.6}100%{transform:scale(1.7);opacity:0}}
+.fab-menu{width:min(310px,calc(100vw - 40px));background:var(--navy-700);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-lift);padding:var(--s2);transform-origin:bottom right;transform:translateY(8px) scale(.96);opacity:0;visibility:hidden;transition:opacity var(--t-fast),transform var(--t-fast),visibility var(--t-fast)}
+.fab-menu.is-open{opacity:1;transform:none;visibility:visible}
+.fab-menu-title{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:6px 10px 12px;font-weight:600}
+.fab-menu a{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;padding:10px;border-radius:var(--radius-sm);color:var(--ivory);transition:background var(--t-fast);min-height:44px}
+.fab-menu a:hover{background:rgba(212,169,74,.1)}
+.fab-menu .av{width:40px;height:40px;border-radius:50%;padding:2px;background:var(--grad-gold);flex:none}
+.fab-menu .av img,.fab-menu .av .initials{width:100%;height:100%;border-radius:50%;object-fit:cover;background:var(--navy-800);display:grid;place-items:center;font-family:var(--ff-display);font-weight:700;font-size:.8125rem;color:var(--gold-300)}
+.fab-menu b{display:block;font-family:var(--ff-display);font-size:.9375rem;font-weight:600}
+.fab-menu small{color:var(--muted);font-size:.75rem;line-height:1.35;display:block}
+
+/* ══════════════════════════════════════════════════════════════════════
+   17 · REVELAÇÃO
+   ══════════════════════════════════════════════════════════════════ */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rv.is-in{opacity:1;transform:none}
+.rv-1{transition-delay:.06s}.rv-2{transition-delay:.12s}.rv-3{transition-delay:.18s}
+.rv-4{transition-delay:.24s}.rv-5{transition-delay:.3s}.rv-6{transition-delay:.36s}
+
+/* ══════════════════════════════════════════════════════════════════════
+   18 · RESPONSIVO
+   ══════════════════════════════════════════════════════════════════ */
+@media (min-width:1025px){ .hero{min-height:100vh;min-height:100svh} }
+@media (max-width:1024px){
+  .hero-grid{grid-template-columns:1fr;gap:var(--s6)}
+  .why{grid-template-columns:1fr}
+  .sim-grid{grid-template-columns:1fr}
+  .steps-grid{grid-template-columns:repeat(2,1fr);gap:var(--s5) var(--s3)}
+  .steps-track{display:none}
+}
+@media (max-width:860px){
+  .nav,.hdr-cta{display:none}
+  .burger{display:flex}
+  .hdr-inner{justify-content:space-between}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .foot-grid>div:first-child{grid-column:1/-1}
+}
+@media (max-width:620px){
+  .hero{padding-block:calc(var(--s16) - 12px) var(--s10)}
+  .stats{grid-template-columns:1fr;gap:var(--s3)}
+  .stat{display:grid;grid-template-columns:auto 1fr;gap:var(--s2);align-items:baseline}
+  .stat-lbl{margin-top:0}
+  .fields{grid-template-columns:1fr}
+  .steps-grid{grid-template-columns:1fr;gap:var(--s4)}
+  .step{grid-template-rows:auto;grid-template-columns:auto 1fr;align-items:end}
+  .step-bar{width:8px;max-width:8px;border-radius:4px;align-self:end}
+  .cta-inner{flex-direction:column;align-items:flex-start}
+  .cta-final .btn{width:100%}
+  .foot-grid{grid-template-columns:1fr}
+  .legal{flex-direction:column;align-items:flex-start}
+  .compare th,.compare td{padding:12px 14px;font-size:.875rem}
+  .compare tbody th{width:34%}
+  .logo-slot.is-empty .logo-ph{width:168px;height:36px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+  .hero h1 .w{opacity:1;transform:none}
+  .fab::after,.glow::before{display:none}
+  .marquee-track{animation:none;transform:none}
+}
+@media print{ .hdr,.fab-zone,.drawer,.scroll-prog{display:none} body{background:#fff;color:#000} }
+</style>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"FinancialService",
+      "@id":"https://www.impetoconsorcios.com.br/#org",
+      "name":"Ímpeto Consórcios",
+      "alternateName":"Ímpeto — Planeje & Conquiste",
+      "description":"Consultoria independente em consórcios. Comparamos múltiplas administradoras para montar estratégias de aquisição de bens, investimento e construção patrimonial.",
+      "url":"https://www.impetoconsorcios.com.br/",
+      "telephone":"+5500000000000",
+      "email":"contato@impetoconsorcios.com.br",
+      "areaServed":"BR",
+      "priceRange":"$$",
+      "address":{"@type":"PostalAddress","addressLocality":"[[EDITAR: cidade]]","addressRegion":"[[EDITAR: UF]]","addressCountry":"BR"},
+      "serviceType":["Consórcio de imóveis","Consórcio de automóveis","Consórcio de pesados e serviços","Planejamento patrimonial"]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"O que é um consórcio, na prática?","acceptedAnswer":{"@type":"Answer","text":"É uma compra programada feita em grupo. Você entra num grupo administrado por uma administradora autorizada pelo Banco Central, paga parcelas mensais e recebe uma carta de crédito quando é contemplado, por sorteio ou por lance. Não incidem juros: o custo é a taxa de administração, diluída ao longo do plano."}},
+        {"@type":"Question","name":"Qual a diferença entre consórcio e financiamento?","acceptedAnswer":{"@type":"Answer","text":"No financiamento você tem o bem imediatamente e paga juros compostos sobre o saldo devedor. No consórcio você troca pressa por custo: espera a contemplação e paga bem menos no total. Quando o prazo joga a seu favor, o consórcio costuma ser mais barato."}},
+        {"@type":"Question","name":"O que é lance e como ele funciona?","acceptedAnswer":{"@type":"Answer","text":"Lance é uma antecipação de parcelas ofertada para disputar a contemplação. Pode ser livre, fixo ou embutido, quando o regulamento permite usar parte da própria carta de crédito. A estratégia de lance é onde a consultoria mais faz diferença."}},
+        {"@type":"Question","name":"Quando eu serei contemplado?","acceptedAnswer":{"@type":"Answer","text":"Não existe data garantida, e quem promete isso está mentindo. Existe probabilidade: tamanho do grupo, número de contemplações por assembleia e histórico de lances. Analisamos esses dados antes da assinatura e montamos uma estratégia realista."}},
+        {"@type":"Question","name":"Posso usar o FGTS no consórcio?","acceptedAnswer":{"@type":"Answer","text":"Sim, em consórcio de imóvel. O FGTS pode ser usado para ofertar lance, complementar a carta de crédito ou amortizar parcelas, respeitando as regras da Caixa e do SFH. Verificamos sua elegibilidade no diagnóstico."}},
+        {"@type":"Question","name":"E se eu quiser desistir no meio do caminho?","acceptedAnswer":{"@type":"Answer","text":"Você pode desistir ou transferir a cota a outra pessoa. O valor pago retorna conforme o regulamento do grupo, em geral após o encerramento e com os descontos previstos em contrato. Explicamos essas condições antes da assinatura."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="top">
+
+<a class="skip" href="#conteudo">Ir para o conteúdo</a>
+<div class="scroll-prog" id="scroll-prog" aria-hidden="true"></div>
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <linearGradient id="curveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#A97B21" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#F2D184" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#A97B21" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     HEADER
+     ───────────────────────────────────────────────────────────────────
+     [[EDITAR: LOGO]] — salve o arquivo em assets/logo-impeto.svg
+     · Formato ideal: SVG horizontal (símbolo + nome), fundo transparente,
+       desenhado numa caixa de 240 × 64 px. Escala sozinho para qualquer tela.
+     · Se só tiver bitmap: PNG 720 × 192 px com fundo transparente (3× de 240×64).
+     · Se a sua logo for só o símbolo (as barras), use uma caixa quadrada:
+       SVG 64 × 64 ou PNG 512 × 512 transparente.
+     Enquanto o arquivo não existir, aparece o retângulo pontilhado com a medida.
+     ═══════════════════════════════════════════════════════════════ -->
+<header class="hdr" id="hdr">
+  <div class="wrap hdr-inner">
+    <a class="brand" href="#top" aria-label="Ímpeto Consórcios — início">
+      <span class="logo-slot" data-logo>
+        <img src="assets/logo-impeto.svg" alt="Ímpeto Consórcios" width="200" height="40">
+        <span class="logo-ph" aria-hidden="true"><b>SUA LOGO</b><i>200 × 40 px</i></span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Navegação principal">
+      <a href="#objetivos">Soluções</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#equipe">Equipe</a>
+      <a href="#simular">Simular</a>
+    </nav>
+
+    <a class="btn btn-gold btn-sm hdr-cta" href="#simular" data-track="header_cta">Simular agora</a>
+
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="drawer" aria-label="Abrir menu de navegação">
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<div class="drawer" id="drawer" hidden>
+  <a href="#objetivos">Soluções</a>
+  <a href="#como-funciona">Como funciona</a>
+  <a href="#equipe">Equipe</a>
+  <a href="#simular">Simular</a>
+  <a class="btn btn-gold" href="#simular" data-track="drawer_cta">Simular agora</a>
+</div>
+
+<main id="conteudo">
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     1 · HERO — texto à esquerda, simulação viva à direita
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow rv">Consultoria independente em consórcios</p>
+        <h1 id="hero-title"><span class="w">Planeje</span> <span class="w amp">&amp;</span> <span class="w gold-text">Conquiste</span></h1>
+        <p class="hero-sub rv rv-2">Trabalhamos com múltiplas administradoras para encontrar estratégias de consórcio de acordo com o seu objetivo — seja para aquisição de bens, investimento ou construção patrimonial.</p>
+        <div class="hero-ctas rv rv-3">
+          <a class="btn btn-gold" href="#simular" data-track="hero_simular">Simular meu consórcio</a>
+          <a class="btn btn-ghost" href="#equipe" data-track="hero_consultor">Falar com a equipe</a>
+        </div>
+      </div>
+
+      <!-- Simulação instantânea: move o slider e os números respondem -->
+      <div class="glow rv rv-4">
+        <div class="glow-in">
+          <div class="card sim-mini" style="background:transparent;border:0;box-shadow:none">
+            <div class="sim-mini-head">
+              <p>Quanto ficaria a parcela?</p>
+              <span>Ao vivo</span>
+            </div>
+
+            <div class="segs" role="group" aria-label="Tipo de bem">
+              <button type="button" data-tipo="imovel" aria-pressed="true">Imóvel</button>
+              <button type="button" data-tipo="auto" aria-pressed="false">Automóvel</button>
+            </div>
+
+            <div class="slider-row">
+              <label for="sim-range">Carta de crédito</label>
+              <span class="slider-val" id="sim-val">R$ 300.000</span>
+            </div>
+            <input type="range" id="sim-range" min="50000" max="1500000" step="10000" value="300000"
+                   aria-label="Valor da carta de crédito" aria-describedby="sim-note">
+
+            <div class="bars">
+              <div class="bar-row bar-row--c">
+                <small>Consórcio Ímpeto <b id="sim-cons">R$ 0</b></small>
+                <div class="track"><i id="bar-cons"></i></div>
+              </div>
+              <div class="bar-row bar-row--f">
+                <small>Financiamento bancário <b id="sim-fin">R$ 0</b></small>
+                <div class="track"><i id="bar-fin"></i></div>
+              </div>
+            </div>
+
+            <div class="sim-foot">
+              <span>Consórcio: <b>sem entrada</b></span>
+              <span>Banco pede <b id="sim-entrada">—</b> de entrada</span>
+              <span>Prazo: <b id="sim-prazo">200 meses</b></span>
+              <span>Diferença de <b id="sim-eco">—</b> na parcela</span>
+            </div>
+
+            <a class="btn btn-gold btn-block" id="sim-cta" href="#simular" data-track="hero_sim_cta">Falar sobre esta simulação</a>
+
+            <p class="sim-note" id="sim-note">Estimativa ilustrativa para comparação. Taxa de administração, fundo de reserva, prazo e juros variam por administradora, por grupo e por perfil de crédito. A simulação oficial é feita no diagnóstico.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prova social · [[EDITAR: números reais da Ímpeto]] -->
+    <div class="stats rv rv-5">
+      <div class="stat">
+        <p class="stat-num"><span data-count="120" data-prefix="R$ " data-suffix=" mi">R$ 0 mi</span></p>
+        <p class="stat-lbl">em cartas de crédito sob nossa gestão</p>
+      </div>
+      <div class="stat">
+        <p class="stat-num"><span data-count="430">0</span></p>
+        <p class="stat-lbl">famílias e empresas atendidas</p>
+      </div>
+      <div class="stat">
+        <p class="stat-num"><span data-count="7">0</span></p>
+        <p class="stat-lbl">administradoras parceiras comparadas</p>
+      </div>
+    </div>
+
+    <!-- [[EDITAR: nomes das administradoras com quem vocês trabalham]] -->
+    <div class="marquee rv rv-6" aria-label="Administradoras que comparamos">
+      <span class="marquee-title">Comparamos</span>
+      <div class="marquee-track" id="marquee-track" aria-hidden="true"></div>
+      <p class="sr-only">Comparamos as condições de sete administradoras autorizadas pelo Banco Central.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">
+  <svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0 46C260 8 520 2 780 14s340 26 420 34"/></svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     2 · OBJETIVOS
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="objetivos" aria-labelledby="objetivos-title">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="eyebrow">Para qual objetivo</p>
+      <h2 class="h-sec" id="objetivos-title">O produto é o mesmo. A estratégia, não.</h2>
+      <p class="lead">Um consórcio montado para comprar o primeiro apartamento não se parece com um montado para gerar renda. Escolha o seu ponto de partida.</p>
+    </div>
+
+    <div class="goals">
+      <article class="card card--hover goal rv rv-1">
+        <svg class="goal-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 21 24 9l16 12v17a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2z"/><path d="M19 40V27h10v13"/>
+        </svg>
+        <h3 class="h-card">Aquisição de bens</h3>
+        <p>Imóvel, automóvel, maquinário ou serviços. Você troca os juros do financiamento por prazo e disciplina, e chega na negociação com poder de compra à vista.</p>
+        <button class="goal-link" type="button" data-objetivo="Imóvel">Quero esta estratégia →</button>
+      </article>
+
+      <article class="card card--hover goal rv rv-2">
+        <svg class="goal-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 38h32"/><path d="M13 38V26M23 38V18M33 38V11"/><path d="M8 22 19 13l7 5 14-9"/>
+        </svg>
+        <h3 class="h-card">Investimento</h3>
+        <p>Carta contemplada aplicada em imóvel de renda ou revenda. O lance vira instrumento de rentabilidade, não apenas um atalho para a contemplação.</p>
+        <button class="goal-link" type="button" data-objetivo="Investimento">Quero esta estratégia →</button>
+      </article>
+
+      <article class="card card--hover goal rv rv-3">
+        <svg class="goal-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M10 40V16l9-6 9 6v24"/><path d="M28 40V22l10 6v12"/><path d="M6 40h36"/><path d="M16 22h6M16 29h6"/>
+        </svg>
+        <h3 class="h-card">Construção patrimonial</h3>
+        <p>Cotas escalonadas ao longo dos anos, com contemplações previstas em momentos diferentes. Patrimônio que se monta por camadas, sem comprometer o caixa.</p>
+        <button class="goal-link" type="button" data-objetivo="Construção patrimonial">Quero esta estratégia →</button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     3 · INDEPENDÊNCIA
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="independencia" aria-labelledby="indep-title" style="background:linear-gradient(180deg,var(--navy-900) 0%,#08142F 100%)">
+  <div class="wrap why">
+    <div class="rv">
+      <p class="eyebrow">Independência</p>
+      <h2 class="h-sec" id="indep-title">Quem vende uma marca só tem uma resposta só.</h2>
+      <p class="lead">Não temos meta de nenhuma administradora. Colocamos as condições lado a lado e recomendamos o grupo que faz sentido para o seu prazo e o seu bolso — mesmo quando isso significa vender uma cota menor.</p>
+
+      <div class="why-list">
+        <div class="why-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.4 8.4 8 9 4.6-.6 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+          <div><h3>Taxa de administração comparada</h3><p>Três pontos percentuais de diferença em um plano de 200 meses mudam o custo total em dezenas de milhares de reais. Comparamos linha a linha.</p></div>
+        </div>
+        <div class="why-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <div><h3>Prazo e tamanho do grupo</h3><p>Grupo grande contempla mais gente por assembleia; grupo curto encerra antes. A escolha certa depende de quando você precisa do bem.</p></div>
+        </div>
+        <div class="why-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18V9M10 18V5M16 18v-7M22 18H2"/></svg>
+          <div><h3>Regra de lance embutido</h3><p>Nem toda administradora permite usar parte da própria carta como lance. Para quem não tem caixa disponível, isso decide o plano.</p></div>
+        </div>
+        <div class="why-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>
+          <div><h3>Fundo de reserva e seguros</h3><p>Cobranças acessórias variam entre administradoras e nem sempre aparecem na simulação inicial. Trazemos tudo para a mesa antes da assinatura.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="compare rv rv-2">
+      <div class="compare-head">
+        <h3>Consórcio &times; Financiamento</h3>
+        <p>Comparação para um mesmo valor de crédito e perfil de comprador.</p>
+      </div>
+      <table>
+        <caption class="sr-only">Comparação entre consórcio e financiamento bancário</caption>
+        <thead>
+          <tr><th scope="col"><span class="sr-only">Critério</span></th><th scope="col">Consórcio</th><th scope="col">Financiamento</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Juros</th><td>Não incidem</td><td>Juros compostos sobre o saldo devedor</td></tr>
+          <tr><th scope="row">Custo principal</th><td>Taxa de administração diluída no prazo</td><td>Juros + IOF + tarifas + seguros</td></tr>
+          <tr><th scope="row">Entrada</th><td>Não exigida</td><td>Em geral 20% a 30% do bem</td></tr>
+          <tr><th scope="row">Parcela inicial</th><td>Menor para o mesmo crédito</td><td>Maior, concentrada no início</td></tr>
+          <tr><th scope="row">Acesso ao bem</th><td>Na contemplação, por sorteio ou lance</td><td>Imediato, após aprovação</td></tr>
+          <tr><th scope="row">Lance</th><td>Antecipa a contemplação e reduz o prazo</td><td>Não existe</td></tr>
+          <tr><th scope="row">Poder de compra</th><td>Carta equivale a pagamento à vista</td><td>Sujeito à análise e ao laudo do banco</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     4 · COMO FUNCIONA
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="como-funciona" aria-labelledby="como-title">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="eyebrow">Como funciona</p>
+      <h2 class="h-sec" id="como-title">Quatro etapas, nessa ordem.</h2>
+      <p class="lead">Nenhuma delas começa com a apresentação de uma cota. A recomendação vem depois do diagnóstico — não antes.</p>
+    </div>
+
+    <div class="steps" id="steps">
+      <div class="steps-track" aria-hidden="true"><i id="steps-progress"></i></div>
+      <div class="steps-grid">
+        <article class="step rv rv-1">
+          <div class="step-bar" style="--h:44px" aria-hidden="true"></div>
+          <div><span class="step-n">Etapa 01</span><h3>Diagnóstico</h3><p>Objetivo, prazo desejado e quanto cabe na parcela sem apertar o orçamento. Vinte minutos de conversa, sem compromisso.</p></div>
+        </article>
+        <article class="step rv rv-2">
+          <div class="step-bar" style="--h:76px" aria-hidden="true"></div>
+          <div><span class="step-n">Etapa 02</span><h3>Comparação de administradoras</h3><p>Taxa, fundo de reserva, regra de lance e histórico do grupo, lado a lado, em um quadro que você leva para casa.</p></div>
+        </article>
+        <article class="step rv rv-3">
+          <div class="step-bar" style="--h:108px" aria-hidden="true"></div>
+          <div><span class="step-n">Etapa 03</span><h3>Contratação</h3><p>Assinatura direto com a administradora escolhida. Lemos o regulamento com você, cláusula por cláusula, antes de assinar.</p></div>
+        </article>
+        <article class="step rv rv-4">
+          <div class="step-bar" style="--h:140px" aria-hidden="true"></div>
+          <div><span class="step-n">Etapa 04</span><h3>Estratégia de contemplação</h3><p>Acompanhamos as assembleias, calculamos o lance mês a mês e avisamos quando vale ofertar. O trabalho continua depois da venda.</p></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">
+  <svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0 14c260 38 520 44 780 32s340-26 420-34"/></svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     5 · EQUIPE
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="equipe" aria-labelledby="equipe-title">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <p class="eyebrow">Quem cuida do seu plano</p>
+      <h2 class="h-sec" id="equipe-title">Uma equipe. Três especialidades.</h2>
+      <p class="lead">Aqui ninguém disputa cliente. Toda estratégia passa pelos três: um conduz a conversa e os outros dois entram onde têm mais domínio — do diagnóstico à contemplação. Comece por quem preferir; o atendimento é o mesmo.</p>
+    </div>
+    <div class="team" id="team-grid"><!-- renderizado a partir de CONSULTORES --></div>
+    <p class="team-note">Não sabe por onde começar? <a href="#simular">Preencha a simulação</a> e quem tem mais proximidade com o seu objetivo assume a conversa.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     6 · FORMULÁRIO
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="section sim" id="simular" aria-labelledby="sim-title">
+  <div class="wrap sim-grid">
+    <div class="sim-aside rv">
+      <p class="eyebrow">Simule sua estratégia</p>
+      <h2 class="h-sec" id="sim-title">Conte o objetivo. Devolvemos o caminho.</h2>
+      <p class="lead">Preencha os campos e o WhatsApp abre com a mensagem pronta. A equipe já recebe o contexto completo — você não precisa repetir nada.</p>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg><span>Comparativo de pelo menos três administradoras para o seu perfil.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg><span>Simulação de parcela, prazo e cenários de lance.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg><span>Resposta em até um dia útil. Atendimento sem custo.</span></li>
+      </ul>
+    </div>
+
+    <div class="card form-card rv rv-2">
+      <form id="lead-form" novalidate>
+        <div class="fields">
+          <div class="field field--full">
+            <label for="f-nome">Nome completo</label>
+            <input id="f-nome" name="nome" type="text" autocomplete="name" placeholder="Como devemos te chamar" required>
+            <p class="err" id="e-nome" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <label for="f-tel">WhatsApp</label>
+            <input id="f-tel" name="telefone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="(00) 00000-0000" maxlength="16" required>
+            <p class="err" id="e-tel" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <label for="f-email">E-mail</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" placeholder="voce@email.com.br" required>
+            <p class="err" id="e-email" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <label for="f-objetivo">Objetivo</label>
+            <select id="f-objetivo" name="objetivo" required>
+              <option value="">Selecione</option>
+              <option>Imóvel</option>
+              <option>Automóvel</option>
+              <option>Pesados e Serviços</option>
+              <option>Investimento</option>
+              <option>Construção patrimonial</option>
+            </select>
+            <p class="err" id="e-objetivo" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <label for="f-valor">Valor do crédito pretendido</label>
+            <select id="f-valor" name="valor" required>
+              <option value="">Selecione</option>
+              <option>Até R$ 100 mil</option>
+              <option>R$ 100 mil a R$ 300 mil</option>
+              <option>R$ 300 mil a R$ 500 mil</option>
+              <option>R$ 500 mil a R$ 1 milhão</option>
+              <option>Acima de R$ 1 milhão</option>
+            </select>
+            <p class="err" id="e-valor" role="alert"></p>
+          </div>
+
+          <div class="field field--full">
+            <label for="f-msg">Mensagem <span class="opt">(opcional)</span></label>
+            <textarea id="f-msg" name="mensagem" placeholder="Algum detalhe que ajude na simulação? Prazo, uso do FGTS, cotas que já possui…"></textarea>
+          </div>
+
+          <div class="consent">
+            <input id="f-lgpd" name="lgpd" type="checkbox" required>
+            <label for="f-lgpd">Autorizo a Ímpeto a usar meus dados para entrar em contato sobre esta simulação, conforme a <a href="#privacidade">Política de Privacidade</a>. Posso solicitar a exclusão a qualquer momento.</label>
+          </div>
+          <p class="err" id="e-lgpd" role="alert" style="grid-column:1/-1"></p>
+        </div>
+
+        <div class="form-foot">
+          <button class="btn btn-gold btn-block" type="submit" id="submit-btn">Abrir WhatsApp com minha simulação</button>
+          <p class="form-note">Seus dados ficam com a equipe da Ímpeto. Nada é repassado a terceiros.</p>
+          <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     7 · FAQ
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="faq" aria-labelledby="faq-title">
+  <div class="wrap">
+    <div class="sec-head rv" style="display:flex;flex-direction:column;align-items:center;text-align:center">
+      <p class="eyebrow">Perguntas frequentes</p>
+      <h2 class="h-sec" id="faq-title" style="max-width:24ch">Respostas honestas, inclusive as inconvenientes</h2>
+    </div>
+
+    <div class="faq rv rv-1">
+      <details>
+        <summary>O que é um consórcio, na prática?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary>
+        <p class="answer">É uma compra programada feita em grupo. Você entra num grupo administrado por uma administradora autorizada pelo Banco Central, paga parcelas mensais e recebe uma carta de crédito quando é contemplado — por sorteio ou por lance. Não incidem juros: o custo é a taxa de administração, diluída ao longo do plano.</p>
+      </details>
+      <details>
+        <summary>Qual a diferença para o financiamento?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary>
+        <p class="answer">No financiamento você tem o bem imediatamente e paga juros compostos sobre o saldo devedor. No consórcio você troca pressa por custo: espera a contemplação e paga bem menos no total. Se você precisa do bem para ontem, o financiamento resolve. Se o prazo joga a seu favor, o consórcio quase sempre sai mais barato.</p>
+      </details>
+      <details>
+        <summary>O que é lance e como ele funciona?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary>
+        <p class="answer">Lance é uma antecipação de parcelas ofertada na assembleia para disputar a contemplação. Pode ser livre (você escolhe o percentual), fixo (definido em regulamento) ou embutido, quando a administradora permite usar parte da própria carta de crédito como lance. Ler o histórico de lances vencedores do grupo é o que separa um lance eficiente de dinheiro jogado fora.</p>
+      </details>
+      <details>
+        <summary>Quando eu serei contemplado?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary>
+        <p class="answer">Não há data garantida — e quem promete isso está mentindo para você. O que existe é probabilidade: tamanho do grupo, número de contemplações por assembleia e o histórico de lances vencedores. Analisamos esses dados antes de você assinar e montamos uma estratégia com cenários realistas, inclusive o pessimista.</p>
+      </details>
+      <details>
+        <summary>Posso usar o FGTS?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary>
+        <p class="answer">Sim, em consórcio de imóvel. O FGTS pode ser usado para ofertar lance, complementar a carta de crédito ou amortizar parcelas, respeitando as regras da Caixa e do Sistema Financeiro de Habitação — o que inclui condições sobre o valor do imóvel e sobre não possuir outro financiamento ativo. Verificamos sua elegibilidade ainda no diagnóstico.</p>
+      </details>
+      <details>
+        <summary>E se eu quiser desistir?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary>
+        <p class="answer">Você pode desistir ou transferir a cota para outra pessoa. Na desistência, o valor pago retorna conforme o regulamento do grupo — em geral após o encerramento, com os descontos previstos em contrato. Não é um resgate imediato, e explicamos exatamente essas condições antes da assinatura, não depois.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     8 · CTA FINAL
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="cta-final">
+  <div class="wrap cta-inner">
+    <div>
+      <h2>Seu patrimônio começa com uma conversa de vinte minutos</h2>
+      <p>Sem proposta pronta, sem pressão. Primeiro entendemos onde você quer chegar — a cota, se fizer sentido, vem depois.</p>
+    </div>
+    <a class="btn" href="#simular" data-track="cta_final">Simular minha estratégia</a>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     9 · RODAPÉ
+     ═══════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" aria-label="Ímpeto Consórcios — início">
+          <span class="logo-slot logo-slot--lg" data-logo>
+            <img src="assets/logo-impeto.svg" alt="Ímpeto Consórcios" width="240" height="56">
+            <span class="logo-ph" aria-hidden="true"><b>SUA LOGO</b><i>240 × 56 px</i></span>
+          </span>
+        </a>
+        <p style="color:var(--muted);font-size:.9375rem;margin-top:var(--s3);max-width:38ch">Consultoria independente em consórcios. Comparamos administradoras para encontrar a estratégia certa para o seu objetivo.</p>
+        <div class="socials">
+          <!-- [[EDITAR: links das redes sociais]] -->
+          <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram da Ímpeto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn da Ímpeto"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.76V21h-4v-5.6c0-1.34-.02-3.06-1.9-3.06-1.9 0-2.19 1.45-2.19 2.96V21H9z"/></svg></a>
+          <a href="mailto:contato@impetoconsorcios.com.br" aria-label="Enviar e-mail para a Ímpeto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Fale direto</h4>
+        <ul id="foot-tels"><!-- renderizado a partir de CONSULTORES --></ul>
+      </div>
+
+      <div>
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#objetivos">Soluções</a></li>
+          <li><a href="#independencia">Independência</a></li>
+          <li><a href="#como-funciona">Como funciona</a></li>
+          <li><a href="#equipe">Equipe</a></li>
+          <li><a href="#simular">Simular</a></li>
+          <li><a href="#faq">Perguntas frequentes</a></li>
+        </ul>
+        <h4 style="margin-top:var(--s4)">Contato</h4>
+        <ul>
+          <!-- [[EDITAR: e-mail e cidade/UF]] -->
+          <li><a href="mailto:contato@impetoconsorcios.com.br">contato@impetoconsorcios.com.br</a></li>
+          <li>[[EDITAR: Cidade]] / [[EDITAR: UF]]</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="legal">
+      <p id="privacidade">Consórcio não é investimento financeiro nem empréstimo. A contemplação ocorre por sorteio ou lance, conforme o regulamento da administradora. Atuamos como representantes autorizados. &middot; <a href="#privacidade">Política de Privacidade</a> &middot; <a href="#privacidade">Termos de uso</a></p>
+      <p>&copy; 2026 Ímpeto. Todos os direitos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     BOTÃO FLUTUANTE
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="fab-zone" id="fab-zone">
+  <div class="fab-menu" id="fab-menu" role="menu" aria-labelledby="fab-btn">
+    <p class="fab-menu-title">Comece por quem preferir</p>
+    <div id="fab-menu-list"></div>
+  </div>
+  <div class="fab-wrap">
+    <button class="fab" id="fab-btn" type="button" aria-expanded="false" aria-controls="fab-menu" aria-label="Falar com a equipe no WhatsApp">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.17 8.17 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.06 0 1.22.89 2.39 1.01 2.56.12.16 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.15-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ══════════════════════════════════════════════════════════════════════
+   ⬅ EDITE AQUI · 1 — EQUIPE
+   Alimenta os cards, o mini-menu do botão flutuante e os telefones do rodapé.
+   · telefone → como aparece na tela          · whatsapp → só dígitos: 55 + DDD + número
+   · foto     → 400×400 px, quadrada; sem o arquivo entra o círculo com iniciais
+   ══════════════════════════════════════════════════════════════════ */
+var CONSULTORES = [
+  { nome:"[[EDITAR: nome do sócio 1]]", cargo:"Imóveis e construção",
+    bio:"Conduz os planos de quem quer comprar, construir ou reformar sem pagar juros ao banco.",
+    telefone:"[[EDITAR: (00) 00000-0000]]", whatsapp:"5500000000000", foto:"assets/socio-1.jpg" },
+  { nome:"[[EDITAR: nome do sócio 2]]", cargo:"Investimento e estratégia de lance",
+    bio:"Trabalha a carta contemplada como ativo e calcula o lance assembleia por assembleia.",
+    telefone:"[[EDITAR: (00) 00000-0000]]", whatsapp:"5500000000000", foto:"assets/socio-2.jpg" },
+  { nome:"[[EDITAR: nome do sócio 3]]", cargo:"Automóveis, pesados e frota",
+    bio:"Atende pessoa física e empresa que precisa renovar veículo ou maquinário sem travar o caixa.",
+    telefone:"[[EDITAR: (00) 00000-0000]]", whatsapp:"5500000000000", foto:"assets/socio-3.jpg" }
+];
+
+/* ⬅ EDITE AQUI · 2 — administradoras exibidas na faixa do hero */
+var ADMINISTRADORAS = [
+  "Administradora 01","Administradora 02","Administradora 03","Administradora 04",
+  "Administradora 05","Administradora 06","Administradora 07"
+];
+
+/* ⬅ EDITE AQUI · 3 — parâmetros da simulação do hero
+   Ajuste com as condições médias que vocês praticam. São estimativas de vitrine:
+   a proposta real sai do diagnóstico.
+   taxaAdm/fundoReserva = percentuais sobre o crédito · prazo = meses
+   jurosFin = juros mensais do financiamento · entradaFin = entrada exigida pelo banco */
+var SIM_CFG = {
+  imovel:{ min:50000,  max:1500000, step:10000, inicial:300000,
+           taxaAdm:.17, fundoReserva:.02, prazo:200, jurosFin:.0095, prazoFin:360, entradaFin:.20, bem:"imóvel" },
+  auto:{   min:20000,  max:300000,  step:5000,  inicial:80000,
+           taxaAdm:.16, fundoReserva:.02, prazo:80,  jurosFin:.0155, prazoFin:60,  entradaFin:.20, bem:"automóvel" }
+};
+
+/* ⬅ EDITE AQUI · 4 — endpoint opcional para registrar o lead em paralelo
+   (Web3Forms, Formspree ou /api/lead). Vazio = pula sem quebrar o fluxo. */
+var LEAD_ENDPOINT = "";
+
+/* ══════════════════════════════════════════════════════════════════════
+   RASTREAMENTO — ponto único de saída
+   ══════════════════════════════════════════════════════════════════ */
+function track(evento, dados){
+  dados = dados || {};
+  // ⬅ EDITE AQUI — Google Analytics 4
+  // if (typeof gtag === "function") gtag("event", evento, dados);
+  // ⬅ EDITE AQUI — Meta Pixel
+  // if (typeof fbq === "function") fbq("trackCustom", evento, dados);
+  if (window.console && console.debug) console.debug("[track]", evento, dados);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   UTILITÁRIOS
+   ══════════════════════════════════════════════════════════════════ */
+var $  = function(s,c){ return (c||document).querySelector(s); };
+var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); };
+var reduz = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var brl = new Intl.NumberFormat("pt-BR",{ style:"currency", currency:"BRL", maximumFractionDigits:0 });
+
+function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+function iniciais(nome){
+  var limpo = String(nome).replace(/\[\[.*?\]\]/g,"").trim();
+  if(!limpo) return "Í";
+  var p = limpo.split(/\s+/);
+  return (p[0][0] + (p.length>1 ? p[p.length-1][0] : "")).toUpperCase();
+}
+function linkWa(numero,msg){ return "https://wa.me/" + String(numero).replace(/\D/g,"") + "?text=" + encodeURIComponent(msg); }
+function msgPadrao(c){ return "Olá, " + c.nome + "! Vim pelo site da Ímpeto e gostaria de entender qual estratégia de consórcio faz sentido para o meu objetivo."; }
+function avatarHTML(c){
+  if(c.foto && c.foto.indexOf("[[") === -1){
+    return '<img src="' + esc(c.foto) + '" alt="Foto de ' + esc(c.nome) + '" width="96" height="96" loading="lazy" ' +
+           'onerror="this.outerHTML=\'<span class=&quot;initials&quot; aria-hidden=&quot;true&quot;>' + esc(iniciais(c.nome)) + '</span>\'">';
+  }
+  return '<span class="initials" aria-hidden="true">' + esc(iniciais(c.nome)) + "</span>";
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   SLOT DA LOGO — mostra a medida enquanto o arquivo não existir
+   ══════════════════════════════════════════════════════════════════ */
+$$("[data-logo]").forEach(function(slot){
+  var img = slot.querySelector("img");
+  if(!img) return;
+  function vazio(){ slot.classList.add("is-empty"); img.style.display = "none"; }
+  img.addEventListener("error", vazio);
+  if(img.complete && img.naturalWidth === 0) vazio();
+});
+
+/* ══════════════════════════════════════════════════════════════════════
+   RENDERIZAÇÃO
+   ══════════════════════════════════════════════════════════════════ */
+var icoTel = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 6.5 6.5l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.2 2 2 0 0 1 6.5 3z"/></svg>';
+var icoWa  = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm4.52 11.99c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.06 0 1.22.89 2.39 1.01 2.56.12.16 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.15-1.18-.06-.11-.23-.17-.48-.29z"/></svg>';
+
+$("#team-grid").innerHTML = CONSULTORES.map(function(c,i){
+  return '<article class="card card--hover member rv rv-' + (i+1) + '">' +
+    '<div class="member-photo">' + avatarHTML(c) + '</div>' +
+    "<h3>" + esc(c.nome) + "</h3>" +
+    '<p class="member-role">' + esc(c.cargo) + "</p>" +
+    '<p class="member-bio">' + esc(c.bio) + "</p>" +
+    '<a class="member-tel" href="tel:+' + String(c.whatsapp).replace(/\D/g,"") + '">' + icoTel + esc(c.telefone) + "</a>" +
+    '<a class="btn btn-soft" href="' + esc(linkWa(c.whatsapp,msgPadrao(c))) + '" target="_blank" rel="noopener" data-wa="card" data-nome="' + esc(c.nome) + '">' + icoWa + "Conversar no WhatsApp</a></article>";
+}).join("");
+
+$("#fab-menu-list").innerHTML = CONSULTORES.map(function(c){
+  return '<a href="' + esc(linkWa(c.whatsapp,msgPadrao(c))) + '" target="_blank" rel="noopener" role="menuitem" data-wa="fab" data-nome="' + esc(c.nome) + '">' +
+    '<span class="av">' + avatarHTML(c) + "</span>" +
+    "<span><b>" + esc(c.nome) + "</b><small>" + esc(c.cargo) + "</small></span></a>";
+}).join("");
+
+$("#foot-tels").innerHTML = CONSULTORES.map(function(c){
+  return '<li><a class="foot-tel" href="' + esc(linkWa(c.whatsapp,msgPadrao(c))) + '" target="_blank" rel="noopener" data-wa="footer" data-nome="' + esc(c.nome) + '">' +
+    esc(c.telefone) + "<small>" + esc(c.nome) + " · " + esc(c.cargo) + "</small></a></li>";
+}).join("");
+
+/* faixa das administradoras — duplicada para o loop não ter emenda */
+$("#marquee-track").innerHTML = ADMINISTRADORAS.concat(ADMINISTRADORAS)
+  .map(function(n){ return "<span>" + esc(n) + "</span>"; }).join("");
+
+function proximoConsultor(){
+  var i = 0;
+  try{
+    i = parseInt(localStorage.getItem("impeto_rr") || "0",10) || 0;
+    localStorage.setItem("impeto_rr", String((i+1) % CONSULTORES.length));
+  }catch(e){ i = Math.floor(Math.random()*CONSULTORES.length); }
+  return CONSULTORES[i % CONSULTORES.length];
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   SIMULADOR DO HERO
+   ══════════════════════════════════════════════════════════════════ */
+var simTipo = "imovel";
+var range = $("#sim-range");
+var elVal = $("#sim-val"), elCons = $("#sim-cons"), elFin = $("#sim-fin");
+var barC = $("#bar-cons"), barF = $("#bar-fin");
+var elEntrada = $("#sim-entrada"), elPrazo = $("#sim-prazo"), elEco = $("#sim-eco");
+
+function parcelaPrice(valor,i,n){ return valor * i / (1 - Math.pow(1+i,-n)); }
+
+function contaAte(el,de,para,ms){
+  if(reduz || ms === 0){ el.textContent = brl.format(para); return; }
+  var ini = performance.now();
+  function passo(t){
+    var p = Math.min((t-ini)/ms,1), e = 1 - Math.pow(1-p,3);
+    el.textContent = brl.format(de + (para-de)*e);
+    if(p < 1) requestAnimationFrame(passo);
+  }
+  requestAnimationFrame(passo);
+}
+
+var ultC = 0, ultF = 0;
+function calcula(anima){
+  var cfg = SIM_CFG[simTipo];
+  var credito = parseInt(range.value,10);
+
+  var parcC = credito * (1 + cfg.taxaAdm + cfg.fundoReserva) / cfg.prazo;
+  var entrada = credito * cfg.entradaFin;
+  var parcF = parcelaPrice(credito - entrada, cfg.jurosFin, cfg.prazoFin);
+  var max = Math.max(parcC,parcF);
+
+  elVal.textContent = brl.format(credito);
+  range.style.setProperty("--fill", ((credito - cfg.min) / (cfg.max - cfg.min) * 100).toFixed(1) + "%");
+
+  contaAte(elCons, ultC, parcC, anima ? 260 : 0);
+  contaAte(elFin,  ultF, parcF, anima ? 260 : 0);
+  ultC = parcC; ultF = parcF;
+
+  barC.style.setProperty("--w", (parcC/max*100).toFixed(1) + "%");
+  barF.style.setProperty("--w", (parcF/max*100).toFixed(1) + "%");
+
+  elEntrada.textContent = brl.format(entrada);
+  elPrazo.textContent = cfg.prazo + " meses";
+  elEco.textContent = brl.format(Math.max(parcF - parcC,0)) + "/mês";
+
+  return { credito:credito, parcC:parcC, parcF:parcF, cfg:cfg };
+}
+
+function trocaTipo(tipo){
+  simTipo = tipo;
+  var cfg = SIM_CFG[tipo];
+  range.min = cfg.min; range.max = cfg.max; range.step = cfg.step; range.value = cfg.inicial;
+  ultC = 0; ultF = 0;
+  $$(".segs button").forEach(function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-tipo") === tipo ? "true" : "false"); });
+  calcula(true);
+  track("sim_tipo", { tipo: tipo });
+}
+
+$$(".segs button").forEach(function(b){
+  b.addEventListener("click", function(){ trocaTipo(b.getAttribute("data-tipo")); });
+});
+range.addEventListener("input", function(){ calcula(false); });
+var simTimer;
+range.addEventListener("change", function(){
+  clearTimeout(simTimer);
+  simTimer = setTimeout(function(){ track("sim_ajuste", { tipo:simTipo, credito:range.value }); }, 400);
+});
+calcula(false);
+
+function faixaDe(v){
+  if(v <= 100000)  return "Até R$ 100 mil";
+  if(v <= 300000)  return "R$ 100 mil a R$ 300 mil";
+  if(v <= 500000)  return "R$ 300 mil a R$ 500 mil";
+  if(v <= 1000000) return "R$ 500 mil a R$ 1 milhão";
+  return "Acima de R$ 1 milhão";
+}
+
+$("#sim-cta").addEventListener("click", function(e){
+  e.preventDefault();
+  var r = calcula(false);
+  var obj = $("#f-objetivo"), val = $("#f-valor"), msg = $("#f-msg");
+  if(obj) obj.value = (simTipo === "imovel") ? "Imóvel" : "Automóvel";
+  if(val) val.value = faixaDe(r.credito);
+  if(msg && !msg.value) msg.value = "Simulei " + brl.format(r.credito) + " para " + r.cfg.bem + " no site e quero entender as condições reais.";
+  track("sim_cta", { tipo:simTipo, credito:r.credito });
+  document.getElementById("simular").scrollIntoView({ behavior: reduz ? "auto" : "smooth", block:"start" });
+  setTimeout(function(){ var n = $("#f-nome"); if(n) n.focus({ preventScroll:true }); }, reduz ? 0 : 700);
+});
+
+/* ══════════════════════════════════════════════════════════════════════
+   HEADER, MENU E PROGRESSO
+   ══════════════════════════════════════════════════════════════════ */
+var hdr = $("#hdr"), drawer = $("#drawer"), burger = $("#burger"), prog = $("#scroll-prog");
+
+function abrirDrawer(){
+  drawer.hidden = false;
+  requestAnimationFrame(function(){ drawer.classList.add("is-open"); });
+  burger.setAttribute("aria-expanded","true");
+  burger.setAttribute("aria-label","Fechar menu de navegação");
+  document.body.style.overflow = "hidden";
+}
+function fecharDrawer(){
+  drawer.classList.remove("is-open");
+  burger.setAttribute("aria-expanded","false");
+  burger.setAttribute("aria-label","Abrir menu de navegação");
+  document.body.style.overflow = "";
+  setTimeout(function(){ if(!drawer.classList.contains("is-open")) drawer.hidden = true; }, reduz ? 10 : 800);
+}
+burger.addEventListener("click", function(){
+  drawer.classList.contains("is-open") ? fecharDrawer() : abrirDrawer();
+});
+$$("#drawer a").forEach(function(a){ a.addEventListener("click", fecharDrawer); });
+
+/* seção ativa no menu */
+var links = $$(".nav a");
+if("IntersectionObserver" in window){
+  var obsNav = new IntersectionObserver(function(ents){
+    ents.forEach(function(en){
+      if(!en.isIntersecting) return;
+      links.forEach(function(a){ a.classList.toggle("is-active", a.getAttribute("href") === "#" + en.target.id); });
+    });
+  }, { rootMargin:"-45% 0px -50% 0px" });
+  ["objetivos","como-funciona","equipe","simular"].forEach(function(id){
+    var s = document.getElementById(id); if(s) obsNav.observe(s);
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   REVELAÇÃO E CONTADORES
+   ══════════════════════════════════════════════════════════════════ */
+var alvos = $$(".rv");
+if("IntersectionObserver" in window && !reduz){
+  var obs = new IntersectionObserver(function(ents){
+    ents.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("is-in"); obs.unobserve(en.target); } });
+  }, { rootMargin:"0px 0px -10% 0px", threshold:.12 });
+  alvos.forEach(function(el){ obs.observe(el); });
+} else { alvos.forEach(function(el){ el.classList.add("is-in"); }); }
+
+function animaContador(el){
+  var alvo = parseFloat(el.getAttribute("data-count")) || 0;
+  var pre = el.getAttribute("data-prefix") || "", suf = el.getAttribute("data-suffix") || "";
+  if(reduz){ el.textContent = pre + alvo + suf; return; }
+  var ini = performance.now();
+  function passo(t){
+    var p = Math.min((t-ini)/1400,1), e = 1 - Math.pow(1-p,3);
+    el.textContent = pre + Math.round(alvo*e).toLocaleString("pt-BR") + suf;
+    if(p < 1) requestAnimationFrame(passo);
+  }
+  requestAnimationFrame(passo);
+}
+var contadores = $$("[data-count]");
+if("IntersectionObserver" in window){
+  var obsC = new IntersectionObserver(function(ents){
+    ents.forEach(function(en){ if(en.isIntersecting){ animaContador(en.target); obsC.unobserve(en.target); } });
+  }, { threshold:.5 });
+  contadores.forEach(function(el){ obsC.observe(el); });
+} else { contadores.forEach(animaContador); }
+
+/* ══════════════════════════════════════════════════════════════════════
+   TIMELINE, FAB E SCROLL
+   ══════════════════════════════════════════════════════════════════ */
+var steps = $("#steps"), progSteps = $("#steps-progress"), stepEls = $$(".step");
+var zona = $("#fab-zone"), fab = $("#fab-btn"), menu = $("#fab-menu");
+
+function atualizaTimeline(){
+  if(!steps || !progSteps) return;
+  var r = steps.getBoundingClientRect();
+  var p = (window.innerHeight*.78 - r.top) / (r.height*.7);
+  p = Math.max(0, Math.min(1,p));
+  progSteps.style.setProperty("--p", reduz ? 1 : p.toFixed(3));
+  stepEls.forEach(function(el,i){ el.classList.toggle("is-on", p >= (i/stepEls.length)*.9); });
+}
+function fecharFab(){ menu.classList.remove("is-open"); fab.setAttribute("aria-expanded","false"); }
+function atualizaFab(){
+  zona.classList.toggle("is-on", window.scrollY > 400);
+  if(window.scrollY <= 400) fecharFab();
+}
+function atualizaProgresso(){
+  var h = document.documentElement.scrollHeight - window.innerHeight;
+  prog.style.transform = "scaleX(" + (h > 0 ? Math.min(window.scrollY/h,1) : 0) + ")";
+}
+
+fab.addEventListener("click", function(e){
+  e.stopPropagation();
+  if(CONSULTORES.length === 1){
+    var c = CONSULTORES[0];
+    track("whatsapp_click",{ origem:"fab_unico", consultor:c.nome });
+    window.open(linkWa(c.whatsapp,msgPadrao(c)),"_blank","noopener");
+    return;
+  }
+  var aberto = menu.classList.toggle("is-open");
+  fab.setAttribute("aria-expanded", aberto ? "true" : "false");
+  if(aberto){ track("fab_open",{}); var a = menu.querySelector("a"); if(a) a.focus(); }
+});
+document.addEventListener("click", function(e){
+  if(menu.classList.contains("is-open") && !zona.contains(e.target)) fecharFab();
+});
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape" || e.key === "Esc"){
+    if(menu.classList.contains("is-open")){ fecharFab(); fab.focus(); }
+    if(drawer.classList.contains("is-open")){ fecharDrawer(); burger.focus(); }
+  }
+});
+if("IntersectionObserver" in window){
+  var formEl = $("#lead-form");
+  var obsF = new IntersectionObserver(function(ents){
+    ents.forEach(function(en){ zona.classList.toggle("is-dim", en.isIntersecting && window.innerWidth <= 768); });
+  }, { threshold:.25 });
+  if(formEl) obsF.observe(formEl);
+}
+
+var travado = false;
+function onScroll(){
+  if(travado) return;
+  travado = true;
+  requestAnimationFrame(function(){
+    hdr.classList.toggle("is-stuck", window.scrollY > 80);
+    atualizaTimeline(); atualizaFab(); atualizaProgresso();
+    travado = false;
+  });
+}
+window.addEventListener("scroll", onScroll, { passive:true });
+window.addEventListener("resize", onScroll, { passive:true });
+onScroll();
+
+/* ══════════════════════════════════════════════════════════════════════
+   LUZ QUE SEGUE O CURSOR NOS CARDS
+   ══════════════════════════════════════════════════════════════════ */
+if(!reduz && window.matchMedia("(hover: hover)").matches){
+  var pend = false, ev = null;
+  document.addEventListener("pointermove", function(e){
+    ev = e;
+    if(pend) return;
+    pend = true;
+    requestAnimationFrame(function(){
+      pend = false;
+      var alvo = ev.target.closest ? ev.target.closest(".card, .compare") : null;
+      if(!alvo) return;
+      var r = alvo.getBoundingClientRect();
+      alvo.style.setProperty("--mx", ((ev.clientX - r.left)/r.width*100).toFixed(1) + "%");
+      alvo.style.setProperty("--my", ((ev.clientY - r.top)/r.height*100).toFixed(1) + "%");
+    });
+  }, { passive:true });
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   ATALHOS E RASTREIO DE CLIQUES
+   ══════════════════════════════════════════════════════════════════ */
+$$("[data-objetivo]").forEach(function(btn){
+  btn.addEventListener("click", function(){
+    var alvo = btn.getAttribute("data-objetivo");
+    var sel = $("#f-objetivo"); if(sel) sel.value = alvo;
+    track("objetivo_preselect",{ objetivo:alvo });
+    document.getElementById("simular").scrollIntoView({ behavior: reduz ? "auto" : "smooth", block:"start" });
+    setTimeout(function(){ var n = $("#f-nome"); if(n) n.focus({ preventScroll:true }); }, reduz ? 0 : 700);
+  });
+});
+document.addEventListener("click", function(e){
+  if(!e.target.closest) return;
+  var wa = e.target.closest("[data-wa]");
+  if(wa){ track("whatsapp_click",{ origem:wa.getAttribute("data-wa"), consultor:wa.getAttribute("data-nome")||"" }); return; }
+  var ct = e.target.closest("[data-track]");
+  if(ct) track("cta_click",{ id:ct.getAttribute("data-track") });
+});
+
+/* ══════════════════════════════════════════════════════════════════════
+   FORMULÁRIO
+   ══════════════════════════════════════════════════════════════════ */
+var form = $("#lead-form"), btnSubmit = $("#submit-btn"), status = $("#form-status"), inTel = $("#f-tel");
+
+inTel.addEventListener("input", function(){
+  var d = inTel.value.replace(/\D/g,"").slice(0,11), out = d;
+  if(d.length > 2)  out = "(" + d.slice(0,2) + ") " + d.slice(2);
+  if(d.length > 7)  out = "(" + d.slice(0,2) + ") " + d.slice(2,7) + "-" + d.slice(7);
+  if(d.length > 10) out = "(" + d.slice(0,2) + ") " + d.slice(2,7) + "-" + d.slice(7,11);
+  inTel.value = out;
+});
+
+function erro(campo,idErro,msg){
+  var el = $(idErro);
+  if(msg){
+    campo.setAttribute("aria-invalid","true");
+    campo.setAttribute("aria-describedby", idErro.slice(1));
+    el.textContent = msg; el.classList.add("is-on");
+  } else {
+    campo.removeAttribute("aria-invalid");
+    campo.removeAttribute("aria-describedby");
+    el.textContent = ""; el.classList.remove("is-on");
+  }
+}
+
+function valida(){
+  var falhas = [];
+  var nome = $("#f-nome"), email = $("#f-email"), obj = $("#f-objetivo"), val = $("#f-valor"), lgpd = $("#f-lgpd");
+
+  if(nome.value.trim().length < 3){ erro(nome,"#e-nome","Escreva seu nome completo."); falhas.push(nome); } else erro(nome,"#e-nome",null);
+
+  var dig = inTel.value.replace(/\D/g,"");
+  if(dig.length < 10){ erro(inTel,"#e-tel","Informe o WhatsApp com DDD, no formato (00) 00000-0000."); falhas.push(inTel); } else erro(inTel,"#e-tel",null);
+
+  if(!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email.value.trim())){ erro(email,"#e-email","Confira o e-mail: falta algo no endereço."); falhas.push(email); } else erro(email,"#e-email",null);
+
+  if(!obj.value){ erro(obj,"#e-objetivo","Escolha o objetivo do consórcio."); falhas.push(obj); } else erro(obj,"#e-objetivo",null);
+
+  if(!val.value){ erro(val,"#e-valor","Escolha a faixa de crédito pretendida."); falhas.push(val); } else erro(val,"#e-valor",null);
+
+  if(!lgpd.checked){ erro(lgpd,"#e-lgpd","Marque a autorização para podermos entrar em contato."); falhas.push(lgpd); } else erro(lgpd,"#e-lgpd",null);
+
+  return falhas;
+}
+
+var mapaErro = {"#f-nome":"#e-nome","#f-tel":"#e-tel","#f-email":"#e-email","#f-objetivo":"#e-objetivo","#f-valor":"#e-valor","#f-lgpd":"#e-lgpd"};
+Object.keys(mapaErro).forEach(function(sel){
+  var el = $(sel);
+  function limpa(){ if(el.getAttribute("aria-invalid")) erro(el,mapaErro[sel],null); }
+  el.addEventListener("input",limpa);
+  el.addEventListener("change",limpa);
+});
+
+var enviando = false;
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+  if(enviando) return;
+
+  var falhas = valida();
+  if(falhas.length){ falhas[0].focus(); track("form_error",{ campos:falhas.length }); return; }
+
+  enviando = true;
+  btnSubmit.disabled = true;
+  btnSubmit.innerHTML = '<span class="spinner" aria-hidden="true"></span> Abrindo WhatsApp…';
+
+  /* sem campo de preferência: a equipe distribui em rodízio */
+  var consultor = proximoConsultor();
+
+  var dados = {
+    nome:$("#f-nome").value.trim(), telefone:inTel.value.trim(), email:$("#f-email").value.trim(),
+    objetivo:$("#f-objetivo").value, valor:$("#f-valor").value, mensagem:$("#f-msg").value.trim(),
+    consultor:consultor.nome, origem:location.href
+  };
+
+  var texto =
+    "Olá, " + consultor.nome + "! Sou " + dados.nome + ".\n" +
+    "Objetivo: " + dados.objetivo + "\n" +
+    "Crédito pretendido: " + dados.valor + "\n" +
+    "WhatsApp: " + dados.telefone + " · E-mail: " + dados.email +
+    (dados.mensagem ? "\n" + dados.mensagem : "") +
+    "\n— enviado pelo site Ímpeto Planeje & Conquiste";
+
+  var url = linkWa(consultor.whatsapp, texto);
+
+  if(LEAD_ENDPOINT){
+    try{
+      fetch(LEAD_ENDPOINT,{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(dados), keepalive:true }).catch(function(){});
+    }catch(err){}
+  }
+
+  track("lead_submit",{ objetivo:dados.objetivo, faixa:dados.valor, consultor:consultor.nome });
+  track("whatsapp_click",{ origem:"formulario", consultor:consultor.nome });
+
+  var aba = window.open(url,"_blank","noopener");
+
+  status.classList.add("is-on");
+  status.innerHTML =
+    "<strong>Abrimos o WhatsApp de " + esc(consultor.nome) + ".</strong>" +
+    "<p>Se a janela não abriu, o bloqueador de pop-up barrou. " +
+    '<a href="' + esc(url) + '" target="_blank" rel="noopener" data-wa="fallback" data-nome="' + esc(consultor.nome) + '">Toque aqui para abrir a conversa</a>.</p>';
+  status.scrollIntoView({ behavior: reduz ? "auto" : "smooth", block:"nearest" });
+
+  setTimeout(function(){
+    enviando = false;
+    btnSubmit.disabled = false;
+    btnSubmit.textContent = "Abrir WhatsApp novamente";
+  },1200);
+
+  if(!aba && window.console) console.warn("Pop-up bloqueado — o link de fallback foi exibido.");
+});
+
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     CHECKLIST DE PUBLICAÇÃO
+
+     A · LOGO  (procure por "data-logo" no HTML)
+        Arquivo: assets/logo-impeto.svg — o mesmo serve para o header e o rodapé.
+        · Ideal: SVG horizontal, fundo transparente, caixa de desenho 240 × 64 px.
+          Exporte com o texto convertido em curvas e sem espaço em branco sobrando.
+        · Alternativa em bitmap: PNG 720 × 192 px, fundo transparente (3× de 240×64).
+        · Se a logo for só o símbolo (as barras), use caixa quadrada:
+          SVG 64 × 64 ou PNG 512 × 512 transparente — e reduza os width/height do
+          <img> no header para 40 × 40 e no rodapé para 56 × 56.
+        · Renderização: header a 40 px de altura, rodapé a 56 px. A largura é livre.
+        · Enquanto o arquivo não existir, aparece um retângulo pontilhado com a medida.
+
+        Ainda de imagem:
+        · assets/favicon.svg  (vetor, quadrado) e assets/favicon-512.png
+        · assets/apple-touch-icon.png — 180 × 180
+        · assets/og-impeto.jpg — 1200 × 630, é a prévia no WhatsApp e no LinkedIn
+        · assets/socio-1.jpg, socio-2.jpg, socio-3.jpg — 400 × 400, quadradas
+
+     B · TEXTOS E DADOS  (todos marcados com EDITAR ou ⬅ EDITE AQUI)
+        1. CONSULTORES — nome, cargo, bio, telefone e número do WhatsApp
+        2. ADMINISTRADORAS — nomes reais na faixa do hero
+        3. SIM_CFG — taxa de administração, fundo de reserva, prazo, juros e entrada
+           usados na simulação do hero. São números de vitrine: deixe-os coerentes
+           com o que vocês praticam, porque o visitante vai cobrar na conversa.
+        4. LEAD_ENDPOINT — Web3Forms, Formspree ou /api/lead
+        5. Prova social — atributos data-count no hero
+        6. Rodapé e JSON-LD — e-mail, cidade/UF, redes sociais
+        7. Domínio — canonical, og:url, og:image, twitter:image e JSON-LD
+
+     C · RASTREAMENTO
+        Cole a tag do GA4 e do Meta Pixel no <head> e descomente as duas linhas
+        dentro de track(). Eventos já disparados: whatsapp_click, lead_submit,
+        form_error, cta_click, fab_open, objetivo_preselect, sim_tipo, sim_ajuste,
+        sim_cta.
+
+     D · CLOUDFLARE PAGES
+        1. Suba index.html e a pasta assets para um repositório no GitHub.
+        2. Dashboard → Workers &amp; Pages → Create → Pages → Connect to Git.
+        3. Framework preset: None · Build command: vazio · Output directory: /
+        4. Deploy. Sai no ar em SEU-PROJETO.pages.dev.
+        5. Custom domains → Set up a domain. Com o DNS já na Cloudflare o registro
+           é criado sozinho; fora dela, aponte um CNAME para SEU-PROJETO.pages.dev.
+        6. SSL/TLS → modo Full (strict).
+
+     E · GITHUB PAGES (alternativa)
+        1. Repositório público, index.html na raiz.
+        2. Settings → Pages → Deploy from a branch → main → / (root).
+        3. Domínio próprio: Settings → Pages → Custom domain + CNAME apontando
+           para SEU-USUARIO.github.io. Marque "Enforce HTTPS".
+
+     F · DEPOIS DE PUBLICAR
+        · Teste o disparo do WhatsApp no iPhone e no Android.
+        · Rode o Lighthouse em modo mobile. Alvo: 95+ nas quatro categorias.
+        · Mande a URL pelo WhatsApp para conferir a prévia do Open Graph.
+        · Cadastre no Google Search Console e peça indexação.
+     ═══════════════════════════════════════════════════════════════════ -->
+</body>
+</html>
