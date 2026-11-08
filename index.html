@@ -36,10 +36,9 @@
   form label { color:var(--cyan); white-space:nowrap }
   input { flex:1; min-width:0; background:transparent; border:0; outline:0; color:var(--g); font:inherit; caret-color:var(--g); }
   .diamond { display:block; width:max-content; max-width:100%; margin:6px auto 4px; white-space:pre; text-align:left;
-    line-height:1.0; font-size:clamp(7px,min(1.5vw,1.55vh),13px); color:var(--cyan); text-shadow:0 0 8px rgba(107,227,255,.55); }
+    line-height:1.0; font-size:clamp(5px, min(13px, calc((100vw - 44px)/46), calc((100vh - 300px)/31)), 13px); overflow:hidden; color:var(--cyan); text-shadow:0 0 8px rgba(107,227,255,.55); }
   .diamond .d1{color:#2a8fa8} .diamond .d2{color:#6be3ff} .diamond .d3{color:#c9f6ff} .diamond .d4{color:#fff;text-shadow:0 0 10px #6be3ff}
   .center { text-align:center; }
-  @media (max-width:700px){ .diamond { display:none } }
   @media (prefers-reduced-motion: reduce){ #rain{display:none} }
   .cursor { display:inline-block; width:.6em; background:var(--g); animation:blink 1s steps(1) infinite; }
   @keyframes blink { 50% { opacity:0 } }
