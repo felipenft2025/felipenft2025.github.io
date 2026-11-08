@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Felipe Lima — Desenvolvedor de Sistemas</title>
+<style>
+  :root { --g:#39ff88; --dim:#136b3a; --amber:#ffb454; --cyan:#6be3ff; --bg:#05090a; }
+  * { box-sizing:border-box; margin:0; }
+  html,body { height:100%; background:var(--bg); color:var(--g); overflow:hidden;
+    font-family: ui-monospace,"SF Mono",Menlo,Consolas,"Courier New",monospace; }
+  #rain { position:fixed; inset:0; width:100%; height:100%; opacity:.35; }
+  .scan { position:fixed; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 1px, transparent 1px 3px); }
+  .wrap { position:relative; z-index:1; height:100%; height:100dvh; display:flex; align-items:center; justify-content:center; padding:12px; }
+  .win { width:min(100%, 900px); height:min(100%, 720px); display:flex; flex-direction:column;
+    background:rgba(4,12,8,.9); border:1px solid var(--dim); border-radius:8px;
+    box-shadow:0 0 36px rgba(57,255,136,.16); overflow:hidden; }
+  .bar { display:flex; gap:6px; align-items:center; padding:8px 12px; border-bottom:1px solid var(--dim); font-size:12px; color:#7fd9a4; }
+  .bar i { width:10px; height:10px; border-radius:50%; display:inline-block; }
+  .bar i:nth-child(1){background:#ff5f56} .bar i:nth-child(2){background:#ffbd2e} .bar i:nth-child(3){background:#27c93f}
+  .bar span { margin-left:8px; }
+  nav { display:flex; flex-wrap:wrap; gap:6px; padding:8px 12px; border-bottom:1px dashed var(--dim); }
+  nav button { background:transparent; color:var(--g); border:1px solid var(--dim); border-radius:4px;
+    padding:3px 9px; font:inherit; font-size:12px; cursor:pointer; }
+  nav button:hover, nav button.on { background:var(--g); color:#041; }
+  #out { flex:1; overflow-y:auto; padding:12px 14px; font-size:13px; line-height:1.4; white-space:pre-wrap; word-break:break-word;
+    text-shadow:0 0 5px rgba(57,255,136,.45); }
+  #out::-webkit-scrollbar { width:8px } #out::-webkit-scrollbar-thumb { background:var(--dim) }
+  .banner { width:max-content; max-width:100%; margin:0 auto; white-space:pre; font-size:clamp(7px,1.55vw,13px); line-height:1.1; color:var(--g); overflow:hidden; }
+  .c-dim{color:#5fae80} .c-amber{color:var(--amber)} .c-cyan{color:var(--cyan)} .c-w{color:#e6fff0}
+  a { color:var(--cyan); text-decoration:none; border-bottom:1px dotted var(--cyan); }
+  a:hover { background:var(--cyan); color:#012; }
+  .tag { display:inline-block; border:1px solid var(--dim); border-radius:3px; padding:0 6px; margin:2px 4px 2px 0; color:#c8ffe0; }
+  form { display:flex; gap:8px; padding:8px 14px; border-top:1px dashed var(--dim); font-size:13px; }
+  form label { color:var(--cyan); white-space:nowrap }
+  input { flex:1; min-width:0; background:transparent; border:0; outline:0; color:var(--g); font:inherit; caret-color:var(--g); }
+  .diamond { display:block; width:max-content; max-width:100%; margin:6px auto 4px; white-space:pre; text-align:left;
+    line-height:1.0; font-size:clamp(7px,min(1.5vw,1.55vh),13px); color:var(--cyan); text-shadow:0 0 8px rgba(107,227,255,.55); }
+  .diamond .d1{color:#2a8fa8} .diamond .d2{color:#6be3ff} .diamond .d3{color:#c9f6ff} .diamond .d4{color:#fff;text-shadow:0 0 10px #6be3ff}
+  .center { text-align:center; }
+  @media (max-width:700px){ .diamond { display:none } }
+  @media (prefers-reduced-motion: reduce){ #rain{display:none} }
+  .cursor { display:inline-block; width:.6em; background:var(--g); animation:blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity:0 } }
+  @media (max-width:600px){
+    #out{font-size:12.5px; padding:10px}
+    nav{gap:5px; padding:8px}
+    nav button{padding:7px 10px; font-size:13px}
+    input{font-size:16px}            /* evita o zoom automático do iOS ao focar */
+    form label{display:none}
+    form::before{content:'$'; color:var(--cyan)}
+    .wrap{padding:6px}
+  }
+</style>
+</head>
+<body>
+<canvas id="rain"></canvas>
+<div class="scan"></div>
+<div class="wrap">
+  <div class="win">
+    <div class="bar"><i></i><i></i><i></i><span>felipe@portfolio: ~</span></div>
+    <nav id="nav"></nav>
+    <div id="out"></div>
+    <form id="f" autocomplete="off"><label>felipe@portfolio:~$</label><input id="in" aria-label="comando" placeholder="digite help" spellcheck="false"></form>
+  </div>
+</div>
+
+<script>
+/* ---------- Chuva ---------- */
+(function(){
+  const cv=document.getElementById('rain'), ctx=cv.getContext('2d');
+  const chars='01{}[]()<>/\\;:=+-*&|!?#$%@'.split(''); const size=16; let cols,drops;
+  function resize(){cv.width=innerWidth;cv.height=innerHeight;cols=Math.ceil(cv.width/size);drops=Array.from({length:cols},()=>Math.random()*-50);}
+  addEventListener('resize',resize);resize();
+  setInterval(()=>{
+    ctx.fillStyle='rgba(5,9,10,.12)';ctx.fillRect(0,0,cv.width,cv.height);ctx.font=size+'px monospace';
+    for(let i=0;i<cols;i++){
+      ctx.fillStyle=Math.random()<.04?'#d9ffe8':'#1fbf63';
+      ctx.fillText(chars[Math.random()*chars.length|0],i*size,drops[i]*size);
+      if(drops[i]*size>cv.height&&Math.random()>.975)drops[i]=0;drops[i]++;
+    }
+  },60);
+})();
+
+/* ---------- Dados (do site devfelipelima.com.br) ---------- */
+const BANNER = String.raw`    ______________    ________  ______   __    ______  ______
+   / ____/ ____/ /   /  _/ __ \/ ____/  / /   /  _/  |/  /   |
+  / /_  / __/ / /    / // /_/ / __/    / /    / // /|_/ / /| |
+ / __/ / /___/ /____/ // ____/ /___   / /____/ // /  / / ___ |
+/_/   /_____/_____/___/_/   /_____/  /_____/___/_/  /_/_/  |_|`;
+
+const L = (t,u)=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`;
+const box = (title, lines) => {
+  const w = Math.max(title.length+4, ...lines.map(l=>l.replace(/<[^>]+>/g,'').length)) + 2;
+  const pad = s => s + ' '.repeat(w - s.replace(/<[^>]+>/g,'').length - 1);
+  return '<span class="c-dim">┌─ </span><span class="c-amber">'+title+'</span><span class="c-dim"> '+'─'.repeat(Math.max(1,w-title.length-4))+'┐</span>\n'
+    + lines.map(l=>'<span class="c-dim">│</span> '+pad(l)+'<span class="c-dim">│</span>').join('\n')
+    + '\n<span class="c-dim">└'+'─'.repeat(w)+'┘</span>';
+};
+const rows = (a,max=30) => { const o=[]; let cur='',len=0;
+  for(const t of a){ const s='['+t+']'; if(len && len+1+s.length>max){ o.push(cur); cur=''; len=0; }
+    cur += (len?' ':'')+'<span class="c-w">'+s+'</span>'; len += (len?1:0)+s.length; }
+  if(cur) o.push(cur); return o; };
+
+const SECTIONS = {
+  inicio: () => [
+    `<pre class="diamond"></pre>`,
+    `<div class="center"><span class="c-w">Olá, eu sou o Felipe Lima.</span> <span class="c-dim">Desenvolvedor de Sistemas.</span></div>`,
+    `<div class="center"><span class="c-dim">Explore as seções acima · </span><span class="c-cyan">help</span><span class="c-dim"> lista os comandos · </span><span class="c-cyan">clear</span><span class="c-dim"> ou </span><span class="c-cyan">inicio</span><span class="c-dim"> volta para cá</span></div>`,
+  ],
+  sobre: () => [
+    `<span class="c-w">Felipe Lima</span> <span class="c-dim">//</span> <span class="c-amber">Desenvolvedor de Sistemas</span> @ ${L('Message','https://message.tec.br/')}`,
+    `<span class="c-dim">"Minha jornada é feita de constante evolução."</span>`,
+    ``,
+    `Transformo desafios em soluções inovadoras, com experiência em tecnologias web modernas. Crio aplicativos eficientes, escaláveis e intuitivos.`,
+    ``,
+    `Formado em Análise e Desenvolvimento de Sistemas pela ${L('Unoeste','https://www.unoeste.br/')}. Determinado e focado em programar — dedicação e adaptabilidade são a chave para um crescimento profissional sólido e sustentável.`,
+  ],
+  skills: () => [
+    box('frontend',   rows(['JavaScript','HTML5','CSS3','Bootstrap','jQuery'])),
+    box('backend',    rows(['C#','.NET','Node.js'])),
+    box('database',   rows(['SQL Developer','MySQL','Azure SQL'])),
+    box('ferramentas',rows(['Git','Postman','Swagger','VSCode','GitHub'])),
+  ],
+  formacao: () => [
+    `<span class="c-amber">2022 ─ 2025</span>`,
+    `Análise e Desenvolvimento de Sistemas — ${L('UNOESTE','https://www.unoeste.br/')}`,
+    `<span class="c-dim">Foco em programação, frontend, backend e bancos de dados, com teoria e prática para atuação em TI.</span>`,
+    ``,
+    `<span class="c-amber">2009 ─ 2012</span>`,
+    `Ensino Médio completo`,
+    ``,
+    `<span class="c-cyan">## cursos e certificações</span>`,
+    ` ├─ Inteligência Artificial`,
+    ` │  <span class="c-dim">fundamentos e aplicações, ML e deep learning</span>`,
+    ` ├─ Microsoft Power BI`,
+    ` │  <span class="c-dim">análise de dados e dashboards interativos</span>`,
+    ` └─ DIO — Digital Innovation One`,
+    `    <span class="c-dim">20+ certificados Full Stack</span>`,
+  ],
+  experiencia: () => [
+    `<span class="c-amber">ATUAL</span>`,
+    `Desenvolvedor de Sistemas — ${L('Message','https://message.tec.br/')}`,
+    ``,
+    `<span class="c-cyan">## stack</span>`,
+    ...rows(['JavaScript','C#','.NET','Node.js','SQL','Azure SQL','Git','Swagger'],34),
+  ],
+  contato: () => [
+    `<span class="c-cyan">$</span> ls ./contatos`,
+    ` ├─ github     ${L('Felipelima2022','https://github.com/Felipelima2022')}`,
+    ` ├─ linkedin   ${L('felipe-lima','https://www.linkedin.com/in/felipe-lima-811333172/')}`,
+    ` ├─ instagram  ${L('@felipelima1993_','https://www.instagram.com/felipelima1993_/')}`,
+    ` └─ whatsapp   ${L('chamar no WhatsApp','https://api.whatsapp.com/send?phone=5518998072006')}`,
+  ],
+};
+
+const ORDER = ['inicio','sobre','skills','formacao','experiencia','contato'];
+const HELP = [
+  `<span class="c-cyan">comandos disponíveis:</span>`,
+  ...ORDER.map(k=>`  <span class="c-amber">${k.padEnd(12)}</span><span class="c-dim">abre a seção ${k}</span>`),
+  `  <span class="c-amber">all         </span><span class="c-dim">mostra tudo</span>`,
+  `  <span class="c-amber">clear       </span><span class="c-dim">limpa a tela</span>`,
+  `  <span class="c-amber">help        </span><span class="c-dim">esta lista</span>`,
+];
+
+/* ---------- Motor do terminal ---------- */
+const out=document.getElementById('out'), nav=document.getElementById('nav'), inp=document.getElementById('in');
+let busy=false, token=0;
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+/* ---------- Diamante 3D girando ---------- */
+let dmTimer=null;
+function startDiamond(pre){
+  if(!pre.offsetParent) return;   // escondido no celular: não gasta CPU
+  const W=76, H=30, K=54, D=4.6, ramp=' .:-=+*#%@';
+  const N=8, T=[], S=[], G=[];
+  for(let i=0;i<N;i++){
+    const a=i*2*Math.PI/N, b=a+Math.PI/N;
+    T.push([0.52*Math.cos(a), 0.95, 0.52*Math.sin(a)]);
+    S.push([0.80*Math.cos(b), 0.72, 0.80*Math.sin(b)]);
+  }
+  for(let k=0;k<2*N;k++){ const a=k*Math.PI/N; G.push([1.0*Math.cos(a), 0.42, 1.0*Math.sin(a)]); }
+  const apex=[0,-1.3,0], ctr=[0,0.95,0], tris=[];
+  const add=(a,b,c,base)=>tris.push([a,b,c,base,tris.length]);
+  for(let i=0;i<N;i++){
+    const j=(i+1)%N, p=(i+N-1)%N;
+    add(ctr,T[i],T[j],1.0);                       // mesa
+    add(T[i],T[j],S[i],0.85);                     // facetas estrela
+    add(T[i],S[p],G[2*i],0.75);                   // bisel (pipa)
+    add(T[i],G[2*i],S[i],0.7);
+    add(S[i],G[2*i],G[2*i+1],0.6);                // facetas da cintura
+    add(S[i],G[2*i+1],G[(2*i+2)%(2*N)],0.65);
+  }
+  for(let k=0;k<2*N;k++) add(G[k],G[(k+1)%(2*N)],apex,0.8+0.15*(k%2)); // pavilhão
+  const light=(()=>{const v=[-0.5,0.8,-0.6],m=Math.hypot(...v);return v.map(x=>x/m);})();
+  const spark=Array.from({length:14},()=>({x:Math.random()*W|0,y:Math.random()*H|0,ph:Math.random()*6.28,sp:1+Math.random()*2}));
+  let A=0, t=0;
+  clearInterval(dmTimer);
+  dmTimer=setInterval(()=>{
+    if(!pre.isConnected){ clearInterval(dmTimer); return; }
+    const cy=Math.cos(A), sy=Math.sin(A), tilt=0.22+0.1*Math.sin(t*0.7), cx=Math.cos(tilt), sx=Math.sin(tilt);
+    const rot=p=>{ const x=p[0]*cy+p[2]*sy, z=-p[0]*sy+p[2]*cy, y=p[1]; return [x, y*cx-z*sx, y*sx+z*cx]; };
+    const buf=new Array(W*H).fill(' '), lv=new Array(W*H).fill(0), zb=new Array(W*H).fill(1e9);
+    for(const [a0,b0,c0,base,id] of tris){
+      const a=rot(a0), b=rot(b0), c=rot(c0);
+      const u=[b[0]-a[0],b[1]-a[1],b[2]-a[2]], v=[c[0]-a[0],c[1]-a[1],c[2]-a[2]];
+      let n=[u[1]*v[2]-u[2]*v[1], u[2]*v[0]-u[0]*v[2], u[0]*v[1]-u[1]*v[0]];
+      const m=Math.hypot(...n)||1; n=n.map(x=>x/m);
+      const lam=Math.abs(n[0]*light[0]+n[1]*light[1]+n[2]*light[2]);
+      const glint=Math.pow(Math.max(0,Math.sin(t*2.2+id*1.9)),10)*0.55;       // brilho passando pelas facetas
+      const shade=Math.min(1, 0.12+0.7*lam*base+glint);
+      const P=[a,b,c].map(p=>{const z=p[2]+D; return [W/2+p[0]/z*K*2, H/2-p[1]/z*K, z];});
+      const minX=Math.max(0,Math.floor(Math.min(P[0][0],P[1][0],P[2][0]))), maxX=Math.min(W-1,Math.ceil(Math.max(P[0][0],P[1][0],P[2][0])));
+      const minY=Math.max(0,Math.floor(Math.min(P[0][1],P[1][1],P[2][1]))), maxY=Math.min(H-1,Math.ceil(Math.max(P[0][1],P[1][1],P[2][1])));
+      const den=(P[1][1]-P[2][1])*(P[0][0]-P[2][0])+(P[2][0]-P[1][0])*(P[0][1]-P[2][1]);
+      if(Math.abs(den)<1e-6) continue;
+      for(let y=minY;y<=maxY;y++) for(let x=minX;x<=maxX;x++){
+        const px=x+0.5, py=y+0.5;
+        const l1=((P[1][1]-P[2][1])*(px-P[2][0])+(P[2][0]-P[1][0])*(py-P[2][1]))/den;
+        const l2=((P[2][1]-P[0][1])*(px-P[2][0])+(P[0][0]-P[2][0])*(py-P[2][1]))/den;
+        const l3=1-l1-l2;
+        if(l1<0||l2<0||l3<0) continue;
+        const z=l1*P[0][2]+l2*P[1][2]+l3*P[2][2], o=x+y*W;
+        if(z<zb[o]){ zb[o]=z;
+          if(Math.min(l1,l2,l3)<0.03){ buf[o]='@'; lv[o]=4; }                  // arestas
+          else { const k=Math.max(1,Math.min(8,Math.round(shade*8))); buf[o]=ramp[k]; lv[o]=k<4?1:k<7?2:3; }
+        }
+      }
+    }
+    for(const s of spark){                                                     // cintilações ao redor
+      const o=s.x+s.y*W, v=Math.sin(t*s.sp+s.ph);
+      if(buf[o]===' ' && v>0.6){ buf[o]= v>0.92?'*':v>0.8?'+':'.'; lv[o]=3; }
+    }
+    let html='';
+    for(let y=0;y<H;y++){
+      let run='', cur=-1;
+      for(let x=0;x<W;x++){
+        const o=x+y*W, l=buf[o]===' '?0:lv[o];
+        if(l!==cur){ if(run) html+=cur?`<span class="d${cur}">${run}</span>`:run; run=''; cur=l; }
+        run+=buf[o];
+      }
+      if(run) html+=cur?`<span class="d${cur}">${run}</span>`:run;
+      html+='\n';
+    }
+    pre.innerHTML=html; A+=0.045; t+=0.05;
+  },50);
+}
+
+async function emit(lines, tk){
+  for(const ln of lines){
+    if(tk!==token) return;
+    const d=document.createElement('div'); d.innerHTML = ln || '&nbsp;'; out.appendChild(d);
+    const dm=d.querySelector('.diamond'); if(dm) startDiamond(dm);
+    out.scrollTop=out.scrollHeight; await sleep(ln.length>200?70:35);
+  }
+}
+async function home(tk, animate){
+  out.innerHTML='';
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on', b.dataset.k==='inicio'));
+  const bn=document.createElement('div'); bn.className='banner'; out.appendChild(bn);
+  const spans=BANNER.split('\n').map(l=>{ const s=document.createElement('span'); s.textContent=l+'\n';
+    if(animate) s.style.visibility='hidden'; bn.appendChild(s); return s; });
+  if(animate) for(const s of spans){ if(tk!==token) return; await sleep(110); s.style.visibility='visible'; }
+  await emit(SECTIONS.inicio(), tk);
+  out.scrollTop=0;
+}
+
+async function run(cmd, echo=true){
+  const tk=++token; cmd=cmd.trim().toLowerCase().replace(/^\.?\//,''); if(!cmd) return;
+  clearInterval(dmTimer);
+  out.innerHTML=''; out.scrollTop=0;   // toda navegação começa numa tela limpa (some o diamante parado)
+  if(cmd==='clear'||cmd==='inicio') return home(tk,false);
+  if(echo){ const d=document.createElement('div'); d.innerHTML=`<span class="c-cyan">felipe@portfolio:~$</span> ${cmd.replace(/</g,'&lt;')}`; out.appendChild(d); }
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on', b.dataset.k===cmd));
+  if(cmd==='help') return emit([...HELP,''], tk);
+  if(cmd==='all'){ for(const k of ORDER){ if(tk!==token) return; await emit([`<span class="c-cyan">### ${k}</span>`,...SECTIONS[k](),''], tk);} return; }
+  if(SECTIONS[cmd]) return emit([...SECTIONS[cmd](),''], tk);
+  if(cmd==='sudo') return emit([`<span class="c-amber">nice try :)</span>`,''], tk);
+  return emit([`<span class="c-amber">comando não encontrado:</span> ${cmd.replace(/</g,'&lt;')} — digite <span class="c-cyan">help</span>`,''], tk);
+}
+
+ORDER.forEach(k=>{ const b=document.createElement('button'); b.textContent='./'+k; b.dataset.k=k; b.onclick=()=>run(k); nav.appendChild(b); });
+document.getElementById('f').onsubmit=e=>{ e.preventDefault(); const v=inp.value; inp.value=''; run(v); };
+document.querySelector('.win').addEventListener('click',()=>{ if(!getSelection().toString()) inp.focus(); });
+
+home(++token,true);
+</script>
+</body>
+</html>
